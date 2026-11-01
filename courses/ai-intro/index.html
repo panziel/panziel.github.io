@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <title>人工智能导论 · 讲义目录</title>
+  <style>
+    :root {
+      --bg: #f7f6f2;
+      --paper: #ffffff;
+      --ink: #1a1918;
+      --muted: #73706b;
+      --line: #e3dfd7;
+      --red: #94070a;
+      --red-hover: #730508;
+      --serif: "Songti SC", "Noto Serif CJK SC", STSong, Georgia, serif;
+      --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --mono: "SF Mono", Menlo, Consolas, Monaco, monospace;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    /* 顶部导航 */
+    header.site-nav {
+      background-color: var(--paper);
+      border-bottom: 1px solid var(--line);
+      padding: 16px 0;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+
+    .breadcrumbs a {
+      color: var(--muted);
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--ink);
+    }
+
+    .breadcrumbs .sep {
+      color: var(--line);
+      font-size: 11px;
+    }
+
+    .breadcrumbs .current {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    /* 标题区域 */
+    .page-header {
+      padding: 40px 0 24px;
+    }
+
+    h1.page-title {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    /* 讲义列表 */
+    .lecture-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-bottom: 48px;
+    }
+
+    .lecture-item {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: border-color 0.15s ease;
+    }
+
+    .lecture-item:hover {
+      border-color: #b8b3a8;
+    }
+
+    .lecture-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .chap-num {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--red);
+      width: 28px;
+      flex-shrink: 0;
+    }
+
+    .chap-title {
+      font-family: var(--serif);
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .lecture-item:hover .chap-title {
+      color: var(--red);
+    }
+
+    .lecture-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    .lecture-item svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--muted);
+      transition: stroke 0.15s ease, transform 0.15s ease;
+    }
+
+    .lecture-item:hover svg {
+      stroke: var(--red);
+      transform: translateX(3px);
+    }
+
+    /* 页脚 */
+    footer.site-footer {
+      margin-top: auto;
+      border-top: 1px solid var(--line);
+      background-color: var(--paper);
+      padding: 20px 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <div class="breadcrumbs">
+        <a href="../../">首页</a>
+        <span class="sep">/</span>
+        <span class="current">人工智能导论</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1 class="page-title">人工智能导论</h1>
+    </div>
+
+    <ul class="lecture-list">
+      <li>
+        <a class="lecture-item" href="chap1-intro.html">
+          <div class="lecture-left">
+            <span class="chap-num">01</span>
+            <span class="chap-title">绪论</span>
+          </div>
+          <span class="lecture-meta">
+            交互式讲义
+            <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="lecture-item" href="chap2-preprocessing.html">
+          <div class="lecture-left">
+            <span class="chap-num">02</span>
+            <span class="chap-title">数据与预处理</span>
+          </div>
+          <span class="lecture-meta">
+            交互式讲义
+            <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="lecture-item" href="chap3-clustering.html">
+          <div class="lecture-left">
+            <span class="chap-num">03</span>
+            <span class="chap-title">聚类分析</span>
+          </div>
+          <span class="lecture-meta">
+            交互式讲义
+            <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="lecture-item" href="chap4-classification.html">
+          <div class="lecture-left">
+            <span class="chap-num">04</span>
+            <span class="chap-title">分类分析</span>
+          </div>
+          <span class="lecture-meta">
+            交互式讲义
+            <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="lecture-item" href="chap5-deep-learning.html">
+          <div class="lecture-left">
+            <span class="chap-num">05</span>
+            <span class="chap-title">深度学习与大模型</span>
+          </div>
+          <span class="lecture-meta">
+            交互式讲义
+            <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="lecture-item" href="chap6-knowledge-guided-ai.html">
+          <div class="lecture-left">
+            <span class="chap-num">06</span>
+            <span class="chap-title">知识引导的 AI</span>
+          </div>
+          <span class="lecture-meta">
+            交互式讲义
+            <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+      </li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>GitHub Pages</span>
+    </div>
+  </footer>
+
+</body>
+</html>
