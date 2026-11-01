@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MEM 期末英语阅读六篇核心观点整理</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 14mm 15mm 16mm 15mm;
+    @bottom-left {
+      content: "MEM 期末英语阅读理解 · 六篇观点整理";
+      font-family: "HarmonyOS Sans SC", "MiSans", "Microsoft YaHei", sans-serif;
+      font-size: 9.5pt;
+      color: #6b7280;
+    }
+    @bottom-right {
+      content: counter(page) " / " counter(pages);
+      font-family: "HarmonyOS Sans SC", "MiSans", "Microsoft YaHei", sans-serif;
+      font-size: 9.5pt;
+      color: #6b7280;
+    }
+  }
+  @page :first {
+    @bottom-left { content: none; }
+    @bottom-right { content: none; }
+  }
+
+  :root {
+    --ink: #18181b;
+    --ink-2: #3f3f46;
+    --muted: #6b7280;
+    --line: #e4e4e7;
+    --line-strong: #d4d4d8;
+    --paper: #ffffff;
+    --tint: #f8f8f6;
+    --tint-2: #f2f2ef;
+    --accent: #1e3a5f;
+    --accent-soft: #eef3f8;
+    --en-color: #1f4b7a;
+    --no-color: #991b1b;
+    --yes-color: #166534;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-family: "HarmonyOS Sans SC", "MiSans", "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 12.2pt;
+    line-height: 1.62;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    max-width: 210mm;
+    margin: 0 auto;
+    background: var(--paper);
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Subtle, natural inline English term */
+  .en {
+    font-family: "HarmonyOS Sans SC", "Segoe UI", Arial, sans-serif;
+    color: var(--en-color);
+    font-weight: 500;
+    font-size: 0.94em;
+  }
+
+  /* Cover / Overview */
+  .doc-header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+  }
+  .doc-kicker {
+    font-size: 10.4pt;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .doc-header h1 {
+    font-size: 19.5pt;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.28;
+    margin-bottom: 4px;
+  }
+  .doc-sub {
+    font-size: 11.5pt;
+    color: var(--ink-2);
+  }
+
+  .sec-title {
+    font-size: 13pt;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 12px 0 8px;
+    padding-left: 8px;
+    border-left: 3px solid var(--accent);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .sec-title .hint {
+    font-size: 10.4pt;
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .toc-card {
+    display: block;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 9px 11px;
+    background: var(--paper);
+  }
+  .toc-card:hover {
+    border-color: var(--accent);
+    text-decoration: none;
+    background: var(--tint);
+  }
+  .toc-head {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    margin-bottom: 2px;
+  }
+  .toc-num {
+    font-size: 10.2pt;
+    font-weight: 700;
+    color: var(--paper);
+    background: var(--accent);
+    padding: 0.5px 5.5px;
+    border-radius: 3px;
+  }
+  .toc-name {
+    font-size: 12.8pt;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .toc-en {
+    font-size: 10.2pt;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .toc-desc {
+    font-size: 11pt;
+    color: var(--ink-2);
+    line-height: 1.48;
+  }
+
+  /* Tables */
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11pt;
+    line-height: 1.48;
+    margin-bottom: 10px;
+  }
+  table.data-table th {
+    background: var(--tint-2);
+    color: var(--ink);
+    font-weight: 700;
+    text-align: left;
+    padding: 5.5px 7px;
+    border-top: 1.5px solid var(--ink);
+    border-bottom: 1px solid var(--line-strong);
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+  }
+  table.data-table td {
+    padding: 5.5px 7px;
+    border: 1px solid var(--line);
+    vertical-align: top;
+    color: var(--ink-2);
+  }
+  table.data-table td strong { color: var(--ink); }
+  table.data-table tr { break-inside: avoid; page-break-inside: avoid; }
+  table.data-table tbody tr:nth-child(even) { background: var(--tint); }
+
+  .common-note {
+    background: var(--tint);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--ink-2);
+    border-radius: 4px;
+    padding: 8px 11px;
+    font-size: 11.2pt;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+  .common-note strong { color: var(--ink); }
+
+  /* Chapter Structure */
+  .chapter {
+    break-before: page;
+    page-break-before: always;
+  }
+
+  .nav-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    font-size: 10pt;
+    padding: 4px 8px;
+    background: var(--tint);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    margin-bottom: 9px;
+  }
+  .nav-strip a {
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--ink-2);
+    font-weight: 500;
+  }
+  .nav-strip a.home {
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 600;
+  }
+  .nav-strip a.active {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .chap-header {
+    border-bottom: 1.5px solid var(--ink);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+  .chap-header h2 {
+    font-size: 16.5pt;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .chap-en-title {
+    font-size: 11pt;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .lead-box {
+    background: var(--tint);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 8px 11px;
+    margin-bottom: 10px;
+    font-size: 11.5pt;
+    color: var(--ink-2);
+  }
+  .lead-box p { margin-bottom: 4px; }
+  .lead-box p:last-child { margin-bottom: 0; }
+  .lead-box strong { color: var(--ink); }
+
+  .sub-h {
+    font-size: 12.5pt;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 11px 0 6px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .prose-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .stage-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 10px;
+    padding: 6px 9px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: var(--paper);
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .stage-label {
+    font-size: 10.8pt;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.35;
+    padding-top: 1px;
+  }
+  .stage-label small {
+    display: block;
+    font-size: 9.6pt;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .stage-text {
+    font-size: 11.5pt;
+    color: var(--ink-2);
+  }
+  .stage-text p { margin-bottom: 4px; }
+  .stage-text p:last-child { margin-bottom: 0; }
+  .stage-text strong { color: var(--ink); }
+
+  .yes { color: var(--yes-color); font-weight: 600; }
+  .no { color: var(--no-color); font-weight: 600; }
+
+  .check-box {
+    border: 1px solid var(--line-strong);
+    border-radius: 5px;
+    padding: 8px 11px;
+    background: var(--tint);
+    font-size: 11.3pt;
+    color: var(--ink-2);
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .check-box ol {
+    margin-left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .check-box strong { color: var(--ink); }
+  .back-toc {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 10.6pt;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  @media screen {
+    html {
+      scroll-behavior: smooth;
+      font-size: 17.5px;
+      background: #f3f3f0;
+    }
+    body {
+      padding: 0 24px 56px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      margin: 0 auto;
+    }
+    .nav-strip { display: none !important; }
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      margin: 0 -24px 16px;
+      padding: 9px 18px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .sticky-nav::-webkit-scrollbar { display: none; }
+    .sticky-nav a {
+      flex-shrink: 0;
+      white-space: nowrap;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink-2);
+      background: var(--tint-2);
+    }
+    .sticky-nav a:hover { background: var(--line); text-decoration: none; }
+    .sticky-nav a.home { background: var(--ink); color: var(--paper); }
+    .sticky-nav a.active { background: var(--accent-soft); color: var(--accent); }
+    #toc, .chapter { scroll-margin-top: 56px; }
+    .chapter {
+      margin-top: 32px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--line-strong);
+    }
+  }
+
+  @media print {
+    .sticky-nav { display: none !important; }
+  }
+
+  @media screen and (max-width: 680px) {
+    html { font-size: 17px; }
+    body { padding: 0 13px 48px; box-shadow: none; }
+    .sticky-nav { margin: 0 -13px 12px; padding: 8px 10px; }
+    .sec-title { flex-wrap: wrap; gap: 2px; }
+    .toc-grid { grid-template-columns: 1fr; }
+    .stage-row { grid-template-columns: 1fr; gap: 3px; }
+    .stage-label small { display: inline; margin-left: 6px; }
+    table.data-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="sticky-nav" id="sticky-nav" aria-label="章节快速导航">
+  <a class="home" href="#toc" data-target="toc">↑ 目录</a>
+  <a href="#ch1" data-target="ch1">01 AI短剧</a>
+  <a href="#ch2" data-target="ch2">02 AI硬件</a>
+  <a href="#ch3" data-target="ch3">03 数字货币</a>
+  <a href="#ch4" data-target="ch4">04 ESG</a>
+  <a href="#ch5" data-target="ch5">05 零售融合</a>
+  <a href="#ch6" data-target="ch6">06 新能源车</a>
+</nav>
+
+<!-- ==================== OVERVIEW & TOC ==================== -->
+<section id="toc">
+  <div class="doc-header">
+    <div class="doc-kicker">MEM Frontier Technology English · Exam Reading Review</div>
+    <h1>期末英语阅读六篇材料 · 核心观点与考点整理</h1>
+    <div class="doc-sub">覆盖六篇完整八段脉络、概念边界、数据推论范围与高频考点判断；文中括号内为原文关键英文表达。</div>
+  </div>
+
+  <div class="sec-title">
+    <span>一、六篇目录</span>
+    <span class="hint">点击卡片跳转至对应章节</span>
+  </div>
+
+  <div class="toc-grid">
+    <a class="toc-card" href="#ch1">
+      <div class="toc-head"><span class="toc-num">01</span><span class="toc-name">AI 短剧</span></div>
+      <div class="toc-en">More Drama, More Value? The Business Test for AI Short Drama</div>
+      <div class="toc-desc">讨论 AI 降本扩产后，短剧制作方能否保住内容辨识度、版权合规与项目利润，而不被返工、投流和买方压价吃掉收益。</div>
+    </a>
+    <a class="toc-card" href="#ch2">
+      <div class="toc-head"><span class="toc-num">02</span><span class="toc-name">消费级 AI 硬件</span></div>
+      <div class="toc-en">Can Consumer AI Hardware Become an Everyday Necessity?</div>
+      <div class="toc-desc">检验眼镜、耳机、指环等硬件能否从尝鲜产品变成高频日常工具，并在续航、隐私、保修与云运维成本后实现可持续回报。</div>
+    </a>
+    <a class="toc-card" href="#ch3">
+      <div class="toc-head"><span class="toc-num">03</span><span class="toc-name">数字货币与稳定币</span></div>
+      <div class="toc-en">Faster Money, Different Risk: When Does Digital Value Create Business Value?</div>
+      <div class="toc-desc">区分央行数字货币、稳定币与代币化存款的债权和风险归属，分析提速带来的前置垫资、储备集中与跨法域治理问题。</div>
+    </a>
+    <a class="toc-card" href="#ch4">
+      <div class="toc-head"><span class="toc-num">04</span><span class="toc-name">ESG 与企业价值</span></div>
+      <div class="toc-en">Beyond the ESG Score: When Does Sustainability Information Create Business Value?</div>
+      <div class="toc-desc">解释 ESG 评级为何分歧巨大、监管为何分化，说明只有实质议题真正影响运营与投资并可核验时，ESG 才产生商业价值。</div>
+    </a>
+    <a class="toc-card" href="#ch5">
+      <div class="toc-head"><span class="toc-num">05</span><span class="toc-name">电商与实体零售</span></div>
+      <div class="toc-en">Beyond the Channel Contest: When Does Retail Integration Create Value?</div>
+      <div class="toc-desc">拆解下单、履约与体验三个环节，说明门店转型为履约设施后的隐性库存、人工、退货与数据治理成本如何决定融合是否划算。</div>
+    </a>
+    <a class="toc-card" href="#ch6">
+      <div class="toc-head"><span class="toc-num">06</span><span class="toc-name">新能源汽车（NEV）</span></div>
+      <div class="toc-en">After the Sales Race: Can NEV Scale Become Sustainable Value?</div>
+      <div class="toc-desc">分析规模竞赛之后，销量、产能、出口和软件智能化如何分别受价格战、利用率、关税壁垒与安全法规约束。</div>
+    </a>
+  </div>
+
+  <div class="sec-title">
+    <span>二、六篇横向对照</span>
+    <span class="hint">区分各篇专有概念与数据边界</span>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width:12%;">主题</th>
+        <th style="width:24%;">易混概念区分</th>
+        <th style="width:24%;">关键隐性成本或约束</th>
+        <th style="width:23%;">典型数据与推论边界</th>
+        <th style="width:17%;">文中建议做法</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong><a href="#ch1">01 AI 短剧</a></strong></td>
+        <td>AI 辅助制作 / AI 生成制作 / 竖屏形态 / 微短剧监管口径</td>
+        <td>多次重生成、连戏核查、配音剪辑、投流获客、买方压价、版权与肖像声音授权</td>
+        <td>Kling AI 单季 3.4 亿营收属工具商收入，不能推导短剧客户盈利；5000 万播放不等于付费或盈利</td>
+        <td>限定范围试点、按合格分钟算全成本、建权利清单、加显著 AI 标识</td>
+      </tr>
+      <tr>
+        <td><strong><a href="#ch2">02 AI 硬件</a></strong></td>
+        <td>硬件与算力分离；购买 / 重复使用 / 续费 / 盈利四级信号；端侧与云端</td>
+        <td>典型续航不等于连续 AI 运行；过热安全召回；旁观者隐私；售后保修与持续云成本</td>
+        <td>Oura 6080 万净利未剥离 AI 增量贡献；85% 留存含回归老客且不等于每天佩戴；销量与出货口径不同</td>
+        <td>对比手机做商业试点、按司法辖区分别合规、将运维保修纳入全周期核算</td>
+      </tr>
+      <tr>
+        <td><strong><a href="#ch3">03 数字货币</a></strong></td>
+        <td>CBDC / 支付稳定币 / 代币化存款；转账指令创新与货币债权创新</td>
+        <td>原子结算要求提前备足资金；双巨头占 90% 份额且关联美债收益率；数字美元化</td>
+        <td>IMF 2 万亿跨境稳定币中约 80% 由机器人产生；80 秒批发实验仅证明技术可行</td>
+        <td>先查债权与赎回路径、算全流程 8 项成本、测运营韧性、按通道保留备选方案</td>
+      </tr>
+      <tr>
+        <td><strong><a href="#ch4">04 ESG</a></strong></td>
+        <td>IFRS S1（投资者风险）与 GRI（外部影响）；活动 / 披露 / 绩效 / 评分四步分开</td>
+        <td>评级分歧（测量 56%、范围 38%、权重仅 6%）；高管考核偏虚；向小供应商转嫁成本</td>
+        <td>2200 项研究平均相关 0.15 不能证明支出必然生利；有限保证占 56% 不代表整体背书</td>
+        <td>设重要性与反事实门槛、建统一数据核心+本地报告层、ESG 与业务同台比回报</td>
+      </tr>
+      <tr>
+        <td><strong><a href="#ch5">05 零售融合</a></strong></td>
+        <td>下单、履约、体验三维度；顾客便利与运营效率分开衡量</td>
+        <td>本地备货与库存准确度要求；19.3% 线上退货及残值损耗；个性化定价引发信任与监管风险</td>
+        <td>欧盟 78% 网民网购但电商仅占营业额 19%；Target 门店履约 97.6% 不证明每单都盈利</td>
+        <td>按具体任务分配渠道、差异化退货与数据规则、用体验与成本配对指标考核</td>
+      </tr>
+      <tr>
+        <td><strong><a href="#ch6">06 新能源车</a></strong></td>
+        <td>中国 NEV（BEV+PHEV+燃料电池）与国际 EV 口径（排除普通混动）；垂直整合与专业分工</td>
+        <td>无序价格战损研发质量；OTA 带来安全与召回义务；产能闲置；欧盟反补贴关税</td>
+        <td>CATL 661 GWh 销量含储能，不能直接除以 772 GWh 算利用率；出口量不等于海外零售与盈利</td>
+        <td>按标准化与资本条件选整合或外采、安全嵌入软件模式、按关税与协同成本决定本地化</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="common-note">
+    <strong>六篇共同的论证规律：</strong>（1）<strong>单指标不代表结果</strong>——销量、播放量、出货量、评分、交易量、结算速度都不能直接推出“盈利”或“商业成功”；（2）<strong>证据严格受范围约束</strong>——媒体访谈不代表行业均值，原型实验不等于量产商品，监管提案不等于已生效法律，一国法例不可直接套用到另一法域；（3）<strong>结论均附带条件</strong>（<span class="en">conditional judgment</span>）——原文从未主张全面拥抱或全盘否定，选择题中出现“必然盈利”“彻底取代”“毫无价值”等绝对化说法通常与原文不符。
+  </div>
+</section>
+
+<!-- ==================== CHAPTER 1: AI SHORT DRAMA ==================== -->
+<section id="ch1" class="chapter">
+  <div class="nav-strip">
+    <a class="home" href="#toc">↑ 目录</a>
+    <a class="active" href="#ch1">01 AI短剧</a>
+    <a href="#ch2">02 AI硬件</a>
+    <a href="#ch3">03 数字货币</a>
+    <a href="#ch4">04 ESG</a>
+    <a href="#ch5">05 零售融合</a>
+    <a href="#ch6">06 新能源车</a>
+  </div>
+
+  <div class="chap-header">
+    <h2>01 · AI 短剧</h2>
+    <div class="chap-en-title">More Drama, More Value? The Business Test for AI Short Drama</div>
+  </div>
+
+  <div class="lead-box">
+    <p><strong>核心问题：</strong>用 AI 降低单镜头成本、扩大产量（<span class="en">production scalability</span>）之后，企业能否同时保住观众愿意看下去的理由、合法可商用权利以及扣完所有成本后的利润（<span class="en">sustainable creative value capture</span>）？</p>
+    <p><strong>概念区分：</strong>（1）<strong>AI 辅助制作</strong>（<span class="en">AI-assisted production</span>）仍实拍演员，只在部分环节用软件；<strong>AI 生成制作</strong>（<span class="en">AI-generated production</span>）则由模型生成相当大比例的最终画面或声音（<span class="en">substantial share</span>）。这只是实用工作分类，不是统一法律界线（<span class="en">universal legal threshold</span>）。（2）<strong>竖屏剧</strong>（<span class="en">vertical drama</span>）指屏幕比例；中国监管对<strong>微短剧</strong>（<span class="en">micro-drama</span>）的界定看重分集叙事形式（<span class="en">episodic storytelling</span>），不限定生产技术。分清边界，才不会把整个微短剧市场误算成 AI 市场。</p>
+  </div>
+
+  <div class="sub-h">八段脉络与详细观点</div>
+  <div class="prose-list">
+    <div class="stage-row">
+      <div class="stage-label">01 定义<small>Definition</small></div>
+      <div class="stage-text">
+        <p>低成本多拍画面本身没有意义，除非这些画面变成观众认可、商业上站得住的故事。文章把价值拆成两块：<strong>创意价值</strong>（<span class="en">creative value</span>）依赖独特表达（<span class="en">distinctive expression</span>）、连贯的人物（<span class="en">coherent characters</span>）和有意义的人物抉择；<strong>商业价值</strong>（<span class="en">commercial value</span>）取决于付完所有成本后谁能拿到收入。逼真的画面不会自动带来这两者。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">02 演进<small>Evolution</small></div>
+      <div class="stage-text">
+        <p>技术研发（如 Movie Gen）已把生成、剪辑、个性化调整（<span class="en">personalization</span>）和音频整合进同一议程；快手财报也披露模型正把音视频生成（<span class="en">audiovisual generation</span>）与更集成的创作流程结合。但拼出一连串像样的镜头不等于一部连贯剧集（<span class="en">coherent drama</span>），长视频研究（MovieBench）指出，跨场景维持角色一致和叙事连续性（<span class="en">character and narrative continuity</span>）仍是难点。制作瓶颈（<span class="en">bottlenecks</span>）已从“做出画面”转移到“控制画面、表演与剧情决策之间的关系”。</p>
+        <p>行业生态方面，中国网络视听协会白皮书（2025）提到多种商业模式、品牌合作与 AI 制作并存，但承制方往往不掌握分发渠道（<span class="en">distribution</span>）和付款条件（<span class="en">payment terms</span>）。第一财经（Yicai）访谈的承制方反映，AI 漫剧单分钟成本下降时，委托买方（<span class="en">commissioning buyers</span>）同步压低了合同价。虽然个案不代表行业均值，但它揭示了一个重要机制：<strong>技术省下来的钱可能通过更便宜的合同流向买方，而不是留给制作方作额外利润</strong>。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">03 里程碑<small>Milestones</small></div>
+      <div class="stage-text">
+        <p>分发落地层面，快手 2024 半年报披露上线 AI 奇幻短剧《山海奇镜》（<em>Legendary Mirrors of Mountains and Seas</em>），两周播放量超 5000 万（<span class="en">more than fifty million views</span>），说明 AI 作品已走出孤立演示，进入公开发行阶段。但该数字是公司自报的观看次数，不能反映去重观众数、付费用户或单项目盈利。</p>
+        <p>商业与制度层面，快手可灵 AI（Kling AI）2025 年第四季度录得 3.4 亿元营收，表明视频生成服务存在跨场景付费需求（<span class="en">paid demand</span>），但并不证明买该服务拍短剧的客户赚了钱。政策上，上海 2026 年 5 月发布 AI 微短剧扶持措施，国家广电总局《微短剧发展管理办法》于同年 9 月生效。企业做投资决策（<span class="en">investment decisions</span>）时必须分清：<strong>政策支持、工具商营收、短剧项目盈利是三类不同证据</strong>。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">04 热点<small>Hotspots</small></div>
+      <div class="stage-text">
+        <p><strong>可控性与工作流对比：</strong>当前技术竞争的焦点在于能否保住角色外观、修改局部场景而不破坏剧情、产出剪辑师能直接用的素材。Runway 参考图文档介绍了维持视觉特征的做法，并建议对复杂改动采用反复迭代（<span class="en">iteration</span>），但这只是流程说明，并非实测成片率。工作室真正该比的不是哪家样片最惊艳，而是哪套流程能稳定交付合格镜头、返工可控、失败责任明确。</p>
+        <p><strong>同质化与议价能力：</strong>Anil Doshi 与 Oliver Hauser（2024）的短篇写作实验发现，使用 AI 提供的创意提升了个人作品评价，但也让不同作者的故事彼此更相似（降低群体多样性）。该实验针对文字短篇，不能直接当成影视剧或观众留存（<span class="en">audience retention</span>）的结论；但结合第一财经的买方压价现象，它提醒管理者必须验证：好用的工具会不会让各家片库趋同、削弱作品差异化（<span class="en">differentiation</span>）和议价能力（<span class="en">bargaining power</span>）。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">05 风险<small>Issues</small></div>
+      <div class="stage-text">
+        <p><strong>成本转移：</strong>生成的单镜头便宜了，但上线前仍可能需要多次重做、连戏核查、配音调整与精剪。第一财经报道也同时提到投流获客支出（<span class="en">audience-acquisition spending</span>）以及限制反复抽卡生成的努力。这些访谈并非经审计的项目账目（<span class="en">audited project accounts</span>），但说明只看制作预算远远不够——管理者必须把<strong>合格单集成本、发行推广费用和失败项目成本</strong>合起来算，才能判断扩产有没有改善经济性。</p>
+        <p><strong>权利与跨法域边界：</strong>拿到剧本许可不等于有权复制他人的可识别声音或肖像（<span class="en">voice or likeness</span>）。北京互联网法院判例明确保护可识别的 AI 处理声音人格权。美国版权局在两份不同报告中分别指出：判断可版权性（<span class="en">copyrightability</span>）时区分人类表达与纯生成物；判断模型训练是否合法则取决于具体用途与事实。这些分属不同法域的不同法律问题——拥有剪辑成品的权利不代表所有输入素材都已获授权，也不能拿美国分析当中国法律。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">06 解法<small>Solutions</small></div>
+      <div class="stage-text">
+        <p><strong>限定范围试点（<span class="en">bounded production pilot</span>）：</strong>在事先约定的叙事与视觉质量标准下，将 AI 流程与传统实拍或简化的人机混合流程对照测试。核算单位应是<strong>合格通过分钟数</strong>（<span class="en">accepted minutes</span>）而非总生成分钟数；同时结合 VBench 这类多维视频评估思路，记录连戏检查、剪辑耗时、全成本和观众完播率（<span class="en">audience completion</span>）。这些是决策检验工具而非盈利保证，只有在对照基准下可重复跑通，才考虑扩张。</p>
+        <p><strong>权责贯穿每次交接（<span class="en">handoff</span>）：</strong>参照 WIPO 组织指南建立权利清单，区分剧本、原始素材、声音、肖像与最终表达；合同中写清允许的再次使用（<span class="en">permitted reuse</span>）、当事人同意（<span class="en">consent</span>）与报酬（<span class="en">compensation</span>）。美国演员工会（SAG-AFTRA）的商业广告条款只是一个协商范例，不约束中国短剧。中国《微短剧发展管理办法》第 34 条要求制作方与播出机构在每集涉及 AI 生成或制作的微短剧中加注显著标识（<span class="en">conspicuous notices</span>），但<strong>标识披露不等于版权清权</strong>，人类编辑责任（<span class="en">editorial responsibility</span>）必须打通创意验收、权利审核与发布决策。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">07 前景<small>Prospects</small></div>
+      <div class="stage-text">
+        <p>未来可能有多种商业配置（<span class="en">business configurations</span>）并存：专做稳定交付的承制工作室、打造自有知识产权（<span class="en">intellectual property</span>）并自控发行的内容公司、把真人表演留给关键戏而用 AI 辅助其余环节的混合团队。就业影响上，国际劳工组织（ILO）衡量的是职业暴露度（<span class="en">occupational exposure</span>，即潜在变动可能），不能直接等同于短剧行业实际岗位流失。</p>
+        <p>要支撑大额扩产投资，仅靠发布喜报远远不够，必须拿到四类证据：<strong>可比项目账目</strong>（<span class="en">comparable project accounts</span>）、<strong>观众留存队列</strong>（<span class="en">audience cohorts</span>）、<strong>书面授权文件</strong>（<span class="en">documented permissions</span>）和<strong>透明报酬安排</strong>（<span class="en">transparent compensation</span>）。核心检验三件事：观众是否回流、全成本是否真降、买方与渠道分成后制作方能否留住利润。即便部分创意环节仍需较多人工，只要结果过硬仍可扩张；反之，若留存弱、返工贵或买方压价严重，就应推翻扩张决定。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">08 结论<small>Conclusion</small></div>
+      <div class="stage-text">
+        <p>AI 可以改变短剧生产方式，但不一定让产业链每个参与者都变强。扩大内容产能与提升触达观众的作品价值，是两个独立的管理问题。最终判断保持有条件（<span class="en">conditional</span>）：能持续交付有辨识度、达标且合法的作品并在全成本后留住利润，才值得扩张；若增产只换来高返工、低差异化和不利合同，就不划算。最强的企业未必是产出集数最多的，而是清楚哪些环节该自动化、哪些判断该保留、以及什么证据足以支撑下一步扩张的企业。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-h">案例与数据推论边界</div>
+  <table class="data-table">
+    <thead>
+      <tr><th style="width:28%;">案例与数据</th><th style="width:34%;">可以支持的判断</th><th style="width:38%;">不能直接推出的结论</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Yicai 访谈 (2026)</strong><br>AI 漫剧单分钟成本下降、买方压价</td>
+        <td><span class="yes">支持：</span>技术节约可能通过降价合同流向买方；单看制作预算不足以决策</td>
+        <td><span class="no">不能推出：</span>行业平均成本；经审计的项目利润；制作方毛利必然提升</td>
+      </tr>
+      <tr>
+        <td><strong>快手《山海奇镜》(2024)</strong><br>两周播放量超 5000 万</td>
+        <td><span class="yes">支持：</span>AI 生成短剧已能做成完整叙事作品并上线传播</td>
+        <td><span class="no">不能推出：</span>独立观众人数、付费转化率或单项目盈利能力</td>
+      </tr>
+      <tr>
+        <td><strong>可灵 Kling AI (2025 Q4)</strong><br>单季服务营收 3.4 亿元</td>
+        <td><span class="yes">支持：</span>视频生成工具在各类应用中存在真实付费需求（工具商变现）</td>
+        <td><span class="no">不能推出：</span>承制短剧的客户赚了钱（供应商营收与制作方利润属两门生意）</td>
+      </tr>
+      <tr>
+        <td><strong>Doshi &amp; Hauser 实验 (2024)</strong><br>短篇小说创意辅助实验</td>
+        <td><span class="yes">支持：</span>AI 创意能提升个人文字评分，但降低群体作品多样性</td>
+        <td><span class="no">不能推出：</span>AI 必然降低影视短剧观众留存，或减少修片返工成本</td>
+      </tr>
+      <tr>
+        <td><strong>广电第 34 条 / 北京声音案 / 美国版权局</strong></td>
+        <td><span class="yes">支持：</span>每集需加显著 AI 标识；声音人格权受保护；美方区分人类表达与纯生成</td>
+        <td><span class="no">不能推出：</span>加了标识即免除版权清权；美国规则可直接适用于中国剧集</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="check-box">
+    <strong>本章高频考点自查：</strong>
+    <ol>
+      <li>问 <strong>Kling AI 营收 / 工具商增长</strong>说明什么：只能选“工具服务的付费需求”（<span class="en">paid demand</span>），可与制作方利润受压并存（<span class="en">coexist with constrained producer margins</span>）。</li>
+      <li>问 <strong>成本与合同价同降</strong>后什么仍未证明：承制方扣完完整成本后能否留住更高利润率（<span class="en">retain higher margins after complete costs</span>）。</li>
+      <li>问 <strong>Doshi &amp; Hauser 实验</strong>的权衡：单篇评价提升伴随整体多样性下降（<span class="en">reduced collective diversity</span>），警示片库差异化受损。</li>
+      <li>问 <strong>样片惊艳但成本不明时管理者怎么做</strong>：在统一质量标准下做试点对照，按合格分钟、完整成本与完播率评估（<span class="en">matched-quality workflows, complete costs and completion</span>）。</li>
+      <li>问 <strong>法规与授权</strong>：有剧本≠有声音肖像权；有 AI 显著标识≠完成版权清权；不同国家法律不可互换。</li>
+    </ol>
+    <a class="back-toc" href="#toc">↑ 返回目录</a>
+  </div>
+</section>
+
+<!-- ==================== CHAPTER 2: CONSUMER AI HARDWARE ==================== -->
+<section id="ch2" class="chapter">
+  <div class="nav-strip">
+    <a class="home" href="#toc">↑ 目录</a>
+    <a href="#ch1">01 AI短剧</a>
+    <a class="active" href="#ch2">02 AI硬件</a>
+    <a href="#ch3">03 数字货币</a>
+    <a href="#ch4">04 ESG</a>
+    <a href="#ch5">05 零售融合</a>
+    <a href="#ch6">06 新能源车</a>
+  </div>
+
+  <div class="chap-header">
+    <h2>02 · 消费级 AI 硬件</h2>
+    <div class="chap-en-title">Can Consumer AI Hardware Become an Everyday Necessity Rather Than Another Short-Lived Gadget?</div>
+  </div>
+
+  <div class="lead-box">
+    <p><strong>核心问题：</strong>智能眼镜、耳机、健康指环这类消费级 AI 硬件，能不能从一时新奇的短命玩意（<span class="en">short-lived gadget</span>）变成用户天天愿意用的日常必需品（<span class="en">everyday necessity</span>），并让厂商在承担持续服务成本后赚到钱？</p>
+    <p><strong>概念区分：</strong>（1）<strong>硬件不是孤立终端，而是系统入口</strong>：传感器采集信息，模型负责解读，设备返回有用帮助。算力未必在穿戴设备内部——苹果 AirPods 的离线语言翻译说明，下载后的语言处理其实运行在配对的 iPhone 上。单看屏幕或传感器，既测不出 AI 贡献了多少，也看不出它能否脱离手机。（2）<strong>四级需求信号不可混为一谈</strong>：买回家（<span class="en">purchase</span>）只代表愿意尝鲜；重复使用（<span class="en">repeated use</span>）才说明进入日常；付费订阅或续费（<span class="en">paid subscription / renewal</span>）虽是正面信号，但续费不等于每天佩戴；最终还要看扣完持续成本后是否留下净回报。</p>
+  </div>
+
+  <div class="sub-h">八段脉络与详细观点</div>
+  <div class="prose-list">
+    <div class="stage-row">
+      <div class="stage-label">01 定义<small>Definition</small></div>
+      <div class="stage-text">
+        <p>以旅行者戴耳机听译对话、避免反复低头看手机为例，说明用户体验的收益与厂商的商业论证（<span class="en">business case</span>）相关但彼此独立。例如 Oura 的招股文件将付费会员留存（<span class="en">membership retention</span>）定义为按付费同期群（<span class="en">paid cohorts</span>）统计，且包含符合条件的回归老订阅者（<span class="en">qualifying returning subscribers</span>）。管理者必须沿“任务成功 → 持续使用 → 扣完成本后获得回报”整条链条追踪，任何单一销量捷报都替代不了这套检验。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">02 演进<small>Evolution</small></div>
+      <div class="stage-text">
+        <p>从系统视角看，可穿戴设备并不是要取代智能手机，而是在特定瞬间省去掏手机的动作。Google 2026 年 5 月宣布音频与显示眼镜计划，就是通过软件、硬件与眼镜厂商结盟提供辅助。学术原型也在探索感知周边环境的交互（如学习助手原型 AiGet 用智能眼镜配合背包里的笔记本电脑和手机热点），但这种有外置支撑的原型（<span class="en">prototype</span>）只展示交互可能，不代表能独立工作的成熟消费品。</p>
+        <p><strong>算力放在哪里是产品决策，不只是工程细节。</strong>苹果模型架构区分端侧本地处理（<span class="en">local processing</span>）与能力更强的云端服务器方案，高通（Qualcomm）则推出面向眼镜感知与推理（<span class="en">sensing and inference</span>）的专用芯片。端侧看重响应速度（<span class="en">responsiveness</span>）与离线可用性；云端必须同步评估联网依赖、数据处理合规与持续服务器开销。现有研究尚无能耗、准确率与成本的同口径跨设备对比，管理者应围绕具体任务选架构，而非追捧模型噱头。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">03 里程碑<small>Milestones</small></div>
+      <div class="stage-text">
+        <p>近期事件同时展示了机会与服务义务（<span class="en">service obligations</span>）：2025 年 2 月惠普（HP）宣布收购 Humane 部分能力，同期报道（<span class="en">contemporaneous reporting</span>）称 Ai Pin 即将关停依赖云端的消费者服务；同年 Meta 推出二代音频拍照眼镜及带屏版本；2026 年 5 月 Google 宣布以联盟路径先推音频眼镜。<strong>资产收购协议、正式新品发布与未来上市计划不是同等商业成就</strong>，各自遗留的商业问题不同。</p>
+        <p>市场数字让机会具体可感（<span class="en">tangible</span>），但并未解决根本疑问：依视路陆逊梯卡（EssilorLuxottica）披露 2025 年全球卖出超 700 万副 AI 眼镜；Omdia 估算 2025 年全球出货 870 万副，并在 2026 年 3 月预测全年超 1500 万副。预测不是已完成业绩，厂商销量也不能和调研机构的出货量拼成同一条数据序列——各机构纳入口径（<span class="en">eligibility rules</span>）不同，且这些总数都没测出用户到底多常调用眼镜里的 AI 功能。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">04 热点<small>Hotspots</small></div>
+      <div class="stage-text">
+        <p><strong>要不要加显示屏？</strong>Counterpoint 估算 2026 上半年无屏（<span class="en">display-less</span>）型号占全球 AI 眼镜出货量的 96%。加屏幕能把信息直接呈现在眼前，但必须用体验收益证明其代价合理（<span class="en">justify its burdens</span>）：Meta 带屏版美国起售套装价 799 美元、标称混合续航最长 6 小时（均属厂商规格，非独立实测）。管理问题在于，屏幕对某项高频重复任务（<span class="en">recurring task</span>）的改善，是否值回高价、佩戴负担与耗电。</p>
+        <p><strong>生态主导权博弈：</strong>Google 走平台联合眼镜商模式，高通提供通用芯片组件，这牵涉由谁掌控交互界面、提供智能能力和维护客户关系。强联盟有助于分发与迭代，但也可能让硬件商受制于他方决策。把接入强模型当成持久竞争优势（<span class="en">durable competitive advantage</span>）之前，必须先检验系统互操作性（<span class="en">interoperability</span>）和可替换方案。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">05 风险<small>Issues</small></div>
+      <div class="stage-text">
+        <p><strong>日常使用与物理安全：</strong>Meta 典型使用续航与苹果听力测试续航都不能当成连续 AI 运行时长。舒适度与环境同样关键：一项小样本 AR 笔记本实地日记研究发现了人体工学（<span class="en">ergonomic</span>）与环境影响，但不能直接推导出消费级 AI 眼镜的留存率。物理安全是硬约束（<span class="en">constraint</span>）：2026 年 9 月美国因过热烫伤隐患召回 INMO AIR3 眼镜（属单型号警示，非全行业故障率）。团队必须实地观察重复任务表现、充电打断、识别错误及用户弃用（<span class="en">abandonment</span>）原因。</p>
+        <p><strong>外部隐私与售后成本：</strong>摄像头与麦克风会波及未购机的旁观者（<span class="en">bystanders</span>）；健康数据的敏感性在单次使用结束后仍长期存在。研究可穿戴厂商的公开隐私政策只能反映“厂商怎么写”，不等于实测数据泄露率。财务负担在售出后也会延续：Oura 披露了电池相关保修成本（<span class="en">warranty costs</span>），依视路陆逊梯卡也指出 AI 眼镜对集团利润率构成压力。这不证明整个品类亏钱，但打破了“功能有用、用户信任、服务盈利会自然同步实现”的假设。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">06 解法<small>Solutions</small></div>
+      <div class="stage-text">
+        <p><strong>对比现有替代方案的限定试点：</strong>直接拿消费者手头的替代工具（比如手机）做对照——旅行者用手机翻译是不是更稳？算上纠正误译和充电中断，穿戴设备还有优势吗？AiGet 虽展示了情境辅助（<span class="en">contextual assistance</span>）测试思路，但受限于外置支撑和短周期，不能充当通用留存基准（<span class="en">benchmark</span>）。商业试点应追踪真实任务完成率、纠错付出、佩戴舒适度和用户自愿复用率（<span class="en">voluntary return</span>），区分初见惊艳与长期刚需。</p>
+        <p><strong>按法域合规并算全周期成本：</strong>中国《个人信息保护法》对敏感个人信息有特定条件，欧洲数据保护委员会（EDPB）视频设备指引强调处理场景，美国 FTC 健康数据泄露通知规则有自身适用范围——<strong>这些框架不可跨司法辖区（<span class="en">jurisdictions</span>）互换套用</strong>。同样，美国 FDA 的低风险健康政策（<span class="en">wellness guidance</span>）绝不是对 AI 健康建议的全面批准。团队必须把数据权限、留存期限、售后义务与获客、算力、退货及保修成本放在一起通盘核算。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">07 前景<small>Prospects</small></div>
+      <div class="stage-text">
+        <p>通过实用与财务检验后，两种路线都可能可行（<span class="en">viable</span>）：生态型公司用穿戴设备强化既有服务（如三星用指环延伸睡眠健康服务，但尚未证明临床疗效 <span class="en">clinical benefit</span>）；专精厂商深耕单一高频需求（如 Oura 截至 2026 年 6 月 30 日的九个月实现 6080 万美元合并净利润 <span class="en">consolidated net income</span>，但这是特定时期公司整体利润，并未剥离 AI 的增量贡献 <span class="en">incremental contribution</span>）。</p>
+        <p>单靠攒个人数据或收订阅费不足以建立长期优势。Oura 约 85% 的 12 个月加权付费会员留存具有参考价值，但包含符合条件的回流老客且不衡量每日佩戴；管理层仍需盯住退订率、维修需求和持续服务成本。数据只有在合法、用户认可的前提下才能增强服务，光靠数据量换不来信任。在可比的全生命周期经济账（<span class="en">lifetime economics</span>）与 AI 独立贡献明晰前，所有预测都必须以实际经营成果（<span class="en">operating results</span>）为前提。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">08 结论<small>Conclusion</small></div>
+      <div class="stage-text">
+        <p>高销量说明流通广，盈利财报说明财务结果，停服公告暴露持续运维依赖——这些信号相互补充，但不可互换（<span class="en">not interchangeable</span>）。对特定人群和窄场景，AI 硬件成为日常必需品具备可信度（<span class="en">credible</span>）；对全品类而言尚未被证实。扩张的前提是：设备能稳定提供优于现有替代品的实用价值、物理与信息风险可控、扣完持续成本后仍有合理回报；涉健康宣称则须匹配对应级别的证据。决定成败的不是往穿戴里塞进多少智能，而是人们有没有持久使用的理由，以及企业能否负责任地长期维持（<span class="en">sustain</span>）这些理由。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-h">案例与数据推论边界</div>
+  <table class="data-table">
+    <thead>
+      <tr><th style="width:28%;">案例与数据</th><th style="width:34%;">可以支持的判断</th><th style="width:38%;">不能直接推出的结论</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Humane Ai Pin (2025.02)</strong><br>HP 收购部分资产、云端服务关停</td>
+        <td><span class="yes">支持：</span>依赖云端的硬件承担持续服务义务，停服会直接令产品失效</td>
+        <td><span class="no">不能推出：</span>所有消费级 AI 硬件都不可行</td>
+      </tr>
+      <tr>
+        <td><strong>Oura S-1 招股文件 (2026)</strong><br>9 个月合并净利 $6080 万；12 个月留存约 85%；电池保修成本</td>
+        <td><span class="yes">支持：</span>专精硬件+订阅模式在特定期内可盈利；售后存在持续电池保修负担</td>
+        <td><span class="no">不能推出：</span>AI 带来了多少增量利润；付费会员每天都在佩戴设备</td>
+      </tr>
+      <tr>
+        <td><strong>依视路 700 万销量 / Omdia 870 万出货与 1500 万预测</strong></td>
+        <td><span class="yes">支持：</span>AI 眼镜流通规模已相当可观</td>
+        <td><span class="no">不能推出：</span>可拼成同一连续序列；用户经常调用 AI 辅助；预测等于既成事实</td>
+      </tr>
+      <tr>
+        <td><strong>AR 笔记本实地研究 / 隐私政策综述 / INMO AIR3 召回</strong></td>
+        <td><span class="yes">支持：</span>需关注人体工学、厂商书面隐私做法与过热等物理安全约束</td>
+        <td><span class="no">不能推出：</span>AI 眼镜留存基准；厂商真实数据泄露率；全行业故障率</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="check-box">
+    <strong>本章高频考点自查：</strong>
+    <ol>
+      <li>问 <strong>成为日常必需品的决定条件</strong>：持久实用价值盖过风险与持续成本（<span class="en">lasting utility outweighs risks and continuing costs</span>），而非只靠订阅或算力位置。</li>
+      <li>问 <strong>付费留存数据还缺什么补充指标</strong>：用户自愿复用与高频任务完成情况（<span class="en">voluntary reuse and successful recurring tasks</span>）。</li>
+      <li>问 <strong>如何测试原型机实用性</strong>：对照手机测真实任务成功率与纠错代价（<span class="en">task success and corrections versus phone use</span>），而非比演示速度或宣传参数。</li>
+      <li>问 <strong>如何证明 AI 的增量盈利</strong>：可归因于 AI 的额外收入超过额外成本（<span class="en">attributable extra revenue exceeding extra costs</span>），不能拿 Oura 合并净利润直接顶替。</li>
+      <li>问 <strong>隐私与合规边界</strong>：既查适用法域覆盖范围又查实际做法（<span class="en">check legal coverage and actual practices</span>）；跨法域规则不可照搬，买方同意也解决不了旁观者隐私。</li>
+    </ol>
+    <a class="back-toc" href="#toc">↑ 返回目录</a>
+  </div>
+</section>
+
+<!-- ==================== CHAPTER 3: DIGITAL CURRENCY & STABLECOINS ==================== -->
+<section id="ch3" class="chapter">
+  <div class="nav-strip">
+    <a class="home" href="#toc">↑ 目录</a>
+    <a href="#ch1">01 AI短剧</a>
+    <a href="#ch2">02 AI硬件</a>
+    <a class="active" href="#ch3">03 数字货币</a>
+    <a href="#ch4">04 ESG</a>
+    <a href="#ch5">05 零售融合</a>
+    <a href="#ch6">06 新能源车</a>
+  </div>
+
+  <div class="chap-header">
+    <h2>03 · 数字货币与稳定币</h2>
+    <div class="chap-en-title">Faster Money, Different Risk: When Does Digital Value Create Business Value?</div>
+  </div>
+
+  <div class="lead-box">
+    <p><strong>核心问题：</strong>秒级到账固然能释放营运资金（<span class="en">working capital</span>）、便利贸易，但新支付通道能否在不削弱货币信用的前提下，真正降低全流程总摩擦（<span class="en">reduce total friction without weakening the money</span>）？</p>
+    <p><strong>概念区分：</strong>货币不只是传递一条信息，收款方必须搞清三件事：<strong>收到的是什么债权</strong>（<span class="en">what claim</span>）、<strong>谁必须履约</strong>（<span class="en">who must honour it</span>）、<strong>能否按面值花出去</strong>（<span class="en">spent at face value</span>）。可靠支付除了速度，还需要三要素：随时可用的资金即<strong>流动性</strong>（<span class="en">liquidity</span>）、转账不可撤销即<strong>结算终局性</strong>（<span class="en">settlement finality</span>）以及 1 元兑 1 元的信心。三类数字货币分工不同：<strong>央行数字货币</strong>（<span class="en">CBDC</span>）是对央行的直接债权，类似数字现金；<strong>支付型稳定币</strong>（<span class="en">payment stablecoin</span>）由私人发行，承诺按面值赎回（<span class="en">par redemption</span>）；<strong>代币化商业银行存款</strong>（<span class="en">tokenised commercial bank deposit</span>）是记在可编程账本（<span class="en">programmable ledger</span>）上的银行负债。</p>
+  </div>
+
+  <div class="sub-h">八段脉络与详细观点</div>
+  <div class="prose-list">
+    <div class="stage-row">
+      <div class="stage-label">01 定义<small>Definition</small></div>
+      <div class="stage-text">
+        <p>三种数字货币都能流转很快，但把赎回风险与运营风险压在了不同主体身上。速度本身回答不了债权归属、流动性与面值兑付问题，管理评估必须落到“总摩擦是否下降且货币仍然可靠”。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">02 演进<small>Evolution</small></div>
+      <div class="stage-text">
+        <p>早期支付创新（银行卡、移动应用、快捷网络）主要改进“资金划转指令”，钱本身仍是银行存款、靠央行账户清算。<strong>代币化（<span class="en">tokenisation</span>）同时改变了债权形态和指令</strong>，让债权变成软件可编程转移或与其他资产组合的数字对象，实现资产与资金同步交割。界面变好和货币形态变了，是两码事。</p>
+        <p>软件能减少对账（<span class="en">reconciliation</span>），但无法替代可信发行方（<span class="en">credible issuer</span>）、可用流动性和受承认的债权。代币化存款保留双层银行体系（<span class="en">two-tier banking structure</span>）并增加可编程性；稳定币依赖储备资产（<span class="en">reserves</span>）与可靠赎回。2024 年国际清算银行（BIS）调研显示，93 家央行中有 85 家在探索零售或批发型数字货币，但这只表明兴趣高涨——<strong>探索不等于发行，更不等于实际采用（<span class="en">adoption</span>）</strong>。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">03 里程碑<small>Milestones</small></div>
+      <div class="stage-text">
+        <p>各国政策处于完全不同的阶段，<strong>立法、监管细则、试点和正式发行的货币不可互换</strong>。中国数字人民币（e-CNY）已走出实验室，但官方仍定性为审慎推进的试点。美国在 2025 年 7 月通过支付稳定币法案（GENIUS Act），但 2026 年 2 月银行监管机构发布的配套细则仍只是征求意见提案（<span class="en">proposal</span>）；把提案当终稿会在牌照、储备、监管与运维上制造虚假确定性。</p>
+        <p>欧洲方面，针对主要稳定币的规则自 2024 年 6 月起生效，更广泛框架自 2024 年 12 月生效；代币化银行存款因仍属银行负债，被排除在该框架之外。数字欧元仍处于准备与立法协商阶段，能否发行取决于立法完成和欧央行后续决议。一个节点只有真正改变企业“能负责任地建什么、承诺什么”时，才算实质里程碑。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">04 热点<small>Hotspots</small></div>
+      <div class="stage-text">
+        <p>跨境支付（<span class="en">cross-border payments</span>）痛点清晰：多层中介带来延误、费用不透明与追踪困难；世界银行 2025 年测算小额跨境汇款平均费率高达 6.36%。2026 年批发级实验（Project Agorá）联通代币化银行存款与代币化央行储备，在 17 个场景下处理了 30 笔、约 80 万瑞郎交易，平均结算近 80 秒。该实验验证了受控条件下的技术可行性（<span class="en">technical feasibility</span>），但不能证明生产成本、市场需求、韧性或盈利能力（<span class="en">profitability</span>）。</p>
+        <p>稳定币体量更大，但需要拆解水分：IMF 研究估算 2024 年跨境稳定币交易约 2 万亿美元，但另一项 IMF 评估发现约 80% 的稳定币交易由机器人和自动化系统生成。总流转额看不出多少是真实工资、货款发票、汇款或消费——<strong>交易量（<span class="en">transaction volume</span>）只有查清资金用途，才算商业证据</strong>。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">05 风险<small>Issues</small></div>
+      <div class="stage-text">
+        <p><strong>速度与流动性的冲突：</strong>原子结算（<span class="en">atomic settlement</span>）要求双方同步交割、否则双双取消，能降低交易对手风险敞口（<span class="en">counterparty exposure</span>）与对账工作；但慢速系统可以在结算前通过轧差抵消（<span class="en">offsetting obligations</span>）节约现金，而更快的原子结算迫使企业提前备足资金（<span class="en">fund payments earlier</span>）、在非银行营业时段监控并自行处理失败转账。</p>
+        <p><strong>价格稳定与储备风险：</strong>更顺畅的套利（<span class="en">arbitrage</span>）可以缩小稳定币市价偏离，但市价平稳并不证明储备资产或赎回通道健全。用现金与短期国债做储备比投机资产稳健，但两家发行方占了约 90% 的稳定币流通量，高度集中；研究还发现稳定币资金流动会影响美国短期国债收益率，在市场承压时效应更强——更安全的底层资产反而把代币市场与主权债市场捆绑在一起。跨境场景下，美元稳定币便利当地支付的同时，可能诱发货币替代（<span class="en">currency substitution</span>，即数字美元化 <span class="en">digital dollarisation</span>），削弱本币使用。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">06 解法<small>Solutions</small></div>
+      <div class="stage-text">
+        <p>企业决策应从<strong>货币债权</strong>出发，而非从技术炫酷度出发：先查明发行方、用户法律权利、结算资产以及换回普通货币的路径。接着核算<strong>全流程支付成本</strong>，共含八项：手续费、外汇汇兑（<span class="en">foreign exchange</span>）、提前垫资、合规（<span class="en">compliance</span>）、系统集成（<span class="en">integration</span>）、反欺诈控制、运维支持与故障恢复。只要出入金兑换或异常处理出问题，原本便宜的链上转账就会变得很贵。</p>
+        <p>企业还必须测试<strong>运营韧性（<span class="en">operational resilience</span>）</strong>，明确三件事：谁提供流动性、谁能叫停转账、首选发行方不可用时怎么接管。跨系统协同涉及互操作性（<span class="en">interoperability</span>），但技术连通不等于法律债权和赎回权一致，统一标准也不能让每家发行方同样安全。监管规则（储备、治理、赎回）能增信，却也会抬高固定成本、加剧市场集中，且跨境监管并不统一。务实做法是：按指定走廊审批通道、保留备用方案（<span class="en">fallback</span>）、限制单一发行方敞口，并与现有流程做全成本比较。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">07 前景<small>Prospects</small></div>
+      <div class="stage-text">
+        <p>三类工具面临各自考验：稳定币若想扩大真实支付，必须守住可靠赎回、让用户清楚法律权利并压低与银行账户互转的全成本，否则在自动化交易主导下仍将停留在加密市场基础设施；代币化存款需要共享标准、央行结算与跨行流转，若各平台自成封闭流动性池（<span class="en">separate liquidity pool</span>）就会受限；央行数字货币需在不引发银行存款大举流失或高集成成本的前提下提供可信央行货币——持有上限（<span class="en">holding limits</span>）与不计息可降低挤兑风险，但会削弱便利性（欧洲研究预计数字欧元在正常情况下主要用于交易，对银行存款分流有限）。此外，传统支付系统若持续提升速度、透明度（<span class="en">transparency</span>）和可达性，依然是强有力竞争者。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">08 结论<small>Conclusion</small></div>
+      <div class="stage-text">
+        <p>数字货币的每一项收益都伴随风险转移：提速可能推高即时垫资、市价稳定可能只是套利结果、安全储备会关联国债市场、跨境便利会加深外币依赖、技术互通不代表债权平等、大交易量可能只是金融空转。真正的对比不是“数字货币对传统货币”，而是<strong>一套完整工作流对另一套完整工作流</strong>。最有价值的系统未必转得最快，而是能让成本、权责和风险清晰可见，在技术、市场或信心承压时照常运转，并能在跨司法辖区（<span class="en">across jurisdictions</span>）保持可治理（<span class="en">governable</span>）。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-h">案例与数据推论边界</div>
+  <table class="data-table">
+    <thead>
+      <tr><th style="width:28%;">案例与数据</th><th style="width:34%;">可以支持的判断</th><th style="width:38%;">不能直接推出的结论</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>BIS Project Agorá (2026)</strong><br>80 万瑞郎 / 30 笔 / 17 场景 / 约 80 秒</td>
+        <td><span class="yes">支持：</span>受控条件下代币化存款与央行储备联动具备技术可行性</td>
+        <td><span class="no">不能推出：</span>量产成本、真实需求、系统韧性或商业盈利能力</td>
+      </tr>
+      <tr>
+        <td><strong>IMF 稳定币统计 (2024–2025)</strong><br>跨境 2 万亿美元；80% 来自自动化</td>
+        <td><span class="yes">支持：</span>稳定币链上规模大，但绝大多数属机器人与自动化活动</td>
+        <td><span class="no">不能推出：</span>工资、发票、汇款或零售消费已大规模采用</td>
+      </tr>
+      <tr>
+        <td><strong>美国 GENIUS Act (2025.07) &amp; OCC 提案 (2026.02)</strong></td>
+        <td><span class="yes">支持：</span>联邦层面已确立稳定币法律框架，但银行执行细则仍在拟定</td>
+        <td><span class="no">不能推出：</span>企业已获得牌照、储备与运营规则的最终确定性</td>
+      </tr>
+      <tr>
+        <td><strong>两家发行方占 90% 份额 &amp; 美债收益率研究</strong></td>
+        <td><span class="yes">支持：</span>高安全储备伴随高度市场集中，并在承压期外溢至公共债务市场</td>
+        <td><span class="no">不能推出：</span>优质储备可消除集中度与系统传导风险</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="check-box">
+    <strong>本章高频考点自查：</strong>
+    <ol>
+      <li>问 <strong>哪项证据最削弱“稳定币交易量巨大”的商业论点</strong>：约 80% 交易由机器人和自动化系统生成（<span class="en">automated systems generate most transactions</span>）。</li>
+      <li>问 <strong>为什么更快结算反而可能提高现金需求</strong>：原子结算缺少慢速系统的轧差抵消，企业需提前备资（<span class="en">require earlier funding</span>）。</li>
+      <li>问 <strong>安全储备资产（现金/短期美债）的权衡</strong>：提升兑付支持的同时，会把代币市场与主权债市场关联起来（<span class="en">link public debt markets</span>），且存在高度集中。</li>
+      <li>问 <strong>企业何时应批准新支付通道</strong>：在核算完整工作流成本与风险、测试韧性并与旧流程对比之后（<span class="en">comparing full workflow costs and risks</span>），不能只看速度快或技术互通。</li>
+      <li>问 <strong>可持续数字货币价值的定义</strong>：降低总摩擦同时保持可信、按面值兑付的货币债权（<span class="en">lower total friction with trustworthy money</span>）。</li>
+    </ol>
+    <a class="back-toc" href="#toc">↑ 返回目录</a>
+  </div>
+</section>
+
+<!-- ==================== CHAPTER 4: ESG ==================== -->
+<section id="ch4" class="chapter">
+  <div class="nav-strip">
+    <a class="home" href="#toc">↑ 目录</a>
+    <a href="#ch1">01 AI短剧</a>
+    <a href="#ch2">02 AI硬件</a>
+    <a href="#ch3">03 数字货币</a>
+    <a class="active" href="#ch4">04 ESG</a>
+    <a href="#ch5">05 零售融合</a>
+    <a href="#ch6">06 新能源车</a>
+  </div>
+
+  <div class="chap-header">
+    <h2>04 · ESG 与企业价值</h2>
+    <div class="chap-en-title">Beyond the ESG Score: When Does Sustainability Information Create Business Value?</div>
+  </div>
+
+  <div class="lead-box">
+    <p><strong>核心问题：</strong>ESG 信息何时能真正改善企业经营与投资决策（<span class="en">management and information problem</span>），何时又会沦为花钱买面子的象征性信号（<span class="en">symbolic / costly signaling</span>）？</p>
+    <p><strong>概念区分：</strong>（1）<strong>两套主流标准目标不同</strong>：国际财务报告可持续披露准则 <strong>IFRS S1</strong> 聚焦可能影响企业自身前景的可持续风险与机会（面向投资者与资本提供者 <span class="en">capital providers</span>）；全球报告倡议组织 <strong>GRI</strong> 则要求企业识别自身对经济、环境与人群的重大外部影响。<strong>重要性（<span class="en">materiality</span>）</strong>连接两者：某项议题足以实质影响决策、经营结果或利益相关者（<span class="en">stakeholder</span>）时才具备重要性。（2）<strong>四件事必须拆开看</strong>：做 ESG 活动不等于披露，披露不等于真实绩效，更庞大的报告系统也不等于更好的决策系统。</p>
+  </div>
+
+  <div class="sub-h">八段脉络与详细观点</div>
+  <div class="prose-list">
+    <div class="stage-row">
+      <div class="stage-label">01 定义<small>Definition</small></div>
+      <div class="stage-text">
+        <p>ESG 信息只有在帮人做出更好决策时才有用。评级又在原始信息之上叠加了一层主观判断。Berg 等人（2022）研究 6 家评级机构与 924 家公司，发现机构间平均相关性只有 0.54；拆解分歧来源，<strong>测量方法差异占 56%，范围界定差异占 38%，权重差异仅占 6%</strong>。评分只是某套评价方法的汇总，不是客观事实。管理者需要追问：这项信息改变了什么决策，这种改变值不值得付出采集成本？</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">02 演进<small>Evolution</small></div>
+      <div class="stage-text">
+        <p>早期企业社会责任报告多讲价值观、慈善与社区贡献；当投资者、董事会与监管机构开始把可持续信息纳入风险模型（<span class="en">risk assessment</span>）、融资、公司治理与尽职调查（<span class="en">due diligence</span>，即审慎核查业务关系中的风险与潜在损害）时，ESG 才进入管理核心。截至 2024 年，占全球上市总市值 91% 的公司披露了可持续信息，但按公司总数计还不到三分之一——大公司已成常态，中小企业远未普及。</p>
+        <p>披露扩张催生了指标、委员会、评级和第三方核查等管理基础设施（<span class="en">managerial infrastructure</span>），但它本身不证明环保、社会或财务绩效变好。Christensen 等人针对强制披露变化的研究甚至发现，<strong>信息变多反而可能拉大评级机构之间的分歧</strong>，尤其在披露结果类信息时（因不同评价者解读视角不同，即 <span class="en">interpretation problems</span>）。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">03 里程碑<small>Milestones</small></div>
+      <div class="stage-text">
+        <p>监管并非单向收紧，而是显著分化：IFRS S1 自 2024 财年起作为全球基准（<span class="en">global baseline</span>）生效，截至 2026 年 2 月已有 19 个司法辖区实施 ISSB 相关要求，但适用范围与执法力度各异。中国采取分层框架：深交所可持续报告指引自 2024 年 5 月起实施，财政部同年发布的国家基本准则在明确实施范围前仍属自愿阶段（<span class="en">voluntary</span>）。术语趋同并不能省掉各地具体法律合规工作（<span class="en">local obligations</span>）。</p>
+        <p>欧美走向更说明监管在动态调整：欧盟 2026 年 7 月起实施 ESG 评级透明度法规，但同年 3 月生效的 <strong>Omnibus I 修正案</strong>缩窄了报告与尽调覆盖范围；7 月欧委会又采纳修订标准，拟削减超 60% 强制数据点与超 70% 总数据点（预计单企降本超 30%，公布时仍待立法审议）。美国 SEC 则在 2025 年停止为暂缓执行的 2024 气候披露规则辩护，并于 2026 年 5 月提议撤销（<span class="en">proposed rescission</span>）——但<strong>提议撤销不等于最终撤销</strong>。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">04 热点<small>Hotspots</small></div>
+      <div class="stage-text">
+        <p><strong>平均打分与鉴证的误区：</strong>既然评级分歧（<span class="en">rating disagreement</span>）的 94% 源于测量与范围而非权重，对几家评级取平均或调权重解决不了根本分歧。<strong>鉴证（<span class="en">assurance</span>）</strong>只是对已披露特定数据的独立核查，不是对公司整体好坏的裁定。2024 年鉴证覆盖了 81% 的披露市值，但信心较低的<strong>有限保证</strong>（<span class="en">limited assurance</span>）占 56%，更严格的<strong>合理保证</strong>（<span class="en">reasonable assurance</span>）仅占 17%。</p>
+        <p><strong>流于形式的激励与成本外移：</strong>与可持续挂钩的高管薪酬（<span class="en">executive pay</span>）日益增多，但欧洲工作论文显示许多 ESG 指标属于主观自由裁量（<span class="en">discretionary</span>）、权重极小，几乎没给高管增加薪酬风险。供应链上，大买家向小供应商索取海量数据往往只是把采集负担（<span class="en">supplier burden</span>）向外转嫁，未必减少实际危害。修订后的欧盟框架强调基于风险评估与合理可得信息，中国应用指南则对价值链信息适用比例原则（<span class="en">proportionality</span>）。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">05 风险<small>Issues</small></div>
+      <div class="stage-text">
+        <p><strong>财务回报没有简单定论：</strong>Khan 等人（2016）发现，在<strong>本行业实质性议题</strong>上表现优异的企业后续股价与会计业绩更强，而在非实质议题上表现好则看不到这种规律。Friede 等人汇总约 2200 项实证研究，发现约 90% 呈非负相关，平均相关性约 0.15。这说明背后存在合理的商业机制（<span class="en">business mechanism</span>），但不能推出“每笔 ESG 投入都带来利润”——管理更优秀的公司本来就更会挑项目，且各研究测量的活动、行业与结果差异很大。</p>
+        <p><strong>标签与漂绿风险：</strong>Raghunandan 与 Rajgopal（2022）对比同一批机构发行的 147 只自称 ESG 基金与 2428 只非 ESG 基金，发现样本中的 ESG 基金持仓企业尽管 ESG 评分更高，实际劳工与环保合规记录却更差、碳排强度（<span class="en">emissions intensity</span>）更高，且基金费率更高、回报更低。单凭样本不能断言所有 ESG 基金都失败，但它清楚表明<strong>标签无法替代经核验的真实结果（<span class="en">verified outcome</span>）</strong>；欧洲监管机构（ESMA）也将误导性可持续宣传（<span class="en">greenwashing</span>）列为投资链风险。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">06 解法<small>Solutions</small></div>
+      <div class="stage-text">
+        <p><strong>重要性门槛与反事实检验：</strong>给 ESG 项目批预算前，先通过重要性门槛（<span class="en">materiality gate</span>）写清五件事：影响什么决策、具体运营机制（<span class="en">operating mechanism</span>）、预期结果、时间周期，以及<strong>反事实基准</strong>（<span class="en">counterfactual</span>，即不花这笔钱本来会发生什么）。公司绿色债券研究（Flammer 2021）印证了具体承诺的价值：首次发行且经第三方认证（<span class="en">third-party-certified</span>）的发债方市场反应更强，发债后环境表现确实改善。核验在声明涉及实质决策后果（<span class="en">decision consequences</span>）时最有用，其成本与范围应与后果匹配。</p>
+        <p><strong>双层信息架构与务实治理：</strong>跨国企业应搭建两层体系——底层的<strong>统一内部数据核心</strong>（稳定定义、明确责任人、一致内控）加外层的<strong>各辖区特定报告层</strong>（<span class="en">jurisdiction-specific reporting layers</span>），既避免重复劳动，也不假定各国规则相同。供应链核查聚焦严重且高发风险、复用已核验信息、兼顾小供应商能力。高管激励只挂钩少数实质、可控、可独立核查的结果，给足权重并设错报或失败后的奖金追回机制。资金分配上，设立<strong>资本配置门槛</strong>（<span class="en">capital-allocation gates</span>），把 ESG 项目和常规运营投资放在同一把尺子上比回报。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">07 前景<small>Prospects</small></div>
+      <div class="stage-text">
+        <p>未来可能呈现三条路径：一是<strong>测量趋同</strong>（<span class="en">measurement convergence</span>），靠国际基准、数字化报告和评级监管减少重复，但投资者风险视角与社会环境影响视角不同，评级仍会有合理差异；二是<strong>法律碎片化</strong>（<span class="en">legal fragmentation</span>），欧盟细但缩窄、美国联邦层受限、中国结合交易所要求与国家指引分阶段实施（<span class="en">phased implementation</span>）；三是<strong>选择性整合</strong>（<span class="en">selective integration</span>），收缩泛化 ESG 项目，把资源集中到实质、可测、关联经营与融资的议题——其隐忧是长周期难量化影响可能投入不足，关键在于投资者能否分清“有纪律的聚焦”和“简单逃避”。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">08 结论<small>Conclusion</small></div>
+      <div class="stage-text">
+        <p>结论依然附带条件：当实质议题有明确负责人（<span class="en">accountable owners</span>）、真实塑造投资或运营选择并产出可核验结果时，ESG 更可能创造商业价值；当披露篇幅、评级高分、鉴证证书或标签本身成为目的时，它就会沦为昂贵的作秀。高分不证明企业成熟，分歧也不意味着测量无用。ESG 管理的水平，体现在把不完美信息转化为可论证决策（<span class="en">defensible decisions</span>），同时正视不确定性、利益相关者成本和资金的替代用途。ESG 活动看得见，但 ESG 价值仍须证明。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-h">案例与数据推论边界</div>
+  <table class="data-table">
+    <thead>
+      <tr><th style="width:28%;">案例与数据</th><th style="width:34%;">可以支持的判断</th><th style="width:38%;">不能直接推出的结论</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Berg 等评级分歧研究 (2022)</strong><br>6 机构 / 924 企 / 平均相关 0.54</td>
+        <td><span class="yes">支持：</span>分歧主要来自测量(56%)与范围(38%)，权重仅占 6%</td>
+        <td><span class="no">不能推出：</span>多机构取平均分或统一权重就能得出客观真相</td>
+      </tr>
+      <tr>
+        <td><strong>OECD 2025 报告</strong><br>91% 市值披露 / 不足 1/3 企业；81% 鉴证（56% 有限 / 17% 合理）</td>
+        <td><span class="yes">支持：</span>大企业披露与鉴证已成常态，但鉴证以较低信心的有限保证为主</td>
+        <td><span class="no">不能推出：</span>中小企业普遍披露；有鉴证等于企业整体优秀或盈利</td>
+      </tr>
+      <tr>
+        <td><strong>Friede 等 2200 项研究综述</strong><br>约 90% 非负，平均相关性 0.15</td>
+        <td><span class="yes">支持：</span>ESG 与财务业绩间存在合理的商业传导可能</td>
+        <td><span class="no">不能推出：</span>每一笔 ESG 支出都必然导致利润增长（存在内生选品偏差）</td>
+      </tr>
+      <tr>
+        <td><strong>147 只美国 ESG 基金对比研究</strong><br>违规多、排放高、费率高、回报低</td>
+        <td><span class="yes">支持：</span>表面标签和高评级不能替代经核验的真实合规与业绩</td>
+        <td><span class="no">不能推出：</span>市场上所有 ESG 基金都必然失败</td>
+      </tr>
+      <tr>
+        <td><strong>Flammer 绿色债券研究 (2021)</strong><br>首次发债且第三方认证者表现更佳</td>
+        <td><span class="yes">支持：</span>具体、经独立核验的可信承诺比空泛标签更能赢得市场并改善环保</td>
+        <td><span class="no">不能推出：</span>任何贴上绿色标签的融资都会自动获得溢价</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="check-box">
+    <strong>本章高频考点自查：</strong>
+    <ol>
+      <li>问 <strong>ESG 评级为何持续存在分歧</strong>：测量方法与范围界定不同（<span class="en">measurement and scope differ</span>），而不是权重、披露不足或地方法律差异。</li>
+      <li>问 <strong>非负财务相关性（0.15）能证明什么</strong>：商业机制合理但尚未证实因果（<span class="en">a mechanism is plausible, not proven</span>）。</li>
+      <li>问 <strong>ESG 鉴证（assurance）确立了什么</strong>：仅增强对特定披露信息的信心（<span class="en">greater confidence in specified information</span>），不证明商业回报或整体 ESG 价值。</li>
+      <li>问 <strong>跨国企业如何应对各国 ESG 法规差异</strong>：统一内部数据核心 + 按辖区定制报告层（<span class="en">combine a common core with local layers</span>），而非用单一全球申报或坐等法律完全确定。</li>
+      <li>问 <strong>何时应给 ESG 投资源</strong>：当实质证据、运营机制与替代投资方案对比都支持该支出时（<span class="en">when evidence and alternatives justify it</span>）。</li>
+    </ol>
+    <a class="back-toc" href="#toc">↑ 返回目录</a>
+  </div>
+</section>
+
+<!-- ==================== CHAPTER 5: E-COMMERCE & BRICK-AND-MORTAR ==================== -->
+<section id="ch5" class="chapter">
+  <div class="nav-strip">
+    <a class="home" href="#toc">↑ 目录</a>
+    <a href="#ch1">01 AI短剧</a>
+    <a href="#ch2">02 AI硬件</a>
+    <a href="#ch3">03 数字货币</a>
+    <a href="#ch4">04 ESG</a>
+    <a class="active" href="#ch5">05 零售融合</a>
+    <a href="#ch6">06 新能源车</a>
+  </div>
+
+  <div class="chap-header">
+    <h2>05 · 电商与实体零售</h2>
+    <div class="chap-en-title">Beyond the Channel Contest: When Does Retail Integration Create Value?</div>
+  </div>
+
+  <div class="lead-box">
+    <p><strong>核心问题：</strong>把电商与实体店打通成全渠道零售（<span class="en">omnichannel retail</span>），什么时候是在真正创造可持续的顾客与商业价值，什么时候只是把成本和复杂性从零售系统的一端挪到另一端？</p>
+    <p><strong>概念区分：</strong>传统的“电商对决实体”选错了分析单位。一笔销售至少包含三个分析维度（<span class="en">three dimensions</span>）：<strong>顾客在哪里下单</strong>、<strong>商品如何履约送达</strong>（<span class="en">fulfillment</span>）、<strong>售前售后体验如何完成</strong>。同一笔交易完全可以跨渠道完成——比如在 Target，线上订单可以由门店发货，线上需求与实体运营并非对立。电商擅长扩大触达和便利下单，门店擅长商品体验、现货获取、服务、退货与本地履约；但连接它们会同步引入人工、库存、技术、退货和协同成本，评估时必须算上界面背后产生的隐性开销。</p>
+  </div>
+
+  <div class="sub-h">八段脉络与详细观点</div>
+  <div class="prose-list">
+    <div class="stage-row">
+      <div class="stage-label">01 定义<small>Definition</small></div>
+      <div class="stage-text">
+        <p>学术研究（Gao &amp; Su; Balbín Buckley 等）把到店自提和渠道整合视为相互关联的运营决策，而非割裂市场。全渠道可能优化顾客旅程（<span class="en">customer journey</span>），但检验标准不能只看顾客眼前的便利，还要算清后台新增的运营负担。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">02 演进<small>Evolution</small></div>
+      <div class="stage-text">
+        <p>零售先从纯门店走向线上线下并行（<span class="en">parallel channels</span>）。欧盟统计局（Eurostat）数据显示：2025 年 78% 的欧盟网民网购或线上下单（高于 2015 年的 62%）；但参与率不等于消费额占比——2024 年欧盟企业电商收入仅占总营业额（<span class="en">turnover</span>）的 19%（大企业 24%，中小企业 12%）。因此“线上已全面接管零售”的说法会误导判断。</p>
+        <p>随后零售步入运营打通阶段：网站展示门店实时库存，门店承接自提、配送与退货，顾客记录跨接触点（<span class="en">touchpoints</span>）跟随流转。沃尔玛 2007 年推出的“网订店取”（Site-to-Store）标志这一转折，目前其全球超 8400 个网点支持自提或配送。渠道策略由此演变为运营设计题，直接牵动资本配置（<span class="en">capital allocation</span>）与组织权责（<span class="en">organizational responsibility</span>）。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">03 里程碑<small>Milestones</small></div>
+      <div class="stage-text">
+        <p><strong>线上体量庞大但仍是少数：</strong>美国 2026 年第二季度电商占零售总额 17.1%（经季节性调整 <span class="en">seasonal adjustment</span>），未季调占比为 16.4%。中国 2025 年实物商品网上零售额达 13.0923 万亿元，占社会消费品零售总额 26.1%。规模放大了线上触达的价值，却没有消灭周围的实体网络。</p>
+        <p><strong>门店转型为履约基础设施（<span class="en">fulfillment infrastructure</span>）：</strong>Target 2025 年报披露了两个口径截然不同的数字——20.6% 的商品销售由线上发起，但在更宽定义下门店完成了 97.6% 的订单履约。这不代表每笔门店履约单都赚钱，但它说明：<strong>门店作为“下单起点”的地位可能减弱，作为“交付终点”的作用却在增强</strong>。门店战略不能只盯客流量（<span class="en">foot traffic</span>），必须同时评估其职能与资产利用率（<span class="en">utilization</span>），并权衡所消耗的人工、空间与系统成本。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">04 热点<small>Hotspots</small></div>
+      <div class="stage-text">
+        <p><strong>融合执行（<span class="en">integrated execution</span>）的经济性：</strong>零售商竞相测试当日达（<span class="en">same-day service</span>）、到店自提（<span class="en">store pickup</span>）、共享库存（<span class="en">shared inventory</span>）和灵活配送。密集门店网点能缩短最后一公里，但速度只有在当地需求密度、库存准确度（<span class="en">inventory accuracy</span>）、门店人手和商品毛利都能承托时才创造价值。Gao &amp; Su（2017）的网订店取研究表明，新增自提选项虽能拉来新客，但如果把原本买单的老客引流到成本更高的履约路径，反而会拉低利润率——<strong>合适基准不是最快，而是顾客愿意为之买单的服务水平</strong>。</p>
+        <p><strong>退货与数据定价：</strong>美国零售联合会（NRF）与 Happy Returns 估算 2025 年线上退货率达 19.3%，82% 的受访消费者认为免费退货（<span class="en">free returns</span>）很重要。同时，商家整合浏览、购买、位置与渠道数据来提供个性化（<span class="en">personalize</span>）服务，但美国联邦贸易委员会（FTC）2025 年研究指出，精细行为数据也被用来设定千人千价的个性化定价（<span class="en">individualized / surveillance pricing</span>）。竞争焦点已变成：能否在不伤害利润、透明度（<span class="en">transparency</span>）和信任的前提下提供便利。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">05 风险<small>Issues</small></div>
+      <div class="stage-text">
+        <p><strong>前台便利与后台隐性工作的矛盾：</strong>极速配送要求额外的本地备货、更严的库存记录、更多门店人手以及应对需求波峰的冗余产能。轻松退货有助于促进购买转化（<span class="en">conversion</span>），但每一笔退货都必须经历收货、检验、重新上架、折价转售、维修或报废。Yang 等人（2023）关于“网购到店退货”的研究表明，最终盈亏取决于退货率、罚则（<span class="en">penalties</span>）以及能按原价或折价二次销售的商品比例。因此，<strong>顾客便利与运营效率（<span class="en">operating efficiency</span>）相关，但并不等同（<span class="en">not equivalent</span>）</strong>。</p>
+        <p><strong>无缝服务掩盖组织与数据压力：</strong>顾客期待各渠道商品信息、价格、交易、履约和售后一致，但幕后管理者必须协调库存归属、部门激励、IT 系统与问责机制（<span class="en">accountability</span>）。Yang 等人（2022）关于混合履约的研究指出，它对库存和利润的影响取决于商品类型、顾客不便程度和固定成本。融合越深，数据治理（<span class="en">data governance</span>）负担也越重。体验指标必须与运营指标并列使用，不能彼此替代。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">06 解法<small>Solutions</small></div>
+      <div class="stage-text">
+        <p><strong>从具体任务出发，而非从渠道出发：</strong>沿顾客旅程逐一拆分发现商品、下单、库存分配、履约、服务、退货与残值回收（<span class="en">recovery</span>），结合商品特性、订单密度（<span class="en">order density</span>）、时效需求、本地产能和顾客偏好决定分配给线上还是门店。例如，到店自提只有在创造足够新增需求或省下足够配送费抵过门店人工处理成本时才划算，且必须与中心仓直发或纯门店方案对照检验。</p>
+        <p><strong>差异化退货、透明数据与配对指标：</strong>退货政策应按商品品类、成色和回收价值分级制定，而不是一刀切全部免费宽松。数据使用须明确三点：允许使用哪些输入数据（<span class="en">permitted inputs</span>）、如何向顾客解释优惠或定价、由谁复核有争议的结果（<span class="en">disputed outcomes</span>）。考核上建立三组<strong>配对指标</strong>（<span class="en">paired measures</span>）：顾客留存配完整服务成本（<span class="en">cost to serve</span>）、履约速度配库存准确度、退货便利配回收后净毛利（<span class="en">recovered margin</span>）。这些控制措施能降低不确定性（<span class="en">uncertainty</span>），但无法彻底消除需求波动、固定成本与执行风险。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">07 前景<small>Prospects</small></div>
+      <div class="stage-text">
+        <p>实体零售不会整齐划一地消失（<span class="en">disappear uniformly</span>）。中国国家统计局 2025 年数据显示，在实物网零增长的同时，限额以上便利店零售额增长 5.5%，超市增长 4.3%，百货店仅增 0.1%。该统计口径仅覆盖限额以上企业，不能证明长期盈利能力（<span class="en">long-term profitability</span>），但说明不同实体业态正在分化：门店正向服务、体验、自提、退货和本地履约演进，常规浏览与下单则进一步流向线上。</p>
+        <p>不存在一套放之四海而皆准的全渠道配置（<span class="en">configuration</span>），未来取决于四个条件：高密度城区适合本地快配，分散区域更适合集中式配送（<span class="en">centralized delivery</span>）；需要亲眼看、试用或试穿的商品让门店发挥更大作用，标准化商品对实体互动依赖更低；中小企业受限于规模，也不应盲目照搬巨头的重资产网络。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">08 结论<small>Conclusion</small></div>
+      <div class="stage-text">
+        <p>电商与门店只有合起来比分开干更好时，才创造可持续价值。触达、体验、速度与退货便利能否兑现为经济收益，取决于背后的库存、人工、物流、技术与治理成本。线上占比、门店利用率或顾客满意度单独看都不构成充分证据，管理者必须沿完整旅程追踪价值与成本——某一环的改善如果在另一环制造更大负担，就不值得做。当无缝界面只是掩盖高昂履约、糟糕库存、失控退货或不透明（<span class="en">opaque</span>）的数据做法时，过度整合反而毁损价值。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-h">案例与数据推论边界</div>
+  <table class="data-table">
+    <thead>
+      <tr><th style="width:28%;">案例与数据</th><th style="width:34%;">可以支持的判断</th><th style="width:38%;">不能直接推出的结论</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Target 2025 年报</strong><br>20.6% 线上发起；97.6% 门店履约</td>
+        <td><span class="yes">支持：</span>下单来源与订单履约地点可以分离，门店正承担核心履约职责</td>
+        <td><span class="no">不能推出：</span>每笔门店履约单都盈利；退货回收一定赚钱；线上让实体多余</td>
+      </tr>
+      <tr>
+        <td><strong>欧盟 Eurostat 数据</strong><br>78% 网民网购 (2025) vs 19% 营业额占比 (2024)</td>
+        <td><span class="yes">支持：</span>参与人数占比与销售金额占比分母不同，网购普及不等于主导营收</td>
+        <td><span class="no">不能推出：</span>电商已经全面接管欧洲零售市场</td>
+      </tr>
+      <tr>
+        <td><strong>中国国家统计局 2025</strong><br>网零占 26.1%；便利店 +5.5%、超市 +4.3%、百货 +0.1%</td>
+        <td><span class="yes">支持：</span>实体业态出现明显分化，部分实体形态仍保持增长</td>
+        <td><span class="no">不能推出：</span>限额以上营收增长等于长期盈利能力；所有门店未来一致</td>
+      </tr>
+      <tr>
+        <td><strong>NRF 退货调研 (2025) &amp; BORS 研究</strong><br>19.3% 线上退货率；82% 重视免费退货</td>
+        <td><span class="yes">支持：</span>退货便利促转化的同时伴随显著处理、质检与残值折损成本</td>
+        <td><span class="no">不能推出：</span>转化率上升可自动弥补二次转售价值下降带来的亏损</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="check-box">
+    <strong>本章高频考点自查：</strong>
+    <ol>
+      <li>问 <strong>Target 两个数字（20.6% vs 97.6%）揭示什么</strong>：销售发起地与履约完成地可以分离（<span class="en">sales origin and fulfillment can differ</span>），但广覆盖不证明每单或退货回收盈利。</li>
+      <li>问 <strong>中国实体业态增长数据的推论边界</strong>：增长覆盖限额以上企业，不保证长期盈利（<span class="en">does not guarantee long-term profitability</span>）。</li>
+      <li>问 <strong>退货策略的核心权衡</strong>：转化收益与退货处理、残值回收成本并存（<span class="en">conversion benefits coexist with handling and recovery costs</span>）。</li>
+      <li>问 <strong>高密度需求、库存准确但门店人手有限时怎么办</strong>：对本地履约做限量试点（<span class="en">pilot local fulfillment with capped order volumes</span>），而非无限制铺开或盲目硬扛。</li>
+      <li>问 <strong>衡量全渠道健康的指标设计</strong>：必须用配对指标（<span class="en">paired measures</span>），例如顾客留存配完整服务成本（<span class="en">cost to serve</span>）。</li>
+    </ol>
+    <a class="back-toc" href="#toc">↑ 返回目录</a>
+  </div>
+</section>
+
+<!-- ==================== CHAPTER 6: NEV ==================== -->
+<section id="ch6" class="chapter">
+  <div class="nav-strip">
+    <a class="home" href="#toc">↑ 目录</a>
+    <a href="#ch1">01 AI短剧</a>
+    <a href="#ch2">02 AI硬件</a>
+    <a href="#ch3">03 数字货币</a>
+    <a href="#ch4">04 ESG</a>
+    <a href="#ch5">05 零售融合</a>
+    <a class="active" href="#ch6">06 新能源车</a>
+  </div>
+
+  <div class="chap-header">
+    <h2>06 · 新能源汽车（NEV）</h2>
+    <div class="chap-en-title">After the Sales Race: Can NEV Scale Become Sustainable Value?</div>
+  </div>
+
+  <div class="lead-box">
+    <p><strong>核心问题：</strong>新能源汽车告别早期销量竞赛后，销量规模优势（<span class="en">volume advantage</span>）怎样才能真正转化为持久的价值捕获能力（<span class="en">value-capture capability</span>），让每多卖一辆车都增强现金造血（<span class="en">cash generation</span>）、客户价值与资助下一轮竞争的能力？</p>
+    <p><strong>概念与口径区分：</strong>（1）<strong>NEV 不只是电动车的别称</strong>：中国政策与行业口径的 NEV 通常包括纯电动汽车（<strong>BEV</strong>，仅靠蓄电驱动）、插电式混动汽车（<strong>PHEV</strong>，兼具外接充电与内燃机）以及燃料电池汽车（<span class="en">fuel-cell electric vehicles</span>）。国际 EV 数据集常合并 BEV 与 PHEV，但排除非插电的常规混动（<span class="en">conventional hybrids</span>）。跨源对比时必须保留原定义，否则统计总数会随动力总成（<span class="en">powertrain</span>）范围失真。（2）<strong>两类组织路线</strong>：比亚迪（BYD）代表覆盖电池、电控、整车与纯电/插混的<strong>垂直整合</strong>，协同快、保供强，但集中了资本占用与产能利用率风险（<span class="en">utilization risk</span>）；宁德时代（CATL）代表服务多家车企的<strong>专业分工</strong>，分摊研发并保持客户多样性（<span class="en">customer diversity</span>），但削弱整车厂对核心部件的控制。</p>
+  </div>
+
+  <div class="sub-h">八段脉络与详细观点</div>
+  <div class="prose-list">
+    <div class="stage-row">
+      <div class="stage-label">01 定义<small>Definition</small></div>
+      <div class="stage-text">
+        <p>放量可以摊薄固定成本（<span class="en">fixed costs</span>）、增强采购议价力（<span class="en">purchasing power</span>）并加速学习曲线，但不能保证收入持续覆盖促销补贴、产能折旧、软件投入、分销渠道和合规等长期支出。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">02 演进<small>Evolution</small></div>
+      <div class="stage-text">
+        <p>行业已从政策扶持迈入成本学习与大众市场竞争（<span class="en">mass-market rivalry</span>）。国际能源署（IEA）数据显示，2024 年中国电池包价格下降约 30%，欧美降幅约 10%–15%，差距源于激烈竞争、制造效率、供应链整合（<span class="en">supply-chain integration</span>）以及劳动力技能。更便宜的电池扩大了市场，也改变了竞争本质：当众多车企都能做出靠谱电车时，低投入成本变成了参赛底线，不再自动带来超额利润。随着软件、补能和出海愈发重要，焦点也转向能否统筹整个生态来留住价值。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">03 里程碑<small>Milestones</small></div>
+      <div class="stage-text">
+        <p>中国 2020 年产业规划把电动化与网联技术、基础设施和产业能力绑定，将 NEV 确立为生态级战略。2024 年 10 月，欧盟对中国产纯电车征收反补贴关税（<span class="en">countervailing duties</span>），改写了出口经济学（<span class="en">export economics</span>），使生产基地选址成为关键战略变量（<span class="en">strategic variable</span>）。规模上，2025 年全球电动车销量突破 2000 万辆；中国中汽协-工信部口径下 NEV 销量达 1649 万辆，占新车销量 47.9%——规模成为竞争背景，而非最终结论。</p>
+        <p>零部件与自动驾驶节点：宁德时代 2025 年披露锂电池销量 661 GWh、全球产能 772 GWh，这展现了工业规模（<span class="en">industrial scale</span>），但<strong>不能直接相除算产能利用率（<span class="en">utilization rate</span>）</strong>，因为口径不同且销量含储能电池。2025 年 12 月工信部附条件批准两款 L3 自动驾驶（<span class="en">automated-driving</span>）车型，仅验证了监管框架下受限部署的路径，不代表通用自动驾驶、客户价值或盈利规模。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">04 热点<small>Hotspots</small></div>
+      <div class="stage-text">
+        <p><strong>价格领先的真实成因：</strong>降价既可能源于电池变便宜或运营效率高，也可能来自产品结构变化、补贴、清库存或直接牺牲利润（把价值让渡给买家）。中国监管部门在 2025 年警示无序价格竞争（<span class="en">disorderly price competition</span>）可能损伤研发、质量与服务（注意：这是政策判断而非实证因果测算）。比亚迪和吉利（Geely Auto）是检验宽产品线、整合能力与规模能否在扣除可变成本后守住利润的典型样本。</p>
+        <p><strong>软件智能化与持续义务：</strong>围绕软件打造的架构支持售后远程升级（<span class="en">remote software updating / OTA</span>），但也带来算力、测试验证、网络安全（<span class="en">cybersecurity</span>）和召回（<span class="en">recall</span>）的长期义务。IEA 指出，集中式车载计算与广泛 OTA 主要集中在纯电车，且部分软件项目已遭遇执行受挫。小鹏汽车（XPeng）2025 年交付 429,445 辆，汽车毛利率由 2024 年的 8.3% 升至 12.8%——表明单家企业销量与单车毛利经济性（<span class="en">vehicle-level gross economics</span>）同步改善，但不能推出公司整体净盈利或消费者普遍的付费意愿（<span class="en">willingness to pay</span>）。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">05 风险<small>Issues</small></div>
+      <div class="stage-text">
+        <p><strong>指标混用的分析风险：</strong>中汽协行业数据与国家统计局规上企业数据披露的 2025 年中国 NEV 产量略有差异，因统计边界不同，既不可求平均，也不是车辆上牌数（<span class="en">registration series</span>）。吉利披露交付大增但平均售价（<span class="en">average selling price</span>）下降，说明放量可以伴随着产品结构下沉或定价定位（<span class="en">pricing position</span>）变化。把销量当利润、把低价当低成本，会错误奖励消耗价值的扩张。</p>
+        <p><strong>规模、出海与产能的三重错位：</strong>路透社报道比亚迪 2025 年单季利润因价格战承压——单季不能盖棺定论长期经济性（<span class="en">long-run economics</span>），却打破了“规模和利润必然同向走”的假设。上汽集团（SAIC Motor）的出口量与海外网点只体现地理覆盖度（<span class="en">geographic presence</span>），出口本质是发运量（<span class="en">shipments</span>），不等于当地终端零售动销（<span class="en">retail sell-through</span>）、服务口碑或海外利润。电池产能也只是生产选择权，不等于真实需求。三大核心张力由此凸显：销量对回报、规模对利用率、地理覆盖对本地化价值捕获（<span class="en">localized value capture</span>）。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">06 解法<small>Solutions</small></div>
+      <div class="stage-text">
+        <p><strong>成本领先与供应链取舍：</strong>成本驱动战略只有在需求标准化、工厂保持高利用率、工艺降本不侵蚀质量与换代资金时才成立。美国能源部模型测算 2025 年轻型车电池成本约 128–133 美元/千瓦时，这把技术成本和市场成交价区分开来（既非交易价，也不是中国车企实测成本）。当电池、电子与整车工程需要快速协同决策时，垂直整合有优势；当外部供应商规模成熟、前景不确定或企业受资本约束（<span class="en">capital constraints</span>）时，外部采购（<span class="en">external sourcing</span>）换取灵活性更理性。</p>
+        <p><strong>差异化、安全合规与本地化：</strong>特斯拉把战略绑定在制造、充电、软件和 AI 上；大众集团则采取纯电、混动与燃油并行过渡，配合区域化产品和软件更新。真正的选择不是抽象谈硬件还是软件，而是哪些能力既能可靠交付又能变现（<span class="en">monetize</span>）。中国针对准入审批、事故上报、召回和 OTA 的监管，已把安全保障（<span class="en">safety assurance</span>）直接写进软件商业模式。至于出海建厂或合资，只有在关税敞口、售后服务需求和本地学习收益超过重复资本投入与协同成本（<span class="en">coordination costs</span>）时才划算。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">07 前景<small>Prospects</small></div>
+      <div class="stage-text">
+        <p>三种图景可能并存：（1）<strong>成本驱动整合</strong>（<span class="en">cost-led consolidation</span>）——若电池降价、弱者资金链承压且头部工厂维持高利用率，规模会强化采购与学习优势；但如果利用率下滑或降价跑赢工艺降本，自建产能反而变成沉重包袱，此时像宁德时代这样的专精供应商反而可能比全链路车企更能跨客户收割价值。（2）<strong>选择性差异化</strong>——软件、充电、品牌和服务仅在采纳率、安全性与续费经济性可观测时，才真正提升全生命周期价值（<span class="en">lifetime value</span>）。（3）<strong>区域化</strong>（<span class="en">regionalization</span>）——若贸易壁垒（<span class="en">trade barriers</span>）及安全数据法规继续分化，比亚迪与上汽需加深本地化，特斯拉与大众也须持续适配本地产品与成本；全球竞争力将不再靠出口单一标准车，而靠在各地复制适配不同纯电/插混结构与法规的本地盈利运营体系。</p>
+      </div>
+    </div>
+    <div class="stage-row">
+      <div class="stage-label">08 结论<small>Conclusion</small></div>
+      <div class="stage-text">
+        <p>管理仪表盘必须把六个进度指标严格分开：<strong>销量</strong>测市场流转，<strong>上牌量</strong>测车辆进入实际使用，<strong>产能</strong>测潜在产出，<strong>利用率</strong>测资产动用，<strong>出口</strong>测跨境出货，<strong>利润率与现金流</strong>才衡量部分价值捕获；技术能力与客户价值同样不同。核心工作在于识别<strong>转化机制</strong>（<span class="en">conversion mechanism</span>）：电池、制造、软件、渠道或本地化优势，究竟如何转化为客户经济性与扣完持续成本后的回报。文章最后四句界定了全部边界：<strong>大不等于便宜；便宜不等于获得足够回报（<span class="en">adequate return</span>）；技术先进不等于创造客户价值；国际曝光不等于海外盈利</strong>。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-h">案例与数据推论边界</div>
+  <table class="data-table">
+    <thead>
+      <tr><th style="width:28%;">案例与数据</th><th style="width:34%;">可以支持的判断</th><th style="width:38%;">不能直接推出的结论</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>CATL 2025 年报</strong><br>锂电销量 661 GWh / 全球产能 772 GWh</td>
+        <td><span class="yes">支持：</span>具备庞大工业制造与多客户供应规模</td>
+        <td><span class="no">不能推出：</span>直接相除得出产能利用率（口径不同，销量含储能电池）</td>
+      </tr>
+      <tr>
+        <td><strong>XPeng 2025 财报</strong><br>交付 429,445 辆；汽车毛利 8.3% → 12.8%</td>
+        <td><span class="yes">支持：</span>单家企业实现交付规模与单车毛利同步改善</td>
+        <td><span class="no">不能推出：</span>公司整体净盈利，或消费者普遍愿为智能化功能付费</td>
+      </tr>
+      <tr>
+        <td><strong>BYD 单季利润承压 &amp; Geely 均价下降</strong></td>
+        <td><span class="yes">支持：</span>打破“规模必然带来高利润”的假定；放量可能伴随均价下行</td>
+        <td><span class="no">不能推出：</span>单季表现可决定长期经济性；所有降价都源于高效率</td>
+      </tr>
+      <tr>
+        <td><strong>SAIC 出口网点 &amp; 工信部 L3 批文 &amp; DOE 电池模型</strong></td>
+        <td><span class="yes">支持：</span>海外触达广度；受监管 L3 有限试点路径；技术成本与市场售价有别</td>
+        <td><span class="no">不能推出：</span>海外终端零售动销与盈利；通用自动驾驶成熟；中国车企真实成本</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="check-box">
+    <strong>本章高频考点自查：</strong>
+    <ol>
+      <li>问 <strong>靠连续降价放量后扩张前应核查什么</strong>：利润率、产能利用率与现金造血是否可持续（<span class="en">margins, utilization, and cash generation remain sustainable</span>）。</li>
+      <li>问 <strong>电池厂同时报高销量和高产能时怎么看利用率</strong>：先核实统计口径是否可比、实际产能是否被有效动用（<span class="en">comparable scopes and actual capacity being used</span>），不能直接拿销量除产能。</li>
+      <li>问 <strong>出口量上升能否判定出海战略成功</strong>：必须看当地终端销量及扣完服务与本地化成本后的利润率（<span class="en">local sales and margins after service and localization costs</span>）。</li>
+      <li>问 <strong>车载软件大额投入何时合理</strong>：客户价值、安全、可靠性与未来回报足以支撑持续成本时（<span class="en">customer value, safety, reliability, and future returns</span>），不能因为技术更新或竞品投了就跟投。</li>
+      <li>问 <strong>小鹏交付与汽车毛利双升说明什么</strong>：单企规模与单车层面经济性改善，但不证明整体净盈利（<span class="en">does not prove net profitability</span>）。</li>
+    </ol>
+    <a class="back-toc" href="#toc">↑ 返回目录</a>
+  </div>
+</section>
+
+<script>
+(() => {
+  const nav = document.getElementById('sticky-nav');
+  if (!nav) return;
+  const links = [...nav.querySelectorAll('a[data-target]')];
+  const sections = links.map(a => document.getElementById(a.dataset.target)).filter(Boolean);
+
+  function setActive(id) {
+    links.forEach(a => {
+      const isCur = a.dataset.target === id && id !== 'toc';
+      a.classList.toggle('active', isCur);
+      if (isCur) a.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    });
+  }
+
+  let ticking = false;
+  function updateOnScroll() {
+    ticking = false;
+    const offset = nav.offsetHeight + 24;
+    let current = 'toc';
+    for (const sec of sections) {
+      if (sec.getBoundingClientRect().top <= offset) current = sec.id;
+    }
+    setActive(current);
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(updateOnScroll);
+    }
+  }, { passive: true });
+  updateOnScroll();
+})();
+</script>
+</body>
+</html>

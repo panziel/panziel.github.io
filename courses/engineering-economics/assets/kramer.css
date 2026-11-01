@@ -1,0 +1,157 @@
+/* ============================================================================
+ * kramer.css —— Read 讲义统一样式（母版）
+ *
+ * 这是全套讲义共用的唯一样式表。每套讲义在根目录下有一份 assets/kramer.css 的
+ * 拷贝，所有页面通过 <link rel="stylesheet" href="{data-root}assets/kramer.css">
+ * 引入它。改样式只改这一个文件，全套讲义一次生效——不必逐个 HTML 修改。
+ *
+ * 长文阅读优化：正文限宽、行距宽松、层级清晰。零外部依赖（KaTeX 的 CSS 另行由
+ * 页面在 <head> 里引 CDN）。
+ * ========================================================================== */
+
+:root { --ink:#1a1a1a; --sub:#555; --line:#e2e2e2; --accent:#2b6cb0; --bg:#fbfbf9; --code-bg:#f4f4f2;
+        --side-bg:#f4f5f3; --side-w:280px; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink);
+       font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+       line-height:1.85; font-size:17px; }
+
+/* 全书目录侧边栏：桌面固定在左，正文右移让位 */
+#toc { position:fixed; top:0; left:0; width:var(--side-w); height:100vh; overflow-y:auto;
+       background:var(--side-bg); border-right:1px solid var(--line); padding:20px 0 40px;
+       font-size:.92em; z-index:20; transition:transform .25s ease; }
+#toc .toc-title { font-weight:700; padding:0 20px 12px; margin:0 0 8px; border-bottom:1px solid var(--line);
+                  font-size:1.02em; }
+#toc ul { list-style:none; margin:0; padding:0; }
+/* 无章分组（总论、术语表）直接平铺 */
+#toc .toc-flat a { display:block; padding:.4em 20px; color:var(--ink); text-decoration:none; line-height:1.5; font-weight:600; }
+#toc .toc-flat a.current { background:#e2ecf7; color:var(--accent); border-left:3px solid var(--accent); padding-left:17px; }
+/* 章分组：<details> 可收起；<summary> 是章标题行，本身为跳转大章总结的链接 */
+#toc details.toc-chapter { border-top:1px solid var(--line); }
+#toc details.toc-chapter > summary { list-style:none; display:flex; align-items:center; gap:.4em;
+      padding:.55em 20px; font-weight:700; cursor:pointer; color:var(--ink); }
+#toc details.toc-chapter > summary::-webkit-details-marker { display:none; }
+#toc details.toc-chapter > summary::before { content:"▸"; color:var(--sub); font-size:.8em; transition:transform .15s; flex:none; }
+#toc details.toc-chapter[open] > summary::before { transform:rotate(90deg); }
+#toc details.toc-chapter > summary a.chapter-link { color:inherit; text-decoration:none; flex:1; }
+#toc details.toc-chapter > summary a.chapter-link:hover { color:var(--accent); }
+#toc details.toc-chapter > summary.current a.chapter-link { color:var(--accent); }  /* 当前篇是本章大章总结 */
+#toc .toc-sections a { display:block; padding:.34em 20px .34em 40px; color:var(--sub); text-decoration:none;
+      line-height:1.5; font-size:.96em; }
+#toc a:hover { background:#e7ebe5; }
+#toc .toc-sections a.current { background:#e2ecf7; color:var(--accent); font-weight:600;
+                 border-left:3px solid var(--accent); padding-left:37px; }
+#toc-toggle { display:none; }               /* 桌面隐藏移动端汉堡按钮 */
+#toc-backdrop { display:none; }
+/* 桌面端「收起侧栏」按钮：常驻在侧栏标题行右上，收起后变为贴左侧边缘的展开把手 */
+#toc-collapse { position:absolute; top:16px; right:12px; width:28px; height:28px; border:1px solid var(--line);
+                background:#fff; color:var(--sub); border-radius:6px; cursor:pointer; font-size:1em; line-height:1;
+                display:flex; align-items:center; justify-content:center; padding:0; z-index:21; }
+#toc-collapse:hover { color:var(--accent); border-color:var(--accent); }
+.wrap { margin-left:var(--side-w); transition:margin-left .25s ease; }
+/* 收起态：侧栏整体左移隐藏，正文占满；展开把手固定在屏幕左缘 */
+body.toc-collapsed #toc { transform:translateX(calc(-1 * var(--side-w))); }
+body.toc-collapsed .wrap { margin-left:0; }
+#toc-expand { display:none; }
+body.toc-collapsed #toc-expand { display:flex; position:fixed; top:14px; left:14px; z-index:30; width:40px; height:40px;
+                align-items:center; justify-content:center; background:var(--accent); color:#fff; border:none;
+                border-radius:8px; font-size:1.2em; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.2); }
+
+article { max-width:760px; margin:0 auto; padding:48px 24px 96px; }
+h1 { font-size:1.9em; line-height:1.3; margin:0 0 .2em; }
+h2 { font-size:1.4em; margin:2em 0 .6em; padding-bottom:.3em; border-bottom:2px solid var(--line); }
+h3 { font-size:1.15em; margin:1.6em 0 .5em; color:var(--accent); }
+p { margin:0 0 1.1em; }
+.lead { color:var(--sub); font-size:1.05em; margin-bottom:2em; }
+.prereq { background:#fff8e6; border-left:4px solid #e0b400; padding:.6em 1em; margin:0 0 1.6em; font-size:.95em; }
+.key { background:#eef5ff; border-left:4px solid var(--accent); padding:.7em 1em; margin:1.4em 0; font-weight:600; }
+strong { font-weight:600; }
+em { font-style:normal; color:var(--accent); }
+.term { font-weight:600; border-bottom:1px dashed var(--accent); }
+/* 重点笔记式高亮：像荧光笔划重点。<mark> 荧光底标关键结论；.mark 标核心概念（加粗+主题色+浅底）。易错点另用 .pitfall。 */
+mark { background:#fff3a3; padding:.05em .28em; border-radius:3px; color:inherit; }
+.mark { font-weight:700; color:var(--accent); background:#eaf2fb; padding:.05em .3em; border-radius:3px; }
+/* 带走这一点：每篇（含分节精讲）收尾用的核心要点绿框 */
+.takeaway { background:#f0f7f0; border:1px solid #cfe3cf; border-radius:8px; padding:.8em 1.2em; margin:1.6em 0; }
+.takeaway .t-h { font-weight:700; color:#2f7a2f; margin-bottom:.3em; }
+/* 易错点/雷区：警示红色系，与蓝/黄的"重点"区分开——重点是"记住它"，雷区是"别错在这"。 */
+.pitfall { background:#fdecec; border-left:4px solid #d64545; padding:.7em 1em; margin:1.4em 0; }
+.pitfall::before { content:"⚠ 易错"; display:inline-block; font-weight:700; color:#c0392b; margin-right:.5em; }
+/* 符号速查卡（按需，仅数学符号较多的书）：可 hover 的符号，虚线下框，浮层显示释义 */
+.sym { border-bottom:1px dotted var(--sub); cursor:help; }
+.term small { font-weight:400; color:var(--sub); }
+/* 公式符号释义块：块级公式后的「符号或组合项 → 含义、作用、取值来源」两列 */
+.symbols { display:grid; grid-template-columns:max-content 1fr; gap:.35em 1em; margin:-.4em 0 1.4em;
+           padding:.8em 1.1em; background:#f7f9fc; border:1px solid var(--line); border-radius:8px; font-size:.95em; }
+.symbols dt { white-space:nowrap; font-weight:600; }
+.symbols dd { margin:0; }
+/* 带标题的说明框：标题按内容自拟（如「前置假设」「适用场景」「概念关联」），不按语义分配颜色 */
+.box { background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #8aa4c8; border-radius:6px;
+       padding:.7em 1.1em; margin:1.4em 0; }
+.box .b-h { font-weight:700; color:#3d5a80; margin-bottom:.3em; }
+.box > :last-child, .pitfall > :last-child, .takeaway > :last-child { margin-bottom:0; }
+/* 章节定位标签：标题旁的小字，写本章地位与难度 */
+.role { display:inline-block; font-size:.62em; font-weight:500; color:var(--sub); background:#eef1f5;
+        border-radius:4px; padding:.1em .5em; margin-left:.6em; vertical-align:middle; }
+/* 单文件模式（核心速览）：每章一节显示为卡片 */
+body[data-mode="single"] article > section[id^="c"] { border:1px solid var(--line); border-radius:10px;
+       background:#fff; padding:.4em 1.5em 1em; margin:2em 0; }
+body[data-mode="single"] article > section[id^="c"] > h2 { margin-top:.8em; }
+nav.pager { display:flex; justify-content:space-between; gap:1em; margin:2.4em 0;
+            padding-top:1.2em; border-top:1px solid var(--line); font-size:.95em; }
+nav.pager a { color:var(--accent); text-decoration:none; }
+nav.pager a.disabled { color:#bbb; pointer-events:none; }
+code { background:var(--code-bg); padding:.1em .35em; border-radius:4px; font-size:.9em;
+       font-family:"SFMono-Regular",Consolas,monospace; }
+.formula { background:var(--code-bg); border-radius:8px; padding:1em 1.2em; margin:1.4em 0; overflow-x:auto; }  /* 可选：给 KaTeX 块级公式套底色块/横向滚动容器，非公式本体 */
+figure { margin:1.8em 0; }
+figure .mermaid { background:#fff; border:1px solid var(--line); border-radius:8px; padding:1.2em; text-align:center; }
+figure figcaption { color:var(--sub); font-size:.92em; margin-top:.6em; text-align:center; }
+table { border-collapse:collapse; width:100%; margin:1.6em 0; font-size:.95em; }
+th,td { border:1px solid var(--line); padding:.6em .8em; text-align:left; vertical-align:top; }
+thead th { background:#eef2f7; }
+tbody tr:nth-child(even) { background:#f7f7f5; }
+blockquote { margin:1.4em 0; padding:.4em 1.2em; border-left:4px solid var(--accent);
+             background:#f0f5fb; color:var(--sub); }
+.quiz { background:#f0f7f0; border:1px solid #cfe3cf; border-radius:8px; padding:1em 1.4em; margin:2em 0; }
+.quiz summary { cursor:pointer; font-weight:600; }
+.faq { margin:1.6em 0; }
+.faq details { border:1px solid var(--line); border-radius:8px; margin:.6em 0; padding:.2em 1.1em; background:#fff; }
+.faq summary { cursor:pointer; font-weight:600; padding:.7em 0; }
+.faq details[open] summary { border-bottom:1px solid var(--line); margin-bottom:.7em; }
+hr { border:none; border-top:1px solid var(--line); margin:2.4em 0; }
+/* 公式：块级公式居中留白、可横向滚动；KaTeX 渲染出的数学字体比正文略大以便辨认 */
+.katex-display { margin:1.4em 0; overflow-x:auto; overflow-y:hidden; padding:.2em 0; }
+.katex { font-size:1.05em; }
+
+/* 移动端：侧栏变为抽屉，汉堡按钮唤出；桌面端的收起/展开按钮在此隐藏 */
+@media (max-width:1024px) {
+  .wrap { margin-left:0; }
+  #toc-collapse, #toc-expand { display:none!important; }
+  body.toc-collapsed #toc { transform:translateX(-100%); }  /* 收起态在移动端等同抽屉关闭，交给汉堡逻辑 */
+  body.toc-collapsed .wrap { margin-left:0; }
+  #toc { transform:translateX(-100%); transition:transform .25s ease; box-shadow:2px 0 12px rgba(0,0,0,.12); }
+  body.toc-open #toc { transform:translateX(0); }
+  #toc-toggle { display:flex; position:fixed; top:14px; left:14px; z-index:30; width:44px; height:44px;
+                align-items:center; justify-content:center; background:var(--accent); color:#fff;
+                border:none; border-radius:8px; font-size:1.3em; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.2); }
+  body.toc-open #toc-backdrop { display:block; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:15; }
+  article { padding-top:72px; }
+}
+
+/* ============================================================================
+ * 打印 / PDF：屏幕专用元素隐藏，正文居中铺满。
+ * 供「可选：带索引的整书 PDF」逐篇打印时使用——过去靠临时注入，现在内置于母版，
+ * 打印时无需再注入这段 CSS（展开 <details>、等图与公式就绪仍由构建脚本负责）。
+ * ========================================================================== */
+@media print {
+  * { -webkit-print-color-adjust:exact!important; print-color-adjust:exact!important; }
+  #toc, #toc-toggle, #toc-expand, #toc-collapse, #toc-backdrop { display:none!important; }
+  .wrap { margin-left:0!important; }
+  article { max-width:900px!important; margin:0 auto!important; padding:0!important; }
+  nav.pager { display:none!important; }
+  figure, .quiz, .faq details, .symbols, .box { break-inside:avoid; }
+  details > summary { list-style:none; }
+  details > summary::-webkit-details-marker { display:none; }
+  @page { margin:14mm 12mm; }
+}
