@@ -4,29 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light">
-  <title>人工智能导论 · 交互式讲义索引</title>
+  <title>人工智能导论 · 讲义目录</title>
   <style>
     :root {
       --bg: #f7f6f2;
       --paper: #ffffff;
-      --card-bg: #ffffff;
       --ink: #1a1918;
-      --ink-secondary: #4a4845;
       --muted: #73706b;
       --line: #e3dfd7;
-      --line-subtle: #ece9e2;
       --red: #94070a;
       --red-hover: #730508;
-      --red-soft: #fcf1f1;
-      --red-border: #f2cece;
-      --gold: #b38636;
       --serif: "Songti SC", "Noto Serif CJK SC", STSong, Georgia, serif;
       --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
       --mono: "SF Mono", Menlo, Consolas, Monaco, monospace;
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-      --shadow-md: 0 6px 16px -2px rgba(28, 25, 23, 0.06), 0 2px 6px -1px rgba(28, 25, 23, 0.03);
-      --shadow-lg: 0 12px 28px -4px rgba(28, 25, 23, 0.08), 0 4px 10px -2px rgba(28, 25, 23, 0.04);
-      --radius: 10px;
+      --radius: 8px;
     }
 
     * {
@@ -40,7 +31,7 @@
       color: var(--ink);
       font-family: var(--sans);
       font-size: 15px;
-      line-height: 1.7;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
       display: flex;
@@ -48,32 +39,22 @@
     }
 
     a {
-      color: var(--red);
+      color: var(--ink);
       text-decoration: none;
-      transition: color 0.15s ease;
-    }
-
-    a:hover {
-      color: var(--red-hover);
     }
 
     .container {
-      max-width: 1080px;
+      max-width: 760px;
       margin: 0 auto;
       padding: 0 24px;
       width: 100%;
     }
 
-    /* 顶部导航与面包屑 */
-    .top-nav {
+    /* 顶部导航 */
+    header.site-nav {
       background-color: var(--paper);
       border-bottom: 1px solid var(--line);
       padding: 16px 0;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(8px);
-      background-color: rgba(255, 255, 255, 0.95);
     }
 
     .nav-inner {
@@ -92,7 +73,6 @@
 
     .breadcrumbs a {
       color: var(--muted);
-      font-weight: 500;
     }
 
     .breadcrumbs a:hover {
@@ -109,320 +89,87 @@
       font-weight: 600;
     }
 
-    .nav-badge {
-      font-size: 12px;
-      font-family: var(--mono);
-      background: var(--red-soft);
-      color: var(--red);
-      padding: 3px 9px;
-      border-radius: 4px;
-      border: 1px solid var(--red-border);
-      letter-spacing: 0.5px;
+    /* 标题区域 */
+    .page-header {
+      padding: 40px 0 24px;
     }
 
-    /* 课程头部介绍区 */
-    .course-header {
-      padding: 48px 0 36px;
+    h1.page-title {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--ink);
     }
 
-    .hero-box {
+    /* 讲义列表 */
+    .lecture-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-bottom: 48px;
+    }
+
+    .lecture-item {
       background: var(--paper);
       border: 1px solid var(--line);
-      border-top: 4px solid var(--red);
       border-radius: var(--radius);
-      padding: 36px 40px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .tag-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 4px;
-      background: #f1efea;
-      color: #55514c;
-      letter-spacing: 0.3px;
-    }
-
-    .badge.primary {
-      background: var(--red-soft);
-      color: var(--red);
-      border: 1px solid var(--red-border);
-    }
-
-    .badge.accent {
-      background: #fcf6e9;
-      color: var(--gold);
-      border: 1px solid #ebd9b8;
-    }
-
-    h1.course-title {
-      font-family: var(--serif);
-      font-size: 32px;
-      font-weight: 700;
-      line-height: 1.35;
-      color: var(--ink);
-      margin-bottom: 6px;
-      letter-spacing: -0.02em;
-    }
-
-    .course-subtitle {
-      font-family: Georgia, serif;
-      font-style: italic;
-      color: var(--muted);
-      font-size: 15px;
-      margin-bottom: 18px;
-    }
-
-    .course-desc {
-      color: var(--ink-secondary);
-      font-size: 15.5px;
-      line-height: 1.8;
-      max-width: 880px;
-    }
-
-    .course-meta-bar {
-      margin-top: 24px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line-subtle);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 28px;
-      font-size: 13.5px;
-      color: var(--muted);
-    }
-
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .meta-item strong {
-      color: var(--ink);
-      font-weight: 600;
-    }
-
-    /* 章节列表区 */
-    .section-title-bar {
+      padding: 20px 24px;
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      margin: 36px 0 20px;
+      align-items: center;
+      transition: border-color 0.15s ease;
     }
 
-    .section-title {
-      font-family: var(--serif);
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--ink);
+    .lecture-item:hover {
+      border-color: #b8b3a8;
+    }
+
+    .lecture-left {
       display: flex;
       align-items: center;
-      gap: 10px;
-    }
-
-    .section-title::before {
-      content: "";
-      display: inline-block;
-      width: 4px;
-      height: 18px;
-      background: var(--red);
-      border-radius: 2px;
-    }
-
-    .section-count {
-      font-size: 13.5px;
-      color: var(--muted);
-    }
-
-    /* 卡片网格布局 */
-    .lecture-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-      margin-bottom: 64px;
-    }
-
-    /* 单个卡片 */
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 28px 32px;
-      position: relative;
-      box-shadow: var(--shadow-sm);
-      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-      display: flex;
-      flex-direction: column;
       gap: 16px;
     }
 
-    .card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-      border-color: #d1cbc0;
-    }
-
-    .card:has(a.card-link) {
-      position: relative;
-    }
-
-    /* 拓展整个卡片的点击热区 */
-    .card a.card-link::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      border-radius: var(--radius);
-    }
-
-    /* 保持卡片内部其他可交互元素层级高于遮罩 */
-    .card:has(a.card-link) a:not(.card-link),
-    .card:has(a.card-link) button {
-      position: relative;
-      z-index: 2;
-    }
-
-    .card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-    }
-
-    .chap-order {
+    .chap-num {
       font-family: var(--mono);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
+      font-size: 13px;
+      font-weight: 600;
       color: var(--red);
-      background: var(--red-soft);
-      padding: 3px 8px;
-      border-radius: 4px;
-      border: 1px solid var(--red-border);
-      display: inline-block;
+      width: 28px;
+      flex-shrink: 0;
     }
 
-    .chap-duration {
-      font-size: 12.5px;
-      color: var(--muted);
-      font-family: var(--mono);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .card-title {
+    .chap-title {
       font-family: var(--serif);
-      font-size: 21px;
-      font-weight: 700;
+      font-size: 17px;
+      font-weight: 600;
       color: var(--ink);
-      line-height: 1.4;
-      margin-top: 6px;
     }
 
-    .card:hover .card-title {
+    .lecture-item:hover .chap-title {
       color: var(--red);
     }
 
-    .card-summary {
-      color: var(--ink-secondary);
-      font-size: 14.5px;
-      line-height: 1.75;
-    }
-
-    .card-topics {
+    .lecture-meta {
       display: flex;
-      flex-direction: column;
-      gap: 8px;
-      background: #faf9f6;
-      border: 1px solid var(--line-subtle);
-      border-radius: 6px;
-      padding: 14px 18px;
-      font-size: 13.5px;
-    }
-
-    .topics-header {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-
-    .topic-list {
-      list-style: none;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 6px 16px;
-    }
-
-    .topic-list li {
-      position: relative;
-      padding-left: 14px;
-      color: #3b3936;
-    }
-
-    .topic-list li::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      color: var(--red);
-      font-weight: bold;
-    }
-
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 4px;
-      padding-top: 14px;
-      border-top: 1px solid var(--line-subtle);
-    }
-
-    .badge-group {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .pill {
-      font-size: 11.5px;
-      padding: 2px 8px;
-      border-radius: 4px;
-      background: #eeebe5;
-      color: #555;
-    }
-
-    .btn-enter {
-      display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 13.5px;
-      font-weight: 600;
-      color: var(--red);
-      transition: transform 0.15s ease;
+      font-size: 13px;
+      color: var(--muted);
+      font-family: var(--mono);
     }
 
-    .card:hover .btn-enter {
-      transform: translateX(4px);
+    .lecture-item svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--muted);
+      transition: stroke 0.15s ease, transform 0.15s ease;
     }
 
-    .btn-enter svg {
-      width: 15px;
-      height: 15px;
-      stroke-width: 2.2;
+    .lecture-item:hover svg {
+      stroke: var(--red);
+      transform: translateX(3px);
     }
 
     /* 页脚 */
@@ -430,343 +177,100 @@
       margin-top: auto;
       border-top: 1px solid var(--line);
       background-color: var(--paper);
-      padding: 28px 0;
+      padding: 20px 0;
       font-size: 13px;
       color: var(--muted);
-    }
-
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 18px;
-    }
-
-    .footer-links a {
-      color: var(--muted);
-    }
-
-    .footer-links a:hover {
-      color: var(--ink);
-    }
-
-    @media (max-width: 768px) {
-      .hero-box {
-        padding: 24px 20px;
-      }
-      h1.course-title {
-        font-size: 26px;
-      }
-      .card {
-        padding: 20px;
-      }
-      .topic-list {
-        grid-template-columns: 1fr;
-      }
-      .course-meta-bar {
-        gap: 16px;
-      }
     }
   </style>
 </head>
 <body>
 
-  <!-- 顶部导航 -->
-  <nav class="top-nav">
+  <header class="site-nav">
     <div class="container nav-inner">
       <div class="breadcrumbs">
         <a href="../../">首页</a>
         <span class="sep">/</span>
-        <a href="../../#courses">课程目录</a>
-        <span class="sep">/</span>
         <span class="current">人工智能导论</span>
       </div>
-      <span class="nav-badge">MEM · 核心课</span>
     </div>
-  </nav>
+  </header>
 
   <main class="container">
-    <!-- 课程概览 -->
-    <header class="course-header">
-      <div class="hero-box">
-        <div class="tag-row">
-          <span class="badge primary">MEM 重点课程</span>
-          <span class="badge accent">交互式单文件讲义</span>
-          <span class="badge">含交互演示 & 课后练习</span>
-        </div>
-        <h1 class="course-title">人工智能导论</h1>
-        <div class="course-subtitle">Introduction to Artificial Intelligence · Course Lectures & Interactive Notes</div>
-        <p class="course-desc">
-          本课程系统建立从经典数据挖掘到前沿深度学习的认知框架。包含人工智能流派演进、商务智能与数据中台体系、数据特征工程与质量预处理、无监督聚类分析、有监督分类决策树以及现代深度学习与大语言模型架构。每讲均配有交互式可视化计算、公式推导与复习练习。
-        </p>
+    <div class="page-header">
+      <h1 class="page-title">人工智能导论</h1>
+    </div>
 
-        <div class="course-meta-bar">
-          <div class="meta-item">
-            <span>主讲教授：</span>
-            <strong>孙圣力 教授</strong>
+    <ul class="lecture-list">
+      <li>
+        <a class="lecture-item" href="chap1-intro.html">
+          <div class="lecture-left">
+            <span class="chap-num">01</span>
+            <span class="chap-title">绪论</span>
           </div>
-          <div class="meta-item">
-            <span>课程体量：</span>
-            <strong>5 大主题 · 30 课时</strong>
+          <span class="lecture-meta">
+            交互式讲义
+            <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="lecture-item" href="chap2-preprocessing.html">
+          <div class="lecture-left">
+            <span class="chap-num">02</span>
+            <span class="chap-title">数据与预处理</span>
           </div>
-          <div class="meta-item">
-            <span>讲义规格：</span>
-            <strong>自包含独立 HTML · 离线随时可读</strong>
+          <span class="lecture-meta">
+            交互式讲义
+            <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="lecture-item" href="chap3-clustering.html">
+          <div class="lecture-left">
+            <span class="chap-num">03</span>
+            <span class="chap-title">聚类分析</span>
           </div>
-        </div>
-      </div>
-    </header>
+          <span class="lecture-meta">
+            交互式讲义
+            <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+      </li>
 
-    <!-- 讲义目录与卡片 -->
-    <section>
-      <div class="section-title-bar">
-        <h2 class="section-title">课程讲义目录</h2>
-        <span class="section-count">共 5 篇交互式讲义</span>
-      </div>
-
-      <div class="lecture-grid">
-
-        <!-- 第 1 讲 -->
-        <article class="card">
-          <div class="card-top">
-            <span class="chap-order">Chapter 01</span>
-            <span class="chap-duration">
-              <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              5 课时 · 250 分钟
-            </span>
+      <li>
+        <a class="lecture-item" href="chap4-classification.html">
+          <div class="lecture-left">
+            <span class="chap-num">04</span>
+            <span class="chap-title">分类分析</span>
           </div>
+          <span class="lecture-meta">
+            交互式讲义
+            <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+      </li>
 
-          <header>
-            <h3 class="card-title">
-              <a class="card-link" href="chap1-intro.html">第 1 讲 · 绪论：人工智能全景与商务智能</a>
-            </h3>
-          </header>
-
-          <p class="card-summary">
-            系统建立人工智能学科宏观全景，阐明符号主义、连接主义、行为主义三大学派争论与新范式更迭；串联从传统“三拍”决策到商务智能（BI）与数据仓库架构演化，剖析数据中台核心机制及数据挖掘标准流程（KDD）。
-          </p>
-
-          <div class="card-topics">
-            <span class="topics-header">核心议题</span>
-            <ul class="topic-list">
-              <li>人工智能全景、学派流派与新范式</li>
-              <li>决策式 AI、生成式 AI 与多模态</li>
-              <li>从三拍经验到商务智能（BI）架构</li>
-              <li>OLTP vs OLAP、数据中台与数据仓库</li>
-              <li>数据挖掘核心任务：关联、聚类、分类与异常检测</li>
-            </ul>
+      <li>
+        <a class="lecture-item" href="chap5-deep-learning.html">
+          <div class="lecture-left">
+            <span class="chap-num">05</span>
+            <span class="chap-title">深度学习与大模型</span>
           </div>
-
-          <footer class="card-footer">
-            <div class="badge-group">
-              <span class="pill">学科全景</span>
-              <span class="pill">商务智能</span>
-              <span class="pill">数据挖掘导论</span>
-            </div>
-            <span class="btn-enter">
-              阅读讲义
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-            </span>
-          </footer>
-        </article>
-
-        <!-- 第 2 讲 -->
-        <article class="card">
-          <div class="card-top">
-            <span class="chap-order">Chapter 02</span>
-            <span class="chap-duration">
-              <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              6 课时 · 重点总结
-            </span>
-          </div>
-
-          <header>
-            <h3 class="card-title">
-              <a class="card-link" href="chap2-preprocessing.html">第 2 讲 · 数据：数据质量与特征工程预处理</a>
-            </h3>
-          </header>
-
-          <p class="card-summary">
-            深入算法与模型底层基石：从数据对象与属性类型（标称、序数、区间、比率）开始，严格界定各类型运算规则；剖析噪声与缺失值治理方案，推导常用相似度/相异度度量公式，详解降维（PCA）与离散化方法。
-          </p>
-
-          <div class="card-topics">
-            <span class="topics-header">核心议题</span>
-            <ul class="topic-list">
-              <li>数据对象、属性类型与合法运算判定</li>
-              <li>三大类数据集：记录、图与有序数据</li>
-              <li>数据质量度量、噪声过滤与缺失值策略</li>
-              <li>相似度矩阵：欧氏距离、余弦相似度、Jaccard 系数</li>
-              <li>数据预处理：聚集、采样、PCA 降维与特征离散化</li>
-            </ul>
-          </div>
-
-          <footer class="card-footer">
-            <div class="badge-group">
-              <span class="pill">数据度量</span>
-              <span class="pill">相似度计算</span>
-              <span class="pill">特征工程</span>
-            </div>
-            <span class="btn-enter">
-              阅读讲义
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-            </span>
-          </footer>
-        </article>
-
-        <!-- 第 3 讲 -->
-        <article class="card">
-          <div class="card-top">
-            <span class="chap-order">Chapter 03</span>
-            <span class="chap-duration">
-              <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              6 课时 · 算法推导
-            </span>
-          </div>
-
-          <header>
-            <h3 class="card-title">
-              <a class="card-link" href="chap3-clustering.html">第 3 讲 · 聚类分析：基本概念与核心聚类算法</a>
-            </h3>
-          </header>
-
-          <p class="card-summary">
-            无监督学习的核心支柱：围绕“簇内距离最小、簇间距离最大”的目标函数，掌握划分式聚类（K-Means 迭代过程与初始点陷阱）、层次聚类（凝聚式合并树状图）以及基于密度的空间聚类（DBSCAN 核心点/边界点判定）。
-          </p>
-
-          <div class="card-topics">
-            <span class="topics-header">核心议题</span>
-            <ul class="topic-list">
-              <li>聚类核心思想与六类簇结构识别</li>
-              <li>K-Means 算法迭代推导、SSE 目标函数与质心优化</li>
-              <li>K-Means 局限性与空簇、离群点处理技巧</li>
-              <li>凝聚式层次聚类：MIN、MAX 与组平均邻近度</li>
-              <li>基于密度的 DBSCAN：密度可达、密度相连与聚类评估</li>
-            </ul>
-          </div>
-
-          <footer class="card-footer">
-            <div class="badge-group">
-              <span class="pill">无监督学习</span>
-              <span class="pill">K-Means</span>
-              <span class="pill">DBSCAN</span>
-            </div>
-            <span class="btn-enter">
-              阅读讲义
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-            </span>
-          </footer>
-        </article>
-
-        <!-- 第 4 讲 -->
-        <article class="card">
-          <div class="card-top">
-            <span class="chap-order">Chapter 04</span>
-            <span class="chap-duration">
-              <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              6 课时 · 案例推演
-            </span>
-          </div>
-
-          <header>
-            <h3 class="card-title">
-              <a class="card-link" href="chap4-classification.html">第 4 讲 · 分类分析：决策树建模与模型评估</a>
-            </h3>
-          </header>
-
-          <p class="card-summary">
-            有监督学习基石：系统推演归纳推理到演绎预测全过程；通过 Hunt 递归建树算法手算税务案例，掌握基尼不纯度（GINI）、信息熵与增益率划分标准，深入剖析过拟合、先剪枝/后剪枝策略、混淆矩阵与 ROC/AUC 评估体系。
-          </p>
-
-          <div class="card-topics">
-            <span class="topics-header">核心议题</span>
-            <ul class="topic-list">
-              <li>分类任务规范：训练集、模型生成与测试预测</li>
-              <li>Hunt 递归建树过程与连续/离散属性最佳划分</li>
-              <li>不纯度度量：基尼系数（GINI）、熵（Entropy）与增益率</li>
-              <li>过拟合诱因、模型泛化与先剪枝/后剪枝</li>
-              <li>分类评估指标：混淆矩阵、准确率/召回率/F1 与 kNN 算法</li>
-            </ul>
-          </div>
-
-          <footer class="card-footer">
-            <div class="badge-group">
-              <span class="pill">有监督分类</span>
-              <span class="pill">决策树</span>
-              <span class="pill">模型评估</span>
-            </div>
-            <span class="btn-enter">
-              阅读讲义
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-            </span>
-          </footer>
-        </article>
-
-        <!-- 第 5 讲 -->
-        <article class="card">
-          <div class="card-top">
-            <span class="chap-order">Chapter 05</span>
-            <span class="chap-duration">
-              <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              7 单元 · 前沿大模型
-            </span>
-          </div>
-
-          <header>
-            <h3 class="card-title">
-              <a class="card-link" href="chap5-deep-learning.html">第 5 讲 · 深度学习与大模型前沿演进</a>
-            </h3>
-          </header>
-
-          <p class="card-summary">
-            现代人工智能技术高地：从单个神经元加权激活出发，解释多层非线性网络的本质优势；手算交叉熵损失与链式法则反向传播；纵览卷积神经网络（CNN）、循环神经网络（RNN）到现代 Transformer 自注意力与大语言模型（LLM）的突破。
-          </p>
-
-          <div class="card-topics">
-            <span class="topics-header">核心议题</span>
-            <ul class="topic-list">
-              <li>人工智能、机器学习、深度学习层级关系与概念界定</li>
-              <li>人工神经元手算：加权求和、非线性激活函数（ReLU/Sigmoid）</li>
-              <li>损失函数手算（MSE/交叉熵）与梯度下降优化</li>
-              <li>反向传播（Backpropagation）链式法则推导</li>
-              <li>CNN 局部连接与权值共享、RNN 序列记忆与 Transformer 机制</li>
-            </ul>
-          </div>
-
-          <footer class="card-footer">
-            <div class="badge-group">
-              <span class="pill">深度学习</span>
-              <span class="pill">反向传播</span>
-              <span class="pill">Transformer</span>
-              <span class="pill">大语言模型</span>
-            </div>
-            <span class="btn-enter">
-              阅读讲义
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-            </span>
-          </footer>
-        </article>
-
-      </div>
-    </section>
+          <span class="lecture-meta">
+            交互式讲义
+            <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+      </li>
+    </ul>
   </main>
 
-  <!-- 全局页脚 -->
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <div>
-        <span>Pan's Academic & Course Notes · MEM 知识库</span>
-      </div>
-      <div class="footer-links">
-        <a href="../../">返回网站主页</a>
-        <a href="#">讲义顶部</a>
-      </div>
+    <div class="container">
+      <span>GitHub Pages</span>
     </div>
   </footer>
 
