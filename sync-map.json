@@ -1,0 +1,67 @@
+{
+  "$schema": "./sync-map.schema.json",
+  "version": "1.0",
+  "source_root": "/home/pan/Documents/MEM-Course",
+  "mappings": [
+    {
+      "course": "人工智能导论",
+      "title": "第 1 讲 · 绪论",
+      "source": "人工智能导论/chap 1 绪论-交互式讲义.html",
+      "target": "courses/ai-intro/chap1-intro.html"
+    },
+    {
+      "course": "人工智能导论",
+      "title": "第 2 讲 · 数据与预处理",
+      "source": "人工智能导论/chap 2 数据与预处理-交互式讲义.html",
+      "target": "courses/ai-intro/chap2-preprocessing.html"
+    },
+    {
+      "course": "人工智能导论",
+      "title": "第 3 讲 · 聚类分析",
+      "source": "人工智能导论/chap 3 聚类分析-交互式讲义.html",
+      "target": "courses/ai-intro/chap3-clustering.html"
+    },
+    {
+      "course": "人工智能导论",
+      "title": "第 4 讲 · 分类分析",
+      "source": "人工智能导论/chap 4 分类分析-交互式讲义.html",
+      "target": "courses/ai-intro/chap4-classification.html"
+    },
+    {
+      "course": "人工智能导论",
+      "title": "第 5 讲 · 深度学习与大模型",
+      "source": "人工智能导论/chap 5 深度学习与大模型-交互式讲义.html",
+      "target": "courses/ai-intro/chap5-deep-learning.html"
+    },
+    {
+      "course": "定量分析",
+      "title": "第一讲 · 课程概述与线性规划基础",
+      "source": "定量分析/第一节/⼯程管理定量分析⽅法 第一节课 概述-交互式讲义.html",
+      "target": "courses/quantitative-analysis/lecture1-overview-and-lp.html"
+    },
+    {
+      "course": "定量分析",
+      "title": "第二讲 · 敏感性分析、经典案例与 Lingo 建模",
+      "source": "定量分析/第二节/第二节课-交互式讲义.html",
+      "target": "courses/quantitative-analysis/lecture2-sensitivity-and-lingo.html"
+    },
+    {
+      "course": "定量分析",
+      "title": "第三讲 · 运输问题",
+      "source": "定量分析/第三节/第三节课-交互式讲义.html",
+      "target": "courses/quantitative-analysis/lecture3-transportation-problem.html"
+    },
+    {
+      "course": "定量分析",
+      "title": "第四讲 · 运输与指派问题",
+      "source": "定量分析/第四节/第四节课-交互式讲义.html",
+      "target": "courses/quantitative-analysis/lecture4-transportation-and-assignment.html"
+    },
+    {
+      "course": "工程经济学",
+      "title": "估值的逻辑起点与经营现金流",
+      "source": "工程经济学/20261024-工程经济学-交互式讲义.html",
+      "target": "courses/engineering-economics/lecture-valuation-and-cashflow.html"
+    }
+  ]
+}
