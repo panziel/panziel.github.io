@@ -33,7 +33,7 @@ def main():
     with open(MAP_FILE, "r", encoding="utf-8") as f:
         config = json.load(f)
 
-    source_root = config.get("source_root", "")
+    source_root = os.path.abspath(os.path.expanduser(config.get("source_root", "")))
     mappings = config.get("mappings", [])
 
     print(f"源目录: {source_root}")
