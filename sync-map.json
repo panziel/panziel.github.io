@@ -34,6 +34,12 @@
       "target": "courses/ai-intro/chap5-deep-learning.html"
     },
     {
+      "course": "人工智能导论",
+      "title": "第 6 讲 · 知识引导的 AI",
+      "source": "人工智能导论/chap 6 知识引导的AI-交互式讲义.html",
+      "target": "courses/ai-intro/chap6-knowledge-guided-ai.html"
+    },
+    {
       "course": "定量分析",
       "title": "第一讲 · 课程概述与线性规划基础",
       "source": "定量分析/第一节/⼯程管理定量分析⽅法 第一节课 概述-交互式讲义.html",
