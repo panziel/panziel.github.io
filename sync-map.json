@@ -74,6 +74,12 @@
       "title": "估值的逻辑起点与经营现金流",
       "source": "工程经济学/20261024-工程经济学-交互式讲义.html",
       "target": "courses/engineering-economics/lecture-valuation-and-cashflow.html"
+    },
+    {
+      "course": "工程经济学",
+      "title": "资金的时间价值：四个系数、增长年金与两个生活案例",
+      "source": "工程经济学/20261107-工程经济学-交互式讲义.html",
+      "target": "courses/engineering-economics/lecture-time-value-of-money.html"
     }
   ]
 }
