@@ -1,0 +1,4673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《工程经济学》核心速览 All-in-One</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/kramer.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.9/dist/contrib/auto-render.min.js"></script>
+
+<!-- 顶部阅读控制栏（宽度切换 + 术语开关）与富文本提示卡片 -->
+<style>
+/* =======================================================
+ * 阅读组件设计系统：墨蓝 + 琥珀（学科配色：账册纸面与金线）
+ * 变量只作用于组件子树，不污染 kramer.css 的正文设计
+ * ======================================================= */
+body {
+  --cc-ink: #1c2b3a;
+  --cc-ink-soft: #46586c;
+  --cc-ink-faint: #7b8a99;
+  --cc-paper: #fdfbf6;
+  --cc-paper-dim: #f4efe3;
+  --cc-amber: #b7791f;
+  --cc-amber-bright: #d99a2b;
+  --cc-amber-wash: #faf3e2;
+  --cc-line: #e3dccb;
+  --cc-ok: #2f855a;
+  --cc-ok-wash: #e9f5ee;
+  --cc-no: #c0392b;
+  --cc-no-wash: #fbecea;
+  --cc-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", STSong, SimSun, serif;
+  --cc-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+/* 顶部阅读控制栏 */
+.reader-control-bar {
+  position: fixed;
+  top: 18px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(253, 251, 246, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 4px 6px 4px 10px;
+  border-radius: 24px;
+  border: 1px solid var(--cc-line);
+  box-shadow: 0 1px 2px rgba(28, 43, 58, 0.06), 0 4px 16px rgba(28, 43, 58, 0.08);
+  font-size: 13px;
+  font-family: var(--cc-sans);
+  transition: box-shadow 0.2s ease;
+}
+.reader-control-bar:hover {
+  box-shadow: 0 1px 2px rgba(28, 43, 58, 0.08), 0 6px 20px rgba(28, 43, 58, 0.12);
+}
+
+/* 宽度切换分段控制器 */
+.width-switch {
+  display: flex;
+  align-items: center;
+  background: var(--cc-paper-dim);
+  border-radius: 16px;
+  padding: 2px;
+  gap: 2px;
+}
+.width-btn {
+  border: none;
+  background: transparent;
+  color: var(--cc-ink-soft);
+  padding: 3px 9px;
+  border-radius: 12px;
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  line-height: 1.3;
+}
+.width-btn:hover {
+  color: var(--cc-ink);
+  background: rgba(28, 43, 58, 0.06);
+}
+.width-btn.active {
+  background: var(--cc-ink);
+  color: var(--cc-paper);
+  font-weight: 700;
+  box-shadow: 0 1px 4px rgba(28, 43, 58, 0.25);
+}
+
+/* 控制栏通用按钮（速查 / 公式表） */
+.bar-btn {
+  border: 1px solid var(--cc-line);
+  background: var(--cc-paper);
+  color: var(--cc-ink-soft);
+  padding: 4px 11px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  font-family: var(--cc-sans);
+}
+.bar-btn:hover {
+  border-color: var(--cc-amber);
+  color: var(--cc-amber);
+  background: var(--cc-amber-wash);
+}
+.bar-btn:focus-visible,
+.width-btn:focus-visible,
+.term-toggle-btn:focus-visible {
+  outline: 2px solid var(--cc-amber-bright);
+  outline-offset: 2px;
+}
+
+/* 术语提示开关按钮 */
+.term-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px;
+  border-radius: 16px;
+  border: 1px solid var(--cc-line);
+  background: var(--cc-paper);
+  color: var(--cc-ink-soft);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  outline: none;
+  font-family: var(--cc-sans);
+}
+.term-toggle-btn:hover {
+  border-color: var(--cc-amber);
+  color: var(--cc-amber);
+}
+.term-toggle-btn.active {
+  background: var(--cc-amber);
+  border-color: var(--cc-amber);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(183, 121, 31, 0.35);
+}
+.term-toggle-btn span.status {
+  font-size: 11px;
+  background: rgba(28, 43, 58, 0.08);
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+.term-toggle-btn.active span.status {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+/* 页面宽度响应与平滑过渡 */
+article {
+  transition: max-width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* 宽表与图版横向滚动，杜绝撑破移动端布局视口 */
+.table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 768px) {
+  .table-scroll table {
+    width: max-content;
+    min-width: 100%;
+  }
+}
+article figure {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.math-scroll {
+  display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  vertical-align: middle;
+}
+body.width-normal article { max-width: 760px; }
+body.width-wide article { max-width: 1160px; }
+body.width-full article { max-width: 95%; }
+/* 全宽档：散文限宽保证行长可读，表格与块级公式铺满 */
+body.width-full article p,
+body.width-full article li,
+body.width-full article dd {
+  max-width: 80ch;
+}
+
+/* =======================================================
+ * 术语/符号样式：开启与关闭的严格隔离
+ * 关了之后，所有下划线、虚线、悬停背景、暗示手型彻底消失！
+ * ======================================================= */
+body:not(.terms-active) .term,
+body:not(.terms-active) .glossary-term,
+body:not(.terms-active) .katex-term {
+  border-bottom: none !important;
+  cursor: inherit !important;
+  background: transparent !important;
+}
+
+/* 仅对真正挂载了术语数据的元素显示虚线下划线与手型，杜绝无数据死暗示 */
+body.terms-active .glossary-term,
+body.terms-active span.term[data-term-key],
+body.terms-active .katex-term {
+  border-bottom: 1.5px dashed var(--cc-amber) !important;
+  cursor: pointer !important;
+  position: relative;
+  transition: background 0.15s, border-color 0.15s;
+}
+body.terms-active span.term:not([data-term-key]) {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+body.terms-active .katex-term {
+  display: inline-block;
+  padding: 0 1px;
+  border-bottom: 1.5px dashed var(--cc-amber) !important;
+}
+body.terms-active .glossary-term:hover,
+body.terms-active span.term[data-term-key]:hover,
+body.terms-active .katex-term:hover {
+  background: rgba(217, 154, 43, 0.12) !important;
+  border-radius: 2px;
+}
+/* 卡片打开时触发词的激活态 */
+body.terms-active .term-open {
+  border-bottom-style: solid !important;
+  border-bottom-color: var(--cc-amber) !important;
+  background: rgba(217, 154, 43, 0.16) !important;
+  border-radius: 2px;
+}
+body.terms-active .glossary-term:focus-visible,
+body.terms-active span.term[data-term-key]:focus-visible,
+body.terms-active .katex-term:focus-visible {
+  outline: 2px solid var(--cc-amber-bright);
+  outline-offset: 2px;
+}
+
+/* 速查定位闪烁（用户主动搜索的反馈，与术语开关无关） */
+.term-flash {
+  animation: term-flash 1.8s ease;
+  border-radius: 3px;
+}
+/* 锚点定向跳转的落点留出顶部余量：固定控制栏底边约 54px（桌面）/43px（移动），
+   取 64px 确保落点标题首行完全落在控制栏垂直带之外 */
+#c6-bep, #supplement, #supplement h3 {
+  scroll-margin-top: 64px;
+}
+@keyframes term-flash {
+  0%, 100% { background: transparent; box-shadow: none; }
+  15%, 60% { background: rgba(217, 154, 43, 0.3); box-shadow: 0 0 0 5px rgba(217, 154, 43, 0.16); }
+}
+
+/* =======================================================
+ * 富文本提示卡片
+ * ======================================================= */
+#term-tooltip {
+  position: absolute;
+  z-index: 10000;
+  max-width: 420px;
+  min-width: 290px;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: var(--cc-paper);
+  border: 1px solid var(--cc-line);
+  border-radius: 12px;
+  padding: 14px 16px 12px;
+  box-shadow: 0 1px 2px rgba(28, 43, 58, 0.08), 0 12px 32px rgba(28, 43, 58, 0.18);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--cc-ink);
+  font-family: var(--cc-sans);
+  pointer-events: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+}
+#term-tooltip::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 12px;
+  right: 12px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(90deg, var(--cc-amber), var(--cc-amber-bright));
+}
+#term-tooltip.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+#term-tooltip .tt-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+#term-tooltip .tt-badge {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(28, 43, 58, 0.07);
+  color: var(--cc-ink);
+  border: 1px solid rgba(28, 43, 58, 0.14);
+  margin-right: 8px;
+  white-space: nowrap;
+}
+#term-tooltip .tt-supp {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--cc-amber-wash);
+  color: var(--cc-amber);
+  border: 1px solid rgba(183, 121, 31, 0.45);
+  margin-right: 8px;
+  white-space: nowrap;
+}
+/* 作者样式 display:inline-block 会压过 UA 的 [hidden]{display:none}，须显式补回 */
+#term-tooltip .tt-supp[hidden] {
+  display: none;
+}
+#term-tooltip .tt-title {
+  font-family: var(--cc-serif);
+  font-weight: 700;
+  color: var(--cc-ink);
+  font-size: 16px;
+  flex: 1;
+  line-height: 1.35;
+}
+#term-tooltip .tt-close {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--cc-ink-faint);
+  padding: 0 4px;
+  line-height: 1;
+}
+#term-tooltip .tt-en {
+  font-size: 11.5px;
+  color: var(--cc-ink-faint);
+  margin-top: -2px;
+  margin-bottom: 8px;
+  font-style: italic;
+}
+#term-tooltip .tt-def {
+  color: var(--cc-ink-soft);
+  line-height: 1.6;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+#term-tooltip .tt-block {
+  margin-top: 7px;
+  padding: 7px 10px;
+  border-radius: 7px;
+  font-size: 12px;
+  line-height: 1.55;
+  display: flex;
+  gap: 8px;
+}
+#term-tooltip .tt-lbl {
+  font-weight: 700;
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  align-self: flex-start;
+  flex-shrink: 0;
+  margin-top: 1px;
+  letter-spacing: 0.06em;
+}
+#term-tooltip .tt-formula {
+  background: var(--cc-amber-wash);
+  border-left: 3px solid var(--cc-amber);
+  color: var(--cc-ink);
+}
+#term-tooltip .tt-formula .tt-lbl {
+  background: rgba(183, 121, 31, 0.16);
+  color: var(--cc-amber);
+}
+#term-tooltip .tt-tex {
+  flex: 1;
+  min-width: 0;
+}
+#term-tooltip .tt-tex-line {
+  margin: 2px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+#term-tooltip .tt-tex-line .katex {
+  font-size: 1.02em;
+}
+#term-tooltip .tt-tex-fallback {
+  font-family: Consolas, Monaco, "Courier New", monospace;
+  color: var(--cc-amber);
+  font-size: 12px;
+  word-break: break-all;
+}
+#term-tooltip .tt-rule {
+  background: rgba(28, 43, 58, 0.045);
+  border-left: 3px solid var(--cc-ink);
+  color: var(--cc-ink-soft);
+}
+#term-tooltip .tt-rule .tt-lbl {
+  background: rgba(28, 43, 58, 0.1);
+  color: var(--cc-ink);
+}
+#term-tooltip .tt-rule b.ok,
+#term-tooltip .tt-example b.ok {
+  font-weight: 700;
+  color: var(--cc-ok);
+  background: var(--cc-ok-wash);
+  padding: 0 5px;
+  border-radius: 4px;
+  border: 1px solid rgba(47, 133, 90, 0.25);
+}
+#term-tooltip .tt-rule b.no {
+  font-weight: 700;
+  color: var(--cc-no);
+  background: var(--cc-no-wash);
+  padding: 0 5px;
+  border-radius: 4px;
+  border: 1px solid rgba(192, 57, 43, 0.25);
+}
+#term-tooltip .tt-example {
+  background: var(--cc-ok-wash);
+  border-left: 3px solid var(--cc-ok);
+  color: #2c4a3b;
+}
+#term-tooltip .tt-example .tt-lbl {
+  background: rgba(47, 133, 90, 0.16);
+  color: var(--cc-ok);
+}
+#term-tooltip .tt-example-body {
+  flex: 1;
+  min-width: 0;
+}
+#term-tooltip .tt-exam {
+  background: #fdf6ec;
+  border-left: 3px solid var(--cc-amber-bright);
+  color: #6b4a17;
+}
+#term-tooltip .tt-exam .tt-lbl {
+  background: rgba(217, 154, 43, 0.2);
+  color: #8a5a12;
+}
+#term-tooltip .tt-related {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px dashed var(--cc-line);
+}
+#term-tooltip .tt-related-lbl {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--cc-ink-faint);
+  letter-spacing: 0.08em;
+}
+#term-tooltip .tt-chip {
+  border: 1px solid rgba(183, 121, 31, 0.4);
+  background: transparent;
+  color: var(--cc-amber);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  font-family: var(--cc-sans);
+}
+#term-tooltip .tt-chip:hover {
+  background: var(--cc-amber-wash);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(183, 121, 31, 0.2);
+}
+#term-tooltip .tt-chip:focus-visible {
+  outline: 2px solid var(--cc-amber-bright);
+  outline-offset: 1px;
+}
+
+/* =======================================================
+ * 术语速查面板（右侧抽屉 + 账册横线纸底纹）
+ * ======================================================= */
+#term-search {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  visibility: hidden;
+  overflow: hidden;
+  font-family: var(--cc-sans);
+}
+#term-search.open {
+  visibility: visible;
+}
+#term-search .ts-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 43, 58, 0.38);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+#term-search.open .ts-backdrop {
+  opacity: 1;
+}
+#term-search .ts-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(400px, 94vw);
+  background: var(--cc-paper);
+  box-shadow: -8px 0 32px rgba(28, 43, 58, 0.22);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(103%);
+  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0.28, 1);
+}
+#term-search.open .ts-panel {
+  transform: translateX(0);
+}
+#term-search .ts-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--cc-ink);
+  color: var(--cc-paper);
+  padding: 14px 18px;
+}
+#term-search .ts-title {
+  font-family: var(--cc-serif);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+#term-search .ts-count {
+  font-size: 11px;
+  color: var(--cc-amber-bright);
+  font-weight: 600;
+  margin-left: 8px;
+  font-family: var(--cc-sans);
+}
+#term-search .ts-close {
+  background: none;
+  border: none;
+  color: var(--cc-paper);
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+#term-search .ts-close:hover { opacity: 1; }
+#term-search .ts-input {
+  margin: 12px 16px 8px;
+  padding: 9px 14px;
+  border: 1px solid var(--cc-line);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 13px;
+  color: var(--cc-ink);
+  font-family: var(--cc-sans);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+#term-search .ts-input:focus {
+  outline: none;
+  border-color: var(--cc-amber);
+  box-shadow: 0 0 0 3px rgba(217, 154, 43, 0.18);
+}
+#term-search .ts-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 12px 16px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 30px,
+    rgba(28, 43, 58, 0.035) 30px,
+    rgba(28, 43, 58, 0.035) 31px
+  );
+}
+#term-search .ts-group-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--cc-amber);
+  padding: 14px 8px 5px;
+  border-bottom: 1px solid var(--cc-line);
+  margin-bottom: 4px;
+}
+#term-search .ts-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 7px 8px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background 0.13s ease, transform 0.13s ease;
+  font-family: var(--cc-sans);
+}
+#term-search .ts-item:hover {
+  background: var(--cc-amber-wash);
+  transform: translateX(3px);
+}
+#term-search .ts-item:focus-visible {
+  outline: 2px solid var(--cc-amber-bright);
+  outline-offset: -2px;
+}
+#term-search .ts-item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cc-ink);
+}
+#term-search .ts-item-badge {
+  font-size: 10.5px;
+  color: var(--cc-ink-faint);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+#term-search .ts-item-badge.supp {
+  color: var(--cc-amber);
+  font-weight: 700;
+}
+#term-search .ts-hint {
+  padding: 9px 18px;
+  border-top: 1px solid var(--cc-line);
+  font-size: 11px;
+  color: var(--cc-ink-faint);
+  background: var(--cc-paper-dim);
+}
+
+/* =======================================================
+ * 公式速查表（全屏 overlay，可单独打印）
+ * ======================================================= */
+#formula-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background: var(--cc-paper);
+  overflow-y: auto;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.22s ease, visibility 0.22s;
+  font-family: var(--cc-sans);
+  color: var(--cc-ink);
+}
+body.fs-open #formula-sheet {
+  visibility: visible;
+  opacity: 1;
+}
+#formula-sheet .fs-bar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--cc-ink);
+  color: var(--cc-paper);
+  padding: 13px 26px;
+  box-shadow: 0 2px 12px rgba(28, 43, 58, 0.25);
+}
+#formula-sheet .fs-title {
+  font-family: var(--cc-serif);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+#formula-sheet .fs-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+#formula-sheet .fs-print {
+  border: 1px solid var(--cc-amber-bright);
+  background: var(--cc-amber);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 6px 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+  font-family: var(--cc-sans);
+}
+#formula-sheet .fs-print:hover {
+  background: var(--cc-amber-bright);
+  transform: translateY(-1px);
+}
+#formula-sheet .fs-close {
+  background: none;
+  border: none;
+  color: var(--cc-paper);
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+  opacity: 0.8;
+}
+#formula-sheet .fs-close:hover { opacity: 1; }
+#formula-sheet .fs-body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 26px 26px 60px;
+}
+#formula-sheet .fs-group-title {
+  font-family: var(--cc-serif);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--cc-ink);
+  margin: 30px 0 14px;
+  padding-bottom: 7px;
+  border-bottom: 2px solid var(--cc-amber);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+#formula-sheet .fs-group:first-child .fs-group-title {
+  margin-top: 4px;
+}
+#formula-sheet .fs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 14px;
+}
+#formula-sheet .fs-card {
+  background: #fff;
+  border: 1px solid var(--cc-line);
+  border-radius: 10px;
+  padding: 12px 15px;
+  break-inside: avoid;
+  box-shadow: 0 1px 3px rgba(28, 43, 58, 0.05);
+}
+#formula-sheet .fs-card-head {
+  margin-bottom: 7px;
+}
+#formula-sheet .fs-name {
+  font-family: var(--cc-serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--cc-ink);
+}
+#formula-sheet .fs-supp {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--cc-amber-wash);
+  color: var(--cc-amber);
+  border: 1px solid rgba(183, 121, 31, 0.45);
+  margin-left: 7px;
+  vertical-align: middle;
+}
+#formula-sheet .fs-tex {
+  background: var(--cc-amber-wash);
+  border-left: 3px solid var(--cc-amber);
+  border-radius: 6px;
+  padding: 7px 10px;
+}
+#formula-sheet .fs-tex-line {
+  margin: 3px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+#formula-sheet .fs-tex-line .katex { font-size: 1em; }
+#formula-sheet .fs-example {
+  margin-top: 7px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--cc-ink-soft);
+}
+
+/* 打印：隐藏全部屏幕组件；公式表打开时只打印公式表 */
+@media print {
+  .reader-control-bar,
+  #term-tooltip,
+  #term-search {
+    display: none !important;
+  }
+  body.fs-open .wrap,
+  body.fs-open #toc,
+  body.fs-open #toc-toggle,
+  body.fs-open #toc-expand,
+  body.fs-open #toc-backdrop {
+    display: none !important;
+  }
+  body.fs-open #formula-sheet {
+    position: static !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+  body.fs-open #formula-sheet .fs-bar {
+    display: none !important;
+  }
+  body.fs-open #formula-sheet .fs-body {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  #formula-sheet .fs-card {
+    box-shadow: none !important;
+  }
+}
+
+/* 移动端触屏适配 */
+@media (max-width: 768px) {
+  .reader-control-bar {
+    top: 12px;
+    right: 12px;
+    padding: 3px 6px;
+    gap: 5px;
+  }
+  /* 移动端隐藏宽度切换：小屏下三档宽度均被视口约束、无实际差异，
+     且整条控制栏会横向遮挡左上角目录汉堡按钮（z-index 30 < 1000） */
+  .width-switch {
+    display: none;
+  }
+  .bar-btn {
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+  .term-toggle-btn {
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+  #term-tooltip {
+    max-width: 90vw;
+    position: fixed;
+    left: 5vw !important;
+    right: 5vw !important;
+    bottom: 20px !important;
+    top: auto !important;
+    transform: translateY(20px);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(28, 43, 58, 0.3);
+  }
+  #term-tooltip.show {
+    transform: translateY(0);
+  }
+  #term-tooltip .tt-close {
+    display: block;
+  }
+  #term-search .ts-panel {
+    width: 100vw;
+  }
+  #formula-sheet .fs-body {
+    padding: 18px 14px 48px;
+  }
+  #formula-sheet .fs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 动效敏感：关闭全部组件动画 */
+@media (prefers-reduced-motion: reduce) {
+  .reader-control-bar,
+  #term-tooltip,
+  #term-search .ts-panel,
+  #term-search .ts-backdrop,
+  #formula-sheet,
+  .tt-chip,
+  .ts-item,
+  .term-flash,
+  article {
+    transition: none !important;
+    animation: none !important;
+  }
+  .term-flash {
+    background: rgba(217, 154, 43, 0.3);
+    box-shadow: 0 0 0 5px rgba(217, 154, 43, 0.16);
+  }
+}
+</style>
+</head>
+<body data-current="工程经济学讲义_核心速览_All-in-One.html" data-root="" data-mode="single">
+<!-- 阅读控制栏（宽度切换 + 速查 + 公式表 + 术语开关）与富文本提示卡片 -->
+<div class="reader-control-bar">
+  <div class="width-switch" role="group" aria-label="正文阅读宽度调整">
+    <button class="width-btn active" data-width="normal" title="标准阅读宽度 (760px)">标准</button>
+    <button class="width-btn" data-width="wide" title="较宽阅读宽度 (1160px)">较宽</button>
+    <button class="width-btn" data-width="full" title="全宽显示 (95%)，正文段落仍限宽">全宽</button>
+  </div>
+  <button id="term-search-btn" class="bar-btn" title="术语速查：分组索引 + 搜索定位 (Ctrl+K)" aria-label="打开术语速查面板">速查</button>
+  <button id="formula-sheet-btn" class="bar-btn" title="公式速查表：全部公式按考点分组，可打印" aria-label="打开公式速查表">公式表</button>
+  <button id="term-toggle-btn" class="term-toggle-btn active" title="点击切换正文专业术语与公式符号释义浮动提示">
+    💡 术语提示 <span class="status">开</span>
+  </button>
+</div>
+<div id="term-tooltip" role="tooltip" aria-hidden="true">
+  <div class="tt-header">
+    <span class="tt-badge"></span>
+    <span class="tt-supp" hidden>教材外补充</span>
+    <span class="tt-title"></span>
+    <button class="tt-close" aria-label="关闭提示">×</button>
+  </div>
+  <div class="tt-en"></div>
+  <div class="tt-def"></div>
+  <div class="tt-block tt-formula"><span class="tt-lbl">公式</span><div class="tt-tex"></div></div>
+  <div class="tt-block tt-rule"><span class="tt-lbl">准则</span><div class="tt-rule-body"></div></div>
+  <div class="tt-block tt-example"><span class="tt-lbl">例</span><div class="tt-example-body"></div></div>
+  <div class="tt-block tt-exam"><span class="tt-lbl">考点</span><div class="tt-exam-body"></div></div>
+  <div class="tt-related"></div>
+</div>
+
+<!-- 术语速查面板 -->
+<div id="term-search" aria-hidden="true">
+  <div class="ts-backdrop"></div>
+  <aside class="ts-panel" role="dialog" aria-label="术语速查">
+    <div class="ts-head">
+      <div class="ts-title">术语速查<span class="ts-count"></span></div>
+      <button class="ts-close" aria-label="关闭速查面板">×</button>
+    </div>
+    <input class="ts-input" type="search" placeholder="搜索术语 / 符号 / 英文…" aria-label="过滤术语">
+    <div class="ts-list"></div>
+    <div class="ts-hint">Ctrl+K 打开 · Esc 关闭 · 点击词条定位正文并闪烁高亮</div>
+  </aside>
+</div>
+
+<!-- 公式速查表 -->
+<div id="formula-sheet" aria-hidden="true">
+  <div class="fs-bar">
+    <div class="fs-title">公式速查 · 工程经济学</div>
+    <div class="fs-actions">
+      <button class="fs-print">打印 / 存 PDF</button>
+      <button class="fs-close" aria-label="关闭公式速查表">×</button>
+    </div>
+  </div>
+  <div class="fs-body"></div>
+</div>
+
+<button id="toc-toggle" aria-label="打开目录">☰</button>
+<button id="toc-expand" aria-label="展开目录">☰</button>
+<div id="toc-backdrop"></div>
+<nav id="toc">
+  <button id="toc-collapse" aria-label="收起目录" title="收起目录">«</button>
+  <div class="toc-title">工程经济学 · 核心速览</div>
+  <div class="toc-flat">
+    <a href="#intro">开篇 · 第一公理与全书版图</a>
+    <a href="#map">难度地图</a>
+    <a href="#symbols">符号总表</a>
+    <a href="#c1">第1章 什么是工程经济学</a>
+    <a href="#c2">第2章 基本框架</a>
+    <a href="#c3">第3章 规则的现金流结构</a>
+    <a href="#c4">第4章 经营现金流量预测</a>
+    <a href="#c5">第5章 投资决策基本方法</a>
+    <a href="#c6">第6章 投资决策其他方法</a>
+    <a href="#c7">第7章 资本结构与项目价值</a>
+    <a href="#c8">第8章 股权资本成本</a>
+    <a href="#c9">第9章 债权资本成本</a>
+    <a href="#c10">第10章 两种基本估值方法</a>
+    <a href="#c11">第11章 项目融资实务</a>
+    <a href="#c12">第12章 金融科技背景</a>
+    <a href="#synthesis">全书合流 · 贯穿线索</a>
+    <a href="#supplement">考前补充考点（教材外）</a>
+  </div>
+</nav>
+<div class="wrap">
+<article>
+
+<h1>《工程经济学》核心速览 · All-in-One</h1>
+<p class="lead">一个工程项目值多少钱？全书的回答是一条公理：把项目未来每一期能拿到的现金，按合适的折现率折回今天，再加起来。之后十一章做的事，是把这句话里的"现金流"和"折现率"分别拆开、测准，最后再合起来。</p>
+
+<p class="key">母公式 $PV=\dfrac{CF}{r}$ 被一刀切成两半：<mark>分子 $CF$ 归投资决策（第3–6章），分母 $r$ 归融资决策（第7–9章）</mark>，第10章把两半合起来给带负债的项目估值。</p>
+
+<section id="intro">
+<h2>开篇 · 第一公理与全书版图</h2>
+
+<p><span class="term">第一公理<small>（原书：工程经济学的第一公理，式 2.1 的来源）</small></span>说：项目价值等于它未来各期现金流的折现值之和。写成式子：</p>
+$$PV=\sum_{i=1}^{T}\frac{CF_i}{(1+r)^i}$$
+<dl class="symbols">
+  <dt>$CF_i$</dt><dd>第 $i$ 期期末项目实际流入（或流出）的现金。看的是钱，不是账面利润（第4章专门讲怎么算）。</dd>
+  <dt>$r$</dt><dd>折现率：投资者要求的回报率。它同时补偿两样东西：钱放一年本可以生息（时间价值），以及承担风险要多要的回报（风险价值），见第3章。</dd>
+  <dt>$(1+r)^i$</dt><dd>第 $i$ 期的 1 元钱，在今天只值 $\dfrac{1}{(1+r)^i}$ 元。期数越远、$r$ 越大，折得越狠。</dd>
+  <dt>$\sum$</dt><dd>每期分别折回今天再相加。不同时点的钱只有折到同一时点才能相加。</dd>
+</dl>
+<p>如果每期现金流都一样、并且永续，这个求和就收敛成全书反复出现的<span class="term">第一公式<small>（原书：第一公式，式 2.1）</small></span>：</p>
+$$PV=\frac{CF}{r}$$
+<dl class="symbols">
+  <dt>$CF$</dt><dd>每期相同的永续现金流。</dd>
+  <dt>$\dfrac{1}{r}$</dt><dd>"每期 1 元、永远拿下去"今天值多少。$r=10\%$ 时值 10 元：存 10 元、每年利息正好 1 元，所以两者等价。</dd>
+</dl>
+<p>估值因此只剩两件事：预测分子、测准分母。原书用<span class="term">鹦鹉估值三步曲<small>（原书用词）</small></span>概括：给出现金流预测，给出折现率，再折现。第三步谁都会算，难的是前两步。第1章的<span class="mark">投融资分离定理</span>把这两件事分给两个决策：投资决策假定折现率已知、研究分子；融资决策假定现金流已知、研究分母。</p>
+
+<figure>
+<pre class="mermaid">
+flowchart LR
+  A["第一公理 PV = CF / r"]
+  subgraph INV["分子：投资决策（第3–6章）"]
+    direction TB
+    C3["第3章&lt;br/&gt;年金公式、折现率构成"] -->|"PVIFA"| C5["第5章&lt;br/&gt;NPV / IRR / PI / 回收期"]
+    C4["第4章&lt;br/&gt;经营现金流 OCF"] -->|"OCF 序列"| C5
+    C5 -->|"放松确定性"| C6["第6章&lt;br/&gt;盈亏平衡 / 灵敏度 / 决策树"]
+  end
+  subgraph FIN["分母：融资决策（第7–9章）"]
+    direction TB
+    C7["第7章&lt;br/&gt;MM 第一定理 V_L = V_U + tB"] -->|"推出 MM 第二定理"| C8["第8章&lt;br/&gt;股权成本 r_S"]
+    C7 -->|"税后 r_B(1−t)"| C9["第9章&lt;br/&gt;债权成本 r_B"]
+  end
+  A -->|"测分子"| INV
+  A -->|"测分母"| FIN
+  INV -->|"OCF"| C10["第10章 合流：WACC 法 = MM 第一定理法"]
+  FIN -->|"r_S、r_B、tB"| C10
+  C10 --> C11["第11章 融资实务"]
+  C10 --> C12["第12章 金融科技"]
+</pre>
+<figcaption>全书版图：母公式分成分子、分母两半，各章产出什么、交给谁，标在箭头上。</figcaption>
+</figure>
+<p>读每一章时，可以先问一句：这一章是在测分子、测分母，还是在把两者合起来？</p>
+</section>
+
+<section id="map">
+<h2>难度地图</h2>
+<table>
+  <thead><tr><th>章</th><th>在全书的位置</th><th>难度</th><th>复习时重点抓什么</th></tr></thead>
+  <tbody>
+    <tr><td>1 什么是工程经济学</td><td>坐标系</td><td>★</td><td>投融资分离定理；经济学概念到工程经济学的五组映射；两个核心问题</td></tr>
+    <tr><td>2 基本框架</td><td>全书目录式预告</td><td>★★★</td><td>投资/融资决策的分界；式 2.1–2.9 各是谁、归哪一章；"WACC 是推论不是假设"</td></tr>
+    <tr><td>3 规则的现金流结构</td><td>折现工具</td><td>★★</td><td>折现率的两种构成；单利/复利/连续复利；四类年金公式与 $r&gt;g$</td></tr>
+    <tr><td>4 经营现金流量预测</td><td>算分子</td><td>★★</td><td>OCF 每一项的加减理由；为什么折旧加回、利息不扣；三种算法等价</td></tr>
+    <tr><td>5 投资决策基本方法</td><td>决策规则</td><td>★★★</td><td>NPV 第一法则；IRR 的四个问题；互斥项目用 IOCF 和 EAA</td></tr>
+    <tr><td>6 投资决策其他方法</td><td>应对不确定</td><td>★★</td><td>$Q_{NI}$ 与 $Q_{NPV}$ 及其大小关系；灵敏度三步；决策树逆推</td></tr>
+    <tr><td>7 资本结构与项目价值</td><td>分母的地基</td><td>★★★</td><td>MM 第一定理的假设与结论；$tB$ 的来历；破产成本、代理成本</td></tr>
+    <tr><td>8 股权资本成本</td><td>分母最难测的一半</td><td>★★★</td><td>为何不可观测；四种测法的输入与局限；去杠杆、加杠杆</td></tr>
+    <tr><td>9 债权资本成本</td><td>分母较易测的一半</td><td>★★</td><td>理论定义与实务做法的差别；三组利率；四种测法</td></tr>
+    <tr><td>10 两种基本估值方法</td><td>合流</td><td>★★★</td><td>两法的公式与等价推导；例 10-4 全链条；循环逻辑；相对估值</td></tr>
+    <tr><td>11 项目融资实务</td><td>工具清单</td><td>★</td><td>三类渠道各自的优缺点；稀释与否；可转债、资产支持证券</td></tr>
+    <tr><td>12 金融科技背景</td><td>展望</td><td>★</td><td>估值对象、估值方法、融资实务的三个变化；什么没变</td></tr>
+  </tbody>
+</table>
+</section>
+
+<section id="symbols">
+<h2>符号总表</h2>
+<p>全书符号跟随原书。同一个字母在不同章含义不同的地方，在"含义"一列用<strong>注意</strong>标出。</p>
+<table>
+  <thead><tr><th>符号</th><th>名称</th><th>含义与取值来源</th><th>出现在</th></tr></thead>
+  <tbody>
+    <tr><td>$PV$ / $FV$</td><td>现值 / 终值</td><td>未来的钱折到今天 / 今天的钱滚到未来，二者互为逆运算</td><td>第2、3章</td></tr>
+    <tr><td>$CF$、$C$、$C_1$</td><td>现金流</td><td>$CF$ 泛指现金流；年金公式里用 $C$ 表示每期金额，增长年金里 $C_1$ 是第 1 期期末金额</td><td>第2、3章</td></tr>
+    <tr><td>$r$</td><td>折现率</td><td>投资者要求的回报率。<strong>注意</strong>：第9章费雪方程里的 $r$ 指实际利率，不是折现率</td><td>全书</td></tr>
+    <tr><td>$i$、$T$</td><td>期数序号、总期数</td><td>求和式里的第 $i$ 期、项目共 $T$ 期。<strong>注意</strong>：第9章的 $i$ 是名义利率</td><td>全书</td></tr>
+    <tr><td>$g$</td><td>增长率</td><td>现金流（或股利）每期增长的比例，永续增长时必须 $g&lt;r$</td><td>第3、8章</td></tr>
+    <tr><td>$C_0$</td><td>初始投资</td><td>第 0 期一次性投入的金额</td><td>第2、5、6、10章</td></tr>
+    <tr><td>$FVIF$ / $PVIF$</td><td>复利终值 / 现值系数</td><td>$(F/P, i, n) = (1+i)^n$ 与 $(P/F, i, n) = (1+i)^{-n}$，互为倒数；单笔资金跨期终值与现值换算</td><td>第3章</td></tr>
+    <tr><td>$FVIFA$ / $PVIFA$</td><td>年金终值 / 现值系数</td><td>$(F/A, i, n) = \dfrac{(1+i)^n-1}{i}$ 与 $(P/A, i, n) = \dfrac{1-(1+i)^{-n}}{i}$；等额年金与终值、现值换算</td><td>第3、5、6章</td></tr>
+    <tr><td>$(A/P)$ / $(A/F)$</td><td>资本回收 / 偿债基金系数</td><td>$CRF = \dfrac{1}{PVIFA}$ 与 $SFF = \dfrac{1}{FVIFA}$，分别为年金现值与终值系数的倒数，满足 $(A/P) = (A/F) + i$</td><td>第3章</td></tr>
+    <tr><td>$PVIFA(r,T)$</td><td>年金现值系数（通用）</td><td>$\dfrac{1-(1+r)^{-T}}{r}$，"每期 1 元、共 $T$ 期"的现值，可查附表</td><td>第3、5、6章</td></tr>
+    <tr><td>$EAA$</td><td>约当年金</td><td>把一笔现值除以 $PVIFA$，摊成 $T$ 期等额年金。<strong>注意</strong>：第5章摊的是 $NPV$（比互斥项目），第6章摊的是 $C_0$（算盈亏平衡）</td><td>第5、6章</td></tr>
+    <tr><td>$EBITDA$</td><td>折旧、摊销及息税前利润</td><td>营业收入 − 营业成本 − 销售、管理、研发费用</td><td>第4、10章</td></tr>
+    <tr><td>$D$ / $A$</td><td>折旧 / 摊销</td><td>固定资产 / 无形资产的成本分摊，记费用但不付现金</td><td>第4、6章</td></tr>
+    <tr><td>$EBIT$</td><td>息税前利润</td><td>$EBITDA-D-A$</td><td>第4、7、10章</td></tr>
+    <tr><td>$t$</td><td>企业所得税税率</td><td>法定税率；所有"税盾"都是 $t$ 乘以某个可在税前扣除的金额</td><td>第4、6–10章</td></tr>
+    <tr><td>$NOPAT$</td><td>税后经营净利润</td><td>$EBIT(1-t)$，假定没有负债时的税后利润</td><td>第4章</td></tr>
+    <tr><td>$I$ / $NI$</td><td>利息 / 净利润</td><td>$NI=(EBIT-I)(1-t)$。<strong>注意</strong>：第9章的 $I_i$ 指债券第 $i$ 期票息</td><td>第4、6章</td></tr>
+    <tr><td>$\Delta NWC$</td><td>经营营运资本增加</td><td>经营性流动资产减经营性流动负债的增加额，被垫进存货、应收账款的钱</td><td>第4章</td></tr>
+    <tr><td>$Capex$</td><td>资本支出</td><td>购置固定资产、无形资产的现金支出</td><td>第4章</td></tr>
+    <tr><td>$OCF$ / $UCF$</td><td>经营现金流量 / 无杠杆现金流</td><td>同一个量的两个名字：不扣利息、归股东和债权人共有的现金流</td><td>第4、5、7、10章</td></tr>
+    <tr><td>$LCF$</td><td>杠杆现金流</td><td>只归股东的现金流，永续时 $(EBIT-r_B B)(1-t)$</td><td>第2、10章</td></tr>
+    <tr><td>$NPV$ / $IRR$ / $PI$ / $PP$</td><td>净现值 / 内部收益率 / 盈利倍数 / 回收期</td><td>四个投资决策指标</td><td>第5章</td></tr>
+    <tr><td>$p$、$c$、$f$、$Q$</td><td>单价、平均可变成本、固定成本、销量</td><td>盈亏平衡分析的参数，$p-c$ 叫单位边际贡献</td><td>第6章</td></tr>
+    <tr><td>$B$ / $S$ / $B/S$</td><td>债权价值 / 股权价值 / 资本结构</td><td>都是<strong>市场价值</strong>，由各自现金流折现得到，不是账面值</td><td>第7–10章</td></tr>
+    <tr><td>$V_U$ / $V_L$</td><td>无杠杆 / 有杠杆项目价值</td><td>全部用股权出资时的价值 / 引入负债后的价值，$V_L=B+S$</td><td>第7、10章</td></tr>
+    <tr><td>$r_S$ / $r_B$ / $r_U$</td><td>股权 / 债权 / 无杠杆股权资本成本</td><td>股东要求的回报 / 债权人要求的回报 / 全股权出资时股东要求的回报</td><td>第7–10章</td></tr>
+    <tr><td>$WACC$</td><td>加权平均资本成本</td><td>按市场价值比重把 $r_S$ 和税后 $r_B$ 加权</td><td>第2、7、10章</td></tr>
+    <tr><td>$r_f$ / $r_m$</td><td>无风险收益率 / 市场组合期望收益率</td><td>$r_m-r_f$ 叫市场风险溢价</td><td>第3、8章</td></tr>
+    <tr><td>$\beta$</td><td>贝塔系数</td><td>资产收益率与市场组合收益率的协方差 ÷ 市场组合收益率的方差，衡量系统性风险</td><td>第3、8章</td></tr>
+    <tr><td>$Div_1$ / $P_0$</td><td>下一期每股股利 / 当前股价</td><td>股利折现模型的输入</td><td>第8章</td></tr>
+    <tr><td>$y$、$M$</td><td>到期收益率、债券面值</td><td>使债券未来本息现值等于市价的折现率；到期偿还的本金</td><td>第9章</td></tr>
+    <tr><td>$Sal$ / $BV$</td><td>变现处置残值 / 账面净值</td><td>固定资产处置收入与会计账面净值；二者差额决定纳税或抵税</td><td>第4章</td></tr>
+    <tr><td>$DPP$</td><td>动态投资回收期</td><td>考虑时间价值后收回初始投资的期限</td><td>第5章</td></tr>
+    <tr><td>$MIRR$</td><td>修正内部收益率</td><td>通过融资成本贴现流出、再投资率滚存流入，克服多根与再投资假设缺陷</td><td>第5章</td></tr>
+    <tr><td>$S_{Ai}$</td><td>敏感度系数</td><td>评价指标变动率与不确定因素变动率之比，绝对值越大越敏感</td><td>第6章</td></tr>
+    <tr><td>$\beta_U$ / $\beta_L$ / $\beta_B$</td><td>资产 / 权益（杠杆）/ 债务贝塔</td><td>资产系统性风险 / 考虑负债后的股东风险 / 债权人承担的系统性风险</td><td>第8章</td></tr>
+    <tr><td>$b$ / $ROE$</td><td>利润留存率 / 净资产收益率</td><td>$b=1-\text{股利支付率}$，内生增长率 $g = b \times ROE$ 的输入</td><td>第8章</td></tr>
+    <tr><td>$DSCR$ / $ICR$</td><td>偿债备付率 / 利息保障倍数</td><td>可用于还本付息资金与应还本息之比 / $EBIT$ 与利息之比</td><td>第11章</td></tr>
+
+    <tr><td>$i$、$r$、$\pi$、$EAR$</td><td>名义利率、实际利率、通胀率、有效年利率</td><td>费雪方程 $1+i=(1+r)(1+\pi)$；$EAR=(1+\frac{i}{n})^n-1$</td><td>第9章</td></tr>
+  </tbody>
+</table>
+</section>
+
+<section id="c1">
+<h2>第1章 · 什么是工程经济学<span class="role">坐标系 ★</span></h2>
+<p class="prereq">承接：全书起点。输出给：第2章的投资决策 / 融资决策分工；全书"项目价值最大化"的目标假设。</p>
+
+<p>原书一句话定义：工程经济学是经济学理论在工程项目中的应用。它碰到的第一个难题是两件事缠在一起：要不要投，取决于收益能否超过成本，而成本又取决于钱怎么筹（自己出的股权和借来的债权成本不同）；反过来，只有项目本身可行，才谈得上筹钱。</p>
+<p>经济学处理这类缠绕的老办法是分开研究：供给与需求分开、个体与总体分开、效率与公平分开。照此把项目决策拆成两步，先问收益能不能超过投资成本（<span class="term">投资决策</span>），再问股权与债权各出多少（<span class="term">融资决策</span>）。这种拆法叫<span class="term">投融资分离定理<small>（原书用词）</small></span>。它是简化分析的办法，原书明说两种决策实际上相互影响，第2章第四节和第10章会回头处理。</p>
+
+<table>
+  <thead><tr><th>经济学概念</th><th>在工程经济学里对应</th><th>对应的理由</th></tr></thead>
+  <tbody>
+    <tr><td>需求</td><td>投资决策</td><td>能实现的需要才叫需求；项目通过收益成本的可行性研究，才形成资本需求</td></tr>
+    <tr><td>供给</td><td>融资决策</td><td>资本有两个来源：自有资本形成股权，借入资本形成债权；二者的配比就是融资决策</td></tr>
+    <tr><td>价格水平决定（经济学的中心问题）</td><td>项目价值评估（工程经济学的中心问题）</td><td>投资方与融资方对项目价值看法一致时的价值就是均衡价值，此时谁也无法低买高卖套利</td></tr>
+    <tr><td>个体与总体</td><td>单个项目与项目集群</td><td>总预算固定时如何在子项目间分配；子项目互斥时尤其难</td></tr>
+    <tr><td>效率</td><td>项目评价</td><td><span class="term">福利经济学第一定理<small>（原书用词）</small></span>：均衡价格下经济实现<span class="term">帕累托有效<small>（原书此处写作帕累托最优）</small></span>，即任何一方变好都要以另一方变差为代价</td></tr>
+  </tbody>
+</table>
+
+<div class="box"><div class="b-h">"价格"的两层含义（后文反复出现）</div>
+<p>一是绝对值：把项目看成整体，价格就是项目总价值，对应第10章的 $V$。二是相对值：把项目拆成股权和债权，股权里 1 元钱的"价格"是股权收益率，债权里的是债权收益率，二者加权得到项目投资收益率，对应第7章起的 $r_S$、$r_B$ 和 $WACC$。</p></div>
+
+<p>本章还提出工程经济学的<span class="mark">两个核心问题</span>。第一是项目目标界定：目标若能客观量化（如价值最大），就能做定量分析；若涉及控制权收益、社会效益等难以量化的主观目标，就进入工程伦理学范畴。<mark>本书假设项目追求价值最大化这一可量化的单一目标</mark>。第二是项目价值评估，也就是鹦鹉估值三步曲。由于未来不确定，100 个评估者可能估出 100 个结果：从方法论看估值是科学，从"估"字看又是艺术；但理论上项目只有唯一的价值，分歧来自各自假设不同。</p>
+
+<p class="pitfall">"投融资分离"不等于"投资与融资无关"。分开是为了把问题变简单，第10章把分子和分母重新合起来时，正是在处理二者的相互影响。</p>
+
+<details class="quiz"><summary>回想题</summary>
+<p><strong>1. 为什么要做投融资分离？</strong>收益成本分析受融资结构影响，融资又以项目可行为前提，两件事缠在一起。分开后，投资决策只管现金流，融资决策只管折现率，分析大为简化。</p>
+<p><strong>2. 经济学的"价格"对应工程经济学的什么？有哪两层含义？</strong>对应项目价值评估。绝对值层面是项目总价值；相对值层面是股权收益率、债权收益率及其加权。</p>
+<p><strong>3. 本书对项目目标做了什么假设？</strong>可量化的单一目标：项目价值最大化，不讨论难以量化的主观目标。</p>
+</details>
+<div class="takeaway"><div class="t-h">带走这一点</div><p>工程经济学是给工程项目定价的经济学；它借经济学"分开研究"的办法，把决策拆成投资（管现金流）和融资（管折现率）两半。</p></div>
+</section>
+
+<section id="c2">
+<h2>第2章 · 工程经济学的基本框架<span class="role">全书地基 ★★★</span></h2>
+<p class="prereq">承接：第1章的投融资分离与鹦鹉三步曲。输出给：式 2.1–2.9 在第3–10章逐个展开。</p>
+
+<p>本章先把第一公理落成第一公式 $PV=\dfrac{CF}{r}$，再给投资决策和融资决策划边界：<mark>投资决策给定折现率、预测现金流，研究分子；融资决策给定现金流（最常假设 $EBIT$ 给定）、预测折现率，研究分母</mark>，最常用的折现率是 $WACC$。两者都是局部均衡分析，各看项目价值的一个侧面。随后本章把全书核心公式不加证明地一次亮出，下表是"哪个公式、管什么、在哪章展开"的索引。</p>
+
+<table>
+  <thead><tr><th>公式</th><th>表达式</th><th>式中符号与组合项</th><th>归属 / 展开章</th></tr></thead>
+  <tbody>
+    <tr><td>第一公式（2.1）</td><td>$PV=\dfrac{CF}{r}$</td><td>永续、等额、单一折现率下的项目价值</td><td>母体 / 第3章</td></tr>
+    <tr><td>净现值（2.2）</td><td>$NPV=\dfrac{CF}{r}-C_0$</td><td>项目现值减去初始投资 $C_0$，即投资为投资者多创造的价值；$&gt;0$ 就投</td><td>分子 / 第5章</td></tr>
+    <tr><td>内部收益率（2.3）</td><td>$0=\dfrac{CF}{IRR}-C_0$</td><td>让 $NPV$ 恰好为 0 的折现率，即项目自身的回报率</td><td>分子 / 第5章</td></tr>
+    <tr><td>加权平均资本成本（2.4）</td><td>$WACC=r_S\dfrac{S}{B+S}+r_B(1-t)\dfrac{B}{B+S}$</td><td>$\dfrac{S}{B+S}$、$\dfrac{B}{B+S}$：股权、债权占总价值的比重，充当权重；$(1-t)$：利息在税前扣除，债务的实际成本打折</td><td>分母 / 第7、10章</td></tr>
+    <tr><td>资本资产定价模型（2.5）</td><td>$r_S=r_f+\beta_S(r_m-r_f)$</td><td>$r_f$ 补偿时间价值；$\beta_S(r_m-r_f)$ 补偿系统性风险</td><td>分母 / 第3、8章</td></tr>
+    <tr><td>MM 第二定理（2.6）</td><td>$r_S=r_U+\dfrac{B}{S}(1-t)(r_U-r_B)$</td><td>负债越多，股东承担的风险越大，要求的回报越高</td><td>分母 / 第8章</td></tr>
+    <tr><td>有税 MM 第一定理（2.7）</td><td>$V_L=V_U+tB=\dfrac{OCF}{r_U}+tB$</td><td>有负债项目价值 = 全股权时的价值 + 利息税盾现值 $tB$</td><td>合流 / 第7、10章</td></tr>
+    <tr><td>WACC 法（2.8）</td><td>$V=\dfrac{OCF}{WACC}=\dfrac{EBIT(1-t)}{WACC}$</td><td>用综合折现率折现不扣利息的经营现金流</td><td>合流 / 第10章</td></tr>
+    <tr><td>股权现金流法（2.9）</td><td>$S=\dfrac{LCF}{r_S}=\dfrac{(EBIT-r_B B)(1-t)}{r_S}$</td><td>只看股东：扣掉利息后的现金流用股权成本折现，得股权价值</td><td>合流 / 第10章例 10-4</td></tr>
+  </tbody>
+</table>
+
+<p>本章第三、四节还预告了后面要处理的复杂因素：负债过多会带来<span class="mark">破产成本</span>，股东与债权人目标不一致会带来<span class="mark">代理成本</span>，二者都难以客观度量；MM 还证明过股利政策不影响项目价值，但现实很难满足其前提。融资决策一变，不仅 $WACC$ 会变，现金流也可能变，所以分离之后还得研究二者的相互影响。</p>
+
+<p class="pitfall"><mark>WACC 是推论，不是假设。</mark>$WACC$ 的四个参数里，$r_S$ 靠 CAPM 测，而 CAPM 在实证上很难成立（原书称"CAPM 之谜"）；$r_B$ 受"利率期限结构之谜"影响；税也不只有所得税。最关键的是资本结构 $B/S$：债务 $B$ 好测，一旦知道 $B/S$ 就能算出 $S$，进而直接得到项目价值，再用 $WACC$ 折现就多余了。第10章把这叫作循环逻辑。</p>
+
+<p>估值方法也不止第一公式：大类上分<span class="mark">绝对估值法</span>（第一公式的各种变体）和<span class="mark">相对估值法</span>（看可比对象的倍数），第10章第五节展开。</p>
+
+<details class="quiz"><summary>回想题</summary>
+<p><strong>1. 投资决策和融资决策的分界线是什么？</strong>投资决策给定折现率研究现金流（分子）；融资决策给定现金流研究折现率（分母）。</p>
+<p><strong>2. 为什么说 WACC 是推论而不是假设？</strong>算 $WACC$ 要用资本结构，而知道资本结构和债务价值就已经知道项目价值，所以 $WACC$ 只能是和价值相互一致的结果，不能当估值的出发点。</p>
+<p><strong>3. 式 2.7 与式 2.8 各把税盾放在哪里？</strong>2.7 单独加上 $tB$；2.8 把税盾通过 $r_B(1-t)$ 揉进 $WACC$。</p>
+</details>
+<div class="takeaway"><div class="t-h">带走这一点</div><p>全书公式都是 $PV=\dfrac{CF}{r}$ 的变体：分子归投资，分母归融资；记住式 2.1–2.9 各属哪一半，后面就不会迷路。</p></div>
+</section>
+
+<section id="c3">
+<h2>第3章 · 规则的现金流结构<span class="role">折现工具 ★★</span></h2>
+<p class="prereq">承接：第2章母公式里的 $r$ 与"规则现金流"。输出给：第5章 NPV 与 EAA 用的 $PVIFA$；第8章股利折现模型（永续增长年金）；第9章有效年利率（复利）；第8章 CAPM（风险补偿）。</p>
+
+<p>为什么未来的钱要打折？原书给出两种价值。<span class="term">时间价值<small>（原书：投资的时间价值）</small></span>：钱今天到手可以拿去生息，所以今天的 1 元比明年的 1 元值钱。<span class="term">风险价值<small>（原书：投资的风险价值）</small></span>："高风险、高收益"有两层意思，追求高收益就得承担高风险，承担了高风险就会要求高收益。</p>
+<p>风险怎么度量？原书沿两条线索：奈特区分了可度量客观概率的"风险"和不可度量的"不确定性"（本书不严格区分，统称风险）；马科维茨用期望收益率表示收益、用方差或标准差表示风险。补偿多少？风险分两类：所有项目共同面临的<span class="term">系统性风险<small>（原书用词）</small></span>，和单个项目特有、可以靠多样化投资分散掉的<span class="term">非系统性风险<small>（原书用词）</small></span>。<mark>只有系统性风险需要补偿</mark>，补偿是线性的：</p>
+$$r_i=r_f+\beta_i(r_m-r_f)$$
+<dl class="symbols">
+  <dt>$r_i$</dt><dd>项目 $i$ 要求的期望收益率，即它的折现率。</dd>
+  <dt>$r_f$</dt><dd>无风险收益率，对应时间价值。</dd>
+  <dt>$r_m-r_f$</dt><dd>市场组合比无风险资产多给的回报，叫<span class="term">风险溢价<small>（原书用词）</small></span>；市场给定。</dd>
+  <dt>$\beta_i$</dt><dd><span class="term">贝塔系数<small>（原书用词，记 $\beta$）</small></span>：项目收益率与市场组合收益率的协方差除以市场组合收益率的方差，即项目承担的系统性风险是市场的几倍。乘在风险溢价前面，所以风险越大补偿越多。</dd>
+</dl>
+<p>这就是第8章要用的<span class="term">资本资产定价模型<small>（原书：CAPM，capital asset pricing model）</small></span>。<mark>折现率同时度量了时间价值和风险价值。</mark></p>
+
+<h3>计息方式：单利、复利、连续复利</h3>
+<table>
+  <thead><tr><th>方式</th><th>终值公式</th><th>含义</th><th>例 3-3 / 3-5：1 万元、5%、3 年</th></tr></thead>
+  <tbody>
+    <tr><td><span class="term">单利<small>（原书用词）</small></span></td><td>$FV=PV(1+rT)$</td><td>只有本金生息，利息不再生息（若永续求和会调和发散，故学术与估值不用）</td><td>11,500 元</td></tr>
+    <tr><td><span class="term">复利<small>（原书：compounding）</small></span></td><td>$FV=PV(1+r)^T$</td><td>每期利息并入本金继续生息；<mark>本书默认复利</mark></td><td>11,576.25 元</td></tr>
+    <tr><td><span class="term">连续复利<small>（原书：continuous compounding）</small></span></td><td>$FV=PV\,e^{rT}$</td><td>计息间隔无限缩短时复利的极限</td><td>11,618.34 元</td></tr>
+  </tbody>
+</table>
+<p><span class="term">现值<small>（原书：present value，PV）</small></span>与<span class="term">终值<small>（原书：future value，FV）</small></span>互逆：把终值公式反过来解出 $PV$，就是<span class="term">折现<small>（原书：discounting）</small></span>。</p>
+
+<h3>底层推导：高中等比数列如何推出一切规则现金流</h3>
+<p>大学工程经济学所有的规则现金流折现公式，<strong>底层全部来自高中的等比数列求和公式</strong>，无需死记硬背复杂步骤：</p>
+<div class="box">
+  <div class="b-h">高中基石：等比数列求和公式</div>
+  <p>首项为 $a_1$、公比为 $q$ 的前 $n$ 项和为：$S_n = \dfrac{a_1(1-q^n)}{1-q}$。当 $|q| &lt; 1$ 且 $n \to \infty$ 时，无穷等比数列之和极限为：$S_{\infty} = \dfrac{a_1}{1-q}$。</p>
+</div>
+
+<ol>
+  <li><strong>普通年金现值推导</strong>：每年末收入 $C$，折现回今天是一串现金流之和：
+  $$PV = \frac{C}{1+r} + \frac{C}{(1+r)^2} + \dots + \frac{C}{(1+r)^T}$$
+  这正是一个首项 $a_1 = \dfrac{C}{1+r}$、公比 $q = \dfrac{1}{1+r}$、项数为 $T$ 的等比数列。套用高中求和公式：
+  $$PV = \frac{\frac{C}{1+r}\left[1 - \left(\frac{1}{1+r}\right)^T\right]}{1 - \frac{1}{1+r}} = \frac{\frac{C}{1+r}\left[1 - (1+r)^{-T}\right]}{\frac{r}{1+r}} = \frac{C}{r}\left[1 - (1+r)^{-T}\right] = C \cdot \frac{1 - (1+r)^{-T}}{r}$$
+  式中去除现金流 $C$ 后的因子 $\dfrac{1 - (1+r)^{-T}}{r}$ 即为<strong>年金现值系数 $PVIFA(r,T)$</strong>。</li>
+
+  <li><strong>永续年金现值推导</strong>：当支付永远持续（$T \to \infty$）时，由于折现率 $r &gt; 0$，公比 $q = \dfrac{1}{1+r} &lt; 1$，其 $T$ 次方趋于零，公式直接化简为：
+  $$PV = \frac{a_1}{1-q} = \frac{\frac{C}{1+r}}{1 - \frac{1}{1+r}} = \frac{C}{r}$$
+  这就是第2章反复出现的第一公式。</li>
+
+  <li><strong>年金终值推导</strong>：每年末存入 $C$ 元，到第 $T$ 年末算账户本利和总额。最后一笔刚存入无利息为 $C$，倒数第二笔计息 1 期为 $C(1+r)$，……第一笔计息 $T-1$ 期为 $C(1+r)^{T-1}$：
+  $$FV = C + C(1+r) + C(1+r)^2 + \dots + C(1+r)^{T-1}$$
+  首项 $a_1 = C$、公比 $q = 1+r$。套用高中求和公式：
+  $$FV = \frac{C\left[(1+r)^T - 1\right]}{(1+r) - 1} = C \cdot \frac{(1+r)^T - 1}{r}$$
+  后面的因子即为<strong>年金终值系数 $FVIFA(r,T)$</strong>。</li>
+
+  <li><strong>增长年金推导（有限期与永续 Gordon 模型）</strong>：首期现金流为 $C_1$，此后每期增长 $g$。各期折现首项 $a_1 = \dfrac{C_1}{1+r}$，公比 $q = \dfrac{1+g}{1+r}$。
+  <ul>
+    <li><strong>有限期 $T$ 期（教材例 3-13、3-15）</strong>：套用高中求和公式（当 $r \ne g$ 时）：
+    $$PV = \frac{\frac{C_1}{1+r}\left[1 - \left(\frac{1+g}{1+r}\right)^T\right]}{1 - \frac{1+g}{1+r}} = \frac{C_1}{r - g}\left[1 - \left(\frac{1+g}{1+r}\right)^T\right]$$
+    （注：若 $r = g$，公比为 1，退化为常数数列 $PV = \frac{T \cdot C_1}{1+r}$）。</li>
+    <li><strong>永续期 $T \to \infty$（Gordon 模型）</strong>：只要 $r &gt; g$（公比 $q &lt; 1$），上式中 $\left(\frac{1+g}{1+r}\right)^T \to 0$，直接收敛为经典第一公式变体：
+    $$PV = \frac{C_1}{r - g}$$</li>
+  </ul></li>
+</ol>
+
+<h3>其他形式年金：即付年金与递延年金</h3>
+<p>除普通年金（期末等额付款）外，试卷中常考另外两类重要变体：</p>
+<ul>
+  <li><strong>即付年金（先付年金 / 预付年金，期初付款）</strong>：各期款项均在期初发生，比普通年金少折现 1 期（或多生息 1 期），因此其现值和终值公式均在普通年金基础上严格乘以 $(1+r)$：
+  $$PV_{\text{即付}} = PV_{\text{普通}} \times (1+r) = C \cdot PVIFA(r, T) \cdot (1+r)$$
+  $$FV_{\text{即付}} = FV_{\text{普通}} \times (1+r) = C \cdot FVIFA(r, T) \cdot (1+r)$$
+  （系数查表等价记号：即付年金现值期数减 1 系数加 1，终值期数加 1 系数减 1）。</li>
+  <li><strong>递延年金（延期付款）</strong>：前 $m$ 期无现金流（递延期），自第 $m+1$ 期至第 $m+n$ 期连续支付 $n$ 期等额款项 $C$：
+  <ul>
+    <li><em>两段折现法</em>：先按普通年金折现到递延期末（第 $m$ 期末），再用复利现值系数贴回期初：$PV = C \cdot PVIFA(r, n) \cdot PVIF(r, m)$；</li>
+    <li><em>两期相减法</em>：看作 $m+n$ 期大年金扣减前 $m$ 期空白年金：$PV = C \cdot [PVIFA(r, m+n) - PVIFA(r, m)]$。</li>
+  </ul></li>
+</ul>
+
+<h3>四个基本系数与两套符号体系对照</h3>
+<p>试卷与教材中有两套并行的记号体系：一套是财务管理常用的<strong>英文缩写</strong>，另一套是工程经济学国标通用的<strong>“（要求量/已知量, 利率, 期数）”</strong>记号。两套符号一一对应，必须熟练互认：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>编号</th>
+      <th>系数名称</th>
+      <th>财务英文缩写</th>
+      <th>工程经济学标准写法</th>
+      <th>代数计算公式</th>
+      <th>通俗场景含义与生活对应</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ⅰ</td>
+      <td><strong>复利终值系数</strong></td>
+      <td>$FVIF(r,N)$</td>
+      <td>$(F/P, i, n)$</td>
+      <td>$(1+r)^N$</td>
+      <td><strong>整存整取</strong>：今天存入 1 笔钱，若干年后到期一次性连本带利拿回多少（利滚利本利和）。</td>
+    </tr>
+    <tr>
+      <td>Ⅱ</td>
+      <td><strong>复利现值系数</strong></td>
+      <td>$PVIF(r,N)$</td>
+      <td>$(P/F, i, n)$</td>
+      <td>$(1+r)^{-N} = \dfrac{1}{(1+r)^N}$</td>
+      <td><strong>单笔打折</strong>：未来特定某一年能收到 1 笔确定款项，按时间价值折合今天值多少。</td>
+    </tr>
+    <tr>
+      <td>Ⅲ</td>
+      <td><strong>年金现值系数</strong></td>
+      <td>$PVIFA(r,N)$</td>
+      <td>$(P/A, i, n)$</td>
+      <td>$\dfrac{1 - (1+r)^{-N}}{r}$</td>
+      <td><strong>分期买断</strong>：未来每年能固定拿一笔等额年金，今天一次性买断需付多少钱（如房贷借款总额）。</td>
+    </tr>
+    <tr>
+      <td>Ⅳ</td>
+      <td><strong>年金终值系数</strong></td>
+      <td>$FVIFA(r,N)$</td>
+      <td>$(F/A, i, n)$</td>
+      <td>$\dfrac{(1+r)^N - 1}{r}$</td>
+      <td><strong>定投积攒</strong>：未来每年存入一笔等额年金，到期末账户总共能滚存积攒多少资产（如教育基金、定投养老）。</td>
+    </tr>
+    <tr>
+      <td>倒数1</td>
+      <td><strong>资本回收系数</strong></td>
+      <td>$CRF = \dfrac{1}{PVIFA}$</td>
+      <td>$(A/P, i, n)$</td>
+      <td>$\dfrac{r}{1 - (1+r)^{-N}}$</td>
+      <td><strong>算贷款每期供款</strong>：已知借款现值 $P$，分期等额偿还本息额 $A$（如房贷等额本息月供）。</td>
+    </tr>
+    <tr>
+      <td>倒数2</td>
+      <td><strong>偿债基金系数</strong></td>
+      <td>$SFF = \dfrac{1}{FVIFA}$</td>
+      <td>$(A/F, i, n)$</td>
+      <td>$\dfrac{r}{(1+r)^N - 1}$</td>
+      <td><strong>算定投目标供款</strong>：已知未来期末需积攒总额 $F$，每期需等额存入 $A$（如按期攒大学学费）。</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="box">
+  <div class="b-h">做题避坑：选系数的两问法则与转换纽带（录音 42:20）</div>
+  <p>考试时题目经常把现值系数与终值系数混在一起作为干扰项，做题只需问自己两个问题：</p>
+  <ul>
+    <li><strong>是一笔钱，还是一连串等额的钱？</strong>只有 1 笔用 $PVIF$ / $FVIF$；一串等额现金流用带 $A$ 的 $PVIFA$ / $FVIFA$。</li>
+    <li><strong>是往前挪，还是往后挪？</strong>折算到较早的时点用现值 $PV$ 开头的系数；折算到较晚的时点用终值 $FV$ 开头的系数。</li>
+    <li><strong>核心换算纽带</strong>：$FVIF = \dfrac{1}{PVIF}$；$FVIFA = PVIFA \times FVIF$；<strong>经典恒等式</strong>：$(A/P, i, n) = (A/F, i, n) + i$（即资本回收系数 = 偿债基金系数 + 利率）。</li>
+  </ul>
+</div>
+
+<h3>两大经典生活案例：场景含义与直觉破解</h3>
+
+<h4>案例 1：教育基金每年该存多少（课堂实录例题 / 原教材例 3-14 改编）</h4>
+<p><strong>场景设定</strong>：甲夫妇为年初刚出生的子女准备教育基金。规划 1–17 年末每年存入等额资金 $A$（共 17 期）；子女从第 18 年末开始连续 10 年每年支出大学及读博学费 100,000 元（第 18–27 年末，共 10 期）。折现率 $r = 3\%$，每年需存多少？</p>
+<ul>
+  <li><strong>方法一（交接点相遇法，推荐时点 17）</strong>：站在第 17 年末看，前 17 年的存款全部到期形成年金终值；后 10 年的学费支出刚要发生形成年金现值。两者在时点 17 必须严格相等：
+  $$A \times FVIFA(3\%, 17) = 100{,}000 \times PVIFA(3\%, 10)$$
+  查表 $FVIFA(3\%, 17) = 21.7616$，$PVIFA(3\%, 10) = 8.5302$，直接除得 $A = \dfrac{100{,}000 \times 8.5302}{21.7616} \approx 39{,}198$ 元（教材 PDF 因截断四舍五入给出 39,197 元）。</li>
+  <li><strong>方法二（期初基准法，折回 $t=0$）</strong>：把存款和支出统一折现到小孩出生的 $t=0$ 点。存款总现值等于支出先折到 17 年末再复利贴现回期初：
+  $$A \times PVIFA(3\%, 17) = 100{,}000 \times PVIFA(3\%, 10) \times PVIF(3\%, 17)$$
+  两边计算完全等价，本质是<strong>年金现值化后、再通过资本回收系数 $(A/P)$ 进行年金化分摊</strong>。</li>
+  <li><strong>方法三（两期年金直接相减法）</strong>：若试卷只给一张 $PVIFA$ 表，后 10 年教育支出可看作 27 年大年金减去前 17 年空白年金：$PV_0 = 100{,}000 \times [PVIFA(3\%, 27) - PVIFA(3\%, 17)]$，再除以 $PVIFA(3\%, 17)$ 即可。</li>
+</ul>
+
+<h4>案例 2：房贷等额本息 vs 等额本金（课堂实录例题 / 原教材例 3-10 改编）</h4>
+<p><strong>场景设定</strong>：购房向银行商业贷款 600,000 元，期限 10 年，年利率 $r = 4\%$。对比两种还款方式：</p>
+<table>
+  <thead>
+    <tr>
+      <th>还款方式</th>
+      <th>每期供款特征</th>
+      <th>利息与本金拆分机制</th>
+      <th>生活适用场景与人群</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>等额本息</strong></td>
+      <td>每期还款总额完全相同：<br>$M = \dfrac{600{,}000}{PVIFA(4\%, 10)} = 73{,}974.57$ 元<br><small>（注：若查表取四位粗略系数 0.12328，截断误差得 $73{,}968.4$ 元；Excel 精确值为 $73{,}974.57$ 元）</small></td>
+      <td><strong>利息先多后少，本金先少后多</strong>。<br>第一年利息 $600{,}000 \times 4\% = 24{,}000$ 元，归还本金 49,974.57 元；随着剩余本金减少，利息逐年减少，本金还款逐年递增。<br>10年累计还款总额 739,745.67 元，总利息 139,745.67 元。</td>
+      <td>适合收入预期稳定、希望每期现金流支出确定便于家庭预算的工薪家庭。</td>
+    </tr>
+    <tr>
+      <td><strong>等额本金</strong></td>
+      <td>每期归还本金固定（60,000 元），每期总供款逐期递减。</td>
+      <td><strong>本金均摊，利息逐期下降</strong>。<br>首年利息 24,000 元，首期还款 84,000 元；第十年利息仅 2,400 元，末期还款 62,400 元。<br>10年累计还款总额 732,000 元，总利息 132,000 元。</td>
+      <td>前期还款负担重，适合目前收入较高或预计未来支出增加、希望总还款逐年递减的人。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="pitfall"><strong>经济学辨析：等额本金总利息少，是否意味着它“更划算”？</strong><br>
+很多人误以为等额本金总利息支出（132,000 元）少于等额本息（139,745.67 元）就是赚了，这是忽略了资金时间价值的典型错觉。等额本金前期还款额大，占用并消耗了借款人原本可以用于生产经营或获取理财收益的资金流动性（机会成本）。<mark>当借款人的机会成本恰好等于贷款利率 4% 时，两种方式未来现金流折现到今天完全一分不差，严格等于 600,000 元。</mark>若借款人投资收益率高于 4%，选择等额本息延迟还本在经济学上严格更优；反之资金闲置低息时，等额本金更优。金融市场上不存在无风险的制度性套利空间。</p>
+
+<h3>永续增长年金与 $g$ 的宏观天花板（2%~3%）</h3>
+<p>当现金流按固定比率 $g$ 增长时：</p>
+<ul>
+  <li><strong>永续增长年金公式</strong>：$PV = \dfrac{C_1}{r - g}$。分母的增长率 $g$ 抵消了部分折现率 $r$，因此估值比普通永续年金更高。</li>
+  <li><strong>为什么永续期增长率 $g$ 一般只能取 2%~3% 的低速水平？</strong>在企业估值与股利折现模型（DDM）中，永续期的增长率假定是企业能够永远持续下去的速度。现实中，任何企业的长期复合增速都不可能超过一个经济体的长期潜在名义 GDP 增速（通常以长期国债无风险利率 $r_f$ 为天花板，在成熟经济体一般保守取 2%~3% 的通胀或低速增长水平）。若在 Excel 估值模型里填入 $g = 5\%$，数学上意味着假以时日，这家企业创造的财富将超越整个国家的 GDP 甚至全球经济总量，模型即刻宣告失真。</li>
+</ul>
+
+<h3>Excel 财务函数场景速查（一分钟上手）</h3>
+<table>
+  <thead>
+    <tr>
+      <th>函数名称</th>
+      <th>标准语法</th>
+      <th>对应的数学公式与场景</th>
+      <th>参数细节与防坑规则</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>=PV(...)</code></td>
+      <td><code>PV(rate, nper, pmt, [fv], [type])</code></td>
+      <td>求年金现值或复利现值（如算贷款总额、投资现值）。</td>
+      <td rowspan="4">
+        <ul>
+          <li><strong>现金流进出方向相反</strong>：若算出的现值为负，代表流出现金；在输入参数或公式前加负号（如 <code>=-PMT(...)</code>）可转为正值。</li>
+          <li><strong>期初与期末</strong>：<code>type=0</code> 为期末付（普通年金，默认），<code>type=1</code> 为期初付（先付年金）。</li>
+          <li><strong>利息与本金勾稽</strong>：对任意期 $t$，严格满足 <code>PMT = IPMT + PPMT</code>。其中 <code>per</code> 必须在 $1 \le per \le nper$ 之间。</li>
+          <li><strong>按月还款换算</strong>：若按月还房贷，参数必须统一为月度口径：<code>rate = 年利率/12</code>，<code>nper = 年数*12</code>。</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>=FV(...)</code></td>
+      <td><code>FV(rate, nper, pmt, [pv], [type])</code></td>
+      <td>求年金终值或复利终值（如算定投滚存总额、存款本利和）。</td>
+    </tr>
+    <tr>
+      <td><code>=PMT(...)</code></td>
+      <td><code>PMT(rate, nper, pv, [fv], [type])</code></td>
+      <td>求等额年金 $A$（如算房贷等额本息每期供款）。</td>
+    </tr>
+    <tr>
+      <td><code>=IPMT / PPMT</code></td>
+      <td><code>IPMT(rate, per, nper, pv)</code></td>
+      <td>将第 <code>per</code> 期的等额本息还款精确拆分为<strong>当期利息（IPMT）</strong>与<strong>当期本金（PPMT）</strong>。</td>
+    </tr>
+  </tbody>
+</table>
+
+<details class="quiz"><summary>回想题</summary>
+<p><strong>1. 大学工程经济学的年金现值与终值公式，底层的共同推导来源是什么？</strong>来自高中等比数列求和公式 $S_n = \dfrac{a_1(1-q^n)}{1-q}$。年金现值是公比 $q = \dfrac{1}{1+r}$ 的求和，年金终值是公比 $q = 1+r$ 的求和。</p>
+<p><strong>2. 面对一张现金流题目，判断使用 PVIF、FVIF、PVIFA 还是 FVIFA 的两步法则是什么？</strong>先看是一笔钱（带 F/P）还是一串年金（带 A）；再看折算到早先时点（PV 开头）还是推移到晚期时点（FV 开头）。</p>
+<p><strong>3. 为什么等额本金总利息比等额本息少，但在市场利率下两者经济学价值完全等价？</strong>因为等额本金前期还款额更大，多占用了借款人的资金时间价值和投资机会成本。按贷款利率贴现后，两者总现值完全相等。</p>
+<p><strong>4. 为什么企业估值模型中的永续增长率 $g$ 一般只能取 2%~3% 的低速水平？</strong>因为企业的长期增速不可能永久超越宏观潜在 GDP 增速，否则其体量在数学上终将膨胀超过全球经济总和。</p>
+<p><strong>5. 资本回收系数与偿债基金系数之间存在什么经典恒等关系？</strong>满足 $(A/P, i, n) = (A/F, i, n) + i$，即资本回收系数恒等于偿债基金系数加上利率。</p>
+</details>
+<div class="takeaway"><div class="t-h">带走这一点</div><p>所有年金公式本质都是高中等比数列求和；四个系数（FVIF/PVIF/PVIFA/FVIFA）及其倒数构建了时间换算的完整工具箱；等额本息与等额本金折现价值严格相等，选择取决于流动性与跨期承受能力。</p></div>
+</section>
+
+<section id="c4">
+<h2>第4章 · 经营现金流量预测基础<span class="role">算分子 ★★</span></h2>
+<p class="prereq">承接：第2章母公式的分子 $CF$。输出给：第5章所有指标的输入；第6章盈亏平衡中的 $OCF$ 表达式；第7、10章永续情形下 $OCF=EBIT(1-t)$。</p>
+
+<p>要折现的是钱，不是利润。会计利润按权责发生制记账，里面有不付现的费用（折旧、摊销），也有收入确认和收款不同步的问题。工程经济学用<strong>管理用财务报表</strong>，核心是<span class="term">经营现金流量<small>（原书：OCF，operating cash flow）</small></span>，原书称它为"生产的现金"。它和传统现金流量表里的"经营活动产生的现金流量"不同：后者不含生产性资产投资。</p>
+
+<p>先定几个层层递进的利润口径：</p>
+$$EBITDA=\text{营业收入}-\text{营业成本}-\text{销售费用}-\text{管理费用}-\text{研发费用}$$
+$$EBIT=EBITDA-D-A,\qquad NOPAT=EBIT(1-t),\qquad NI=(EBIT-I)(1-t)$$
+<p><span class="term">折旧摊销及息税前利润<small>（原书：EBITDA）</small></span>、<span class="term">息税前利润<small>（原书：EBIT，earnings before interest and tax）</small></span>、<span class="term">税后经营净利润<small>（原书：NOPAT，net operating profit after tax）</small></span>依次扣掉折旧摊销和税。净利润 $NI$ 多扣了利息 $I$，所以它是股东口径，$NOPAT$ 是"假如没有负债"的口径。然后：</p>
+$$OCF=EBIT(1-t)+D+A-\Delta NWC-Capex$$
+<table>
+  <thead><tr><th>项</th><th>是什么</th><th>为什么这样加减</th></tr></thead>
+  <tbody>
+    <tr><td>$EBIT(1-t)$</td><td>$NOPAT$</td><td>经营本身赚的税后利润；用 $EBIT$ 而不是 $EBIT-I$，所以不受负债多少影响</td></tr>
+    <tr><td>$+D+A$</td><td>加回折旧、摊销</td><td>计算利润时扣过，但并没有付出现金，还原现金时要加回；它们扣在税前，已经让税变少了</td></tr>
+    <tr><td>$-\Delta NWC$</td><td>减经营营运资本增加</td><td>业务扩张时垫进存货、应收账款的钱，是实打实的现金流出</td></tr>
+    <tr><td>$-Capex$</td><td>减资本支出</td><td>买设备、厂房、专利的现金当期就付出去了，利润表却只分期计提折旧</td></tr>
+  </tbody>
+</table>
+
+<h3>税盾：折旧、摊销、利息都能少交税，为何只有利息不进 OCF</h3>
+<p>折旧、摊销和利息都在税前扣除，都能让税变少，原书统称<span class="term">税盾效应<small>（原书：tax shield）</small></span>。但计算 $OCF$ 时折旧摊销加回、利息不扣，原书给了三点理由：没有负债的项目，用 $NOPAT$ 还是用 $NI$ 算出的 $OCF$ 一样；折旧摊销只是账面处理，现金还在项目里，利息却要实际付给债权人，属于财务费用；扣完折旧摊销后的 $EBIT$，除了交税，是在债权人和股东之间分配的，债权价值和股权价值一起构成项目价值。<mark>利息归融资决策，它的影响体现在折现率上。</mark></p>
+
+<p class="pitfall">如果在 $OCF$ 里扣了利息，又用含债务成本的 $WACC$ 去折现，债务成本就被算了两次，项目价值被低估。分子不扣利息、分母体现债务，二者分工不能交叉。</p>
+
+<h3>三种算法，结果相同</h3>
+<table>
+  <thead><tr><th>算法</th><th>公式</th><th>思路</th></tr></thead>
+  <tbody>
+    <tr><td>自上而下法</td><td>$OCF=EBITDA-Tax-\Delta NWC-Capex$，$Tax=t(EBITDA-D-A)$</td><td>从现金流入 $EBITDA$ 逐条减去现金流出；折旧摊销只通过税起作用</td></tr>
+    <tr><td>自下而上法</td><td>$OCF=NOPAT+D+A-\Delta NWC-Capex$</td><td>从税后经营净利润出发，加回非付现费用</td></tr>
+    <tr><td>税盾效应法</td><td>$OCF=EBITDA(1-t)+t(D+A)-\Delta NWC-Capex$</td><td>先当作 $EBITDA$ 全额纳税，再加回折旧摊销带来的税盾 $TS=t(D+A)$；突出税盾，但实务中不常用</td></tr>
+  </tbody>
+</table>
+<p><strong>例 4-2 / 4-3（第 1 年）</strong>：$EBITDA=780{,}000$，$D=400{,}000$，$A=30{,}000$，$t=25\%$，$\Delta NWC=50{,}000$，$Capex=0$。</p>
+<ul>
+  <li>自上而下：$Tax=25\%\times(780000-430000)=87{,}500$，$OCF=780000-87500-50000=642{,}500$ 元；</li>
+  <li>自下而上：$NOPAT=350000\times75\%=262{,}500$，$OCF=262500+430000-50000=642{,}500$ 元；</li>
+  <li>税盾效应：$780000\times75\%+25\%\times430000-50000=642{,}500$ 元。</li>
+</ul>
+<p>本章第二节用一个六年项目完整演示了预测过程，得到 $OCF$ 序列 $(-3080000,\ 642500,\ 820700,\ 955760,\ 1115154,\ 1303196,\ 2333085)$。第5章的盈利倍数（例 5-8）和回收期（例 5-10）都用这组数。</p>
+
+<h3>增量现金流识别四大准则（相关成本分析）</h3>
+<p>资本预算评价的黄金法则是<strong>只看增量现金流（有项目 vs 无项目的差额）</strong>，做题前需严格按四大准则甄别：</p>
+<table>
+  <thead><tr><th>准则</th><th>处理规则</th><th>判断理由与典型题型陷阱</th></tr></thead>
+  <tbody>
+    <tr><td><strong>沉没成本</strong></td><td><mark>坚决不计入</mark></td><td>过去已经发生且无法收回的成本（如前期发生的市场调研费、研发论证费、可行性研究咨询费）。无论本项目投还是不投，这笔钱都无法挽回，不属于增量现金流。</td></tr>
+    <tr><td><strong>机会成本</strong></td><td><mark>必须计入流出</mark></td><td>将现有闲置资源（如企业自有的闲置厂房、土地或设备）用于本项目时，所丧失的潜在最优替代收益（如对外出租的租金或当期公允变现收入），必须计为现金流出。</td></tr>
+    <tr><td><strong>附带效应 / 侵蚀</strong></td><td><mark>必须计入扣减</mark></td><td>新项目上线抢夺了企业现有老产品的客户（自相残杀侵蚀效应），导致老产品净现金流减少的部分，必须作为新项目的现金流出；反之若带动老产品增销（协同效应），则计为现金流入。</td></tr>
+    <tr><td><strong>口径匹配原则</strong></td><td><mark>折现率与现金流口径一致</mark></td><td>名义现金流必须用名义折现率折现，实际现金流必须用实际折现率折现；税后现金流配税后折现率。</td></tr>
+  </tbody>
+</table>
+
+<h3>标准资本预算项目现金流三阶段与终结期税后残值</h3>
+<p>工程项目资本预算综合大题，现金流预测完整覆盖三个阶段：</p>
+<table>
+  <thead><tr><th>阶段</th><th>时点</th><th>现金流构成项目</th><th>计算公式与关键规则</th></tr></thead>
+  <tbody>
+    <tr><td><strong>初始期</strong></td><td>$t=0$</td><td>固定资产投资支出 + 初始营运资本垫支</td><td>$CF_0 = - (Capex + \Delta NWC_0)$。垫支营运资本是现金净流出。</td></tr>
+    <tr><td><strong>经营期</strong></td><td>$t=1 \dots T$</td><td>经营现金流量 $OCF_t$</td><td>$OCF_t = EBIT(1-t) + D + A - \Delta NWC_t$（注：第 4 章公式中把 $Capex$ 统一列减；三阶段表将购置支出前置到初始期，故经营期不再扣 $Capex$）。</td></tr>
+    <tr><td><strong>终结期</strong></td><td>$t=T$</td><td>末期经营现金流 + 固定资产税后残值回收 + 垫支营运资本全额收回</td><td>$CF_T = OCF_T + \text{税后残值净流入} + \Delta NWC_{\text{总收回}}$。</td></tr>
+  </tbody>
+</table>
+
+<div class="box"><div class="b-h">固定资产变现税收效应公式（大题高频失分点）</div>
+<p>项目结束处置固定资产时，实际变现处置收益 $Sal$ 与税法账面净值 $BV$（固定资产原值减去累计折旧）往往不相等，差额产生纳税或抵税效应：</p>
+$$\text{税后残值净流入} = Sal - (Sal - BV) \times t = Sal(1-t) + BV \times t$$
+<ul>
+  <li><strong>变现收益（$Sal > BV$）</strong>：资产变现价格高于账面净值，差额属于资产处置收益，需交纳所得税 $(Sal-BV)t$，现金净流入小于售价；</li>
+  <li><strong>变现损失（$Sal < BV$）</strong>：资产变现价格低于账面净值，差额形成处置亏损，可以在税前抵减其他应税所得，带来抵税现金流入 $(BV-Sal)t$，现金净流入大于售价。</li>
+</ul>
+<p>同时，<strong>垫支的营运资本在项目终结时全额收回</strong>（$+\Delta NWC_{\text{总额}}$），因存货清空变现、应收款回收、应付款结清。</p></div>
+
+<details class="quiz"><summary>回想题</summary>
+<p><strong>1. 写出 OCF 公式，并说明每一项为什么加或减。</strong>见上表。</p>
+<p><strong>2. 折旧和利息都能抵税，为什么一个加回、一个不扣？</strong>折旧不付现金；利息要付给债权人，属于融资，影响体现在折现率上。</p>
+<p><strong>3. 税盾效应法里的 $t(D+A)$ 是什么？</strong>折旧摊销在税前扣除而少交的税。</p>
+</details>
+<div class="takeaway"><div class="t-h">带走这一点</div><p>折现看现金不看利润：$OCF$ 加回折旧摊销、扣掉营运资本增加和资本支出，但不扣利息；三种算法结果一致。</p></div>
+</section>
+
+<section id="c5">
+<h2>第5章 · 投资决策的基本方法<span class="role">决策规则 ★★★</span></h2>
+<p class="prereq">承接：第4章的 $OCF$ 序列；第3章的 $PVIFA$。输出给：第6章（不确定条件下仍以 NPV 为判据）；第10章 $NPV=V_L-C_0$。</p>
+
+<p>有了 $OCF$ 序列，下一个问题是"值不值得投"。原书用四个指标回答四个不同的问题：挣多少、回报率多高、每投 1 元换回多少现值、多久回本。设项目共 $T$ 期，现金流为 $(-C_0, OCF_1,\dots,OCF_T)$，折现率为 $r$：</p>
+<table>
+  <thead><tr><th>指标</th><th>公式</th><th>符号与含义</th><th>决策规则</th><th>特点</th></tr></thead>
+  <tbody>
+    <tr><td><span class="term">净现值<small>（原书：NPV，net present value）</small></span></td><td>$NPV=\sum_{i=1}^{T}\dfrac{OCF_i}{(1+r)^i}-C_0$</td><td>未来现金流现值减初始投资，即投资多创造的价值，单位是元</td><td>$NPV&gt;0$ 接受</td><td>绝对值；给定 $r$ 时结果唯一；原书称<mark>"第一法则"</mark></td></tr>
+    <tr><td><span class="term">内部收益率<small>（原书：IRR，internal rate of return）</small></span></td><td>令 $\sum_{i=1}^{T}\dfrac{OCF_i}{(1+IRR)^i}-C_0=0$，解出 $IRR$</td><td>让 $NPV$ 恰为 0 的折现率，只取决于现金流结构，与 $r$ 无关</td><td>投资项目：$IRR&gt;r$ 接受</td><td>相对值；有四个问题（见下）</td></tr>
+    <tr><td><span class="term">盈利倍数<small>（原书：PI，profitability index）</small></span></td><td>$PI=\dfrac{PV}{C_0}$</td><td>现值与初始投资之比；$NPV$ 是二者之差</td><td>$PI&gt;1$ 接受（等价于 $NPV&gt;0$）</td><td>相对值；结果唯一，但依赖 $r$</td></tr>
+    <tr><td><span class="term">回收期<small>（原书：PP，payback period）</small></span></td><td>$PP=(h-1)+\dfrac{|AOCF(h-1)|}{OCF_h}$</td><td>$AOCF(h)$ 是到第 $h$ 年的累计 $OCF$ 减 $C_0$；$h$ 是它首次转正的年份；分数项是最后那一年用了几分之一</td><td>$PP$ 小于要求的年限 $a$ 接受</td><td>只看回本快慢</td></tr>
+    <tr><td><span class="term">动态投资回收期<small>（原书：DPP，discounted payback period）</small></span></td><td>$DPP=(h-1)+\dfrac{|ADCF(h-1)|}{DCF_h}$</td><td>各期现金流先折现为 $DCF_i=\dfrac{OCF_i}{(1+r)^i}$，$ADCF$ 为累计折现值，$h$ 为其首年转正年份</td><td>$DPP$ 小于要求年限接受</td><td>考虑资金时间价值</td></tr>
+  </tbody>
+</table>
+<p><strong>例 5-8 / 5-10</strong>（第4章的六年项目，$r=15\%$）：$PV=4{,}868{,}245$ 元，$PI\approx1.58$；累计 $OCF$ 第 3 年为 $-661{,}040$、第 4 年为 $454{,}114$，所以 $PP=3+\dfrac{661040}{1115154}\approx3.59$ 年。（原书计算 $PI$ 时分母写作 3,020,000，与初始投资 3,080,000 不一致；按 3,080,000 算约为 1.58。）</p>
+<p>回收期有三点不足：不看回收期之后的现金流（例 5-11：两项目各投 300 万，回收期 2.5 年的项目 1 胜过 3.125 年的项目 2，但项目 2 第 4、5 年现金流高得多）；要求的年限 $a$ 由人主观设定；不考虑时间价值，可以改用折现回收期 $DPP$。周期长的运输、制造、基础设施项目一般不以它为主要指标，对环境变化敏感的 IT 项目常用。</p>
+
+<div class="box"><div class="b-h">手算必备：试错线性内插法（Interpolation）</div>
+<p>手算求 IRR 及债券到期收益率 YTM 无法直接反解，必须通过试错插值法逼近：</p>
+$$r = r_1 + \frac{NPV_1}{NPV_1 - NPV_2} \times (r_2 - r_1)$$
+<p class="pitfall"><strong>插值约束</strong>：先试算找出使 $NPV_1 > 0$（贴现率较低）与 $NPV_2 < 0$（贴现率较高）的两个相邻利率；两利率必须异号，且步长 $|r_2 - r_1|$ 通常宜控制在 $2\% \sim 5\%$ 以内，否则线性插值误差显著放大。</p></div>
+
+<h3>IRR 的四个问题</h3>
+<ol>
+  <li><strong>不区分投资与融资。</strong>投资项目 $(-200,110,121)$ 与融资项目 $(200,-110,-121)$ 的 $IRR$ 都是 10%（例 5-5）。$r=8\%$ 时前者 $NPV=5.59$、后者 $-5.59$。<mark>融资项目的规则反过来：$IRR&lt;r$ 才接受。</mark></li>
+  <li><strong>可能有多个。</strong>矿产开发项目 $(-200,500,-312)$ 的现金流符号变了两次，得到 $IRR_1=20\%$、$IRR_2=30\%$（例 5-6），规则失效；而 $NPV$ 给定 $r$ 时唯一，$r$ 在 20%–30% 之间时 $NPV&gt;0$。符号只变一次时 $IRR$ 唯一。</li>
+  <li><strong>可能不存在。</strong>$(-500,1800,-1700)$ 对应 $5x^2-8x+4=0$，无实数解，无论 $r$ 取多少 $NPV$ 都为负（例 5-7）。</li>
+  <li><strong>可能与 NPV 冲突。</strong>$IRR$ 是相对值、$NPV$ 是绝对值，比较互斥项目时可能结论相反，见下文。</li>
+</ol>
+<p>实务中有一种修正 $IRR$：用某个折现率先把相邻的正负现金流合并成正值，保证只有一个解。原书指出这样做让 $IRR$ 失去了"只取决于现金流"的本义。</p>
+
+<div class="box"><div class="b-h">修正内部收益率（MIRR）</div>
+<p>为克服常规 IRR 的多根问题与不合理的再投资假设，<strong>修正内部收益率（MIRR）</strong>将项目未来的全部现金流出按融资成本贴现到期初，将未来的全部现金流入按资本成本（再投资率）复利滚存到期末终值 $FV$，求解单一折现率使期初流出现值等于期末流入终值：$PV(\text{流出}) = \dfrac{FV(\text{流入})}{(1+MIRR)^T}$。MIRR 解唯一且消除了虚高的再投资假设。</p></div>
+
+<div class="box"><div class="b-h">理论辨析：NPV 与 IRR 再投资收益率假设差异（简答题核心得分点）</div>
+<p>两者冲突的深层经济学根源在于<strong>对项目存续期内中间现金流再投资能力的隐含假设不同</strong>：</p>
+<ul>
+  <li><strong>NPV 指标</strong>：假定中间现金流能够按<strong>资本成本（基准折现率 $r$）</strong>进行再投资。由于资本市场中随时可以按市场利率获取资金或投资同等风险资产，这个再投资假设完全符合资本市场机会成本，理论上真实客观、现实可行。</li>
+  <li><strong>IRR 指标</strong>：隐含假定中间现金流能够按<strong>该项目自身的超高内部收益率 $IRR$</strong> 继续滚动再投资。现实中企业极难在生命周期内持续找到与该高收益项目同等回报的投资机会，因而严重虚高评价了高收益项目的价值。</li>
+</ul>
+<p><strong>最终准则</strong>：在互斥方案比选中，当 NPV 与 IRR 产生排序冲突时，<mark>必须无条件以净现值 NPV 准则为准</mark>。NPV 衡量财富创造的绝对增量，直接对应股东财富最大化目标。</p></div>
+
+<h3>互斥项目：二选一时怎么化解冲突</h3>
+<p><span class="term">互斥项目<small>（原书：mutually exclusive projects）</small></span>指选了一个、另一个自动放弃。</p>
+<table>
+  <thead><tr><th>情形</th><th>方法</th><th>做法</th><th>原书例</th><th>前提与注意</th></tr></thead>
+  <tbody>
+    <tr><td>周期相同</td><td>增量经营现金流量法（IOCF）</td><td>投资额大的减投资额小的，得到增量现金流，问"值不值得多投这笔钱"</td><td>例 5-16：项目 1 $(-300,250,150)$ 的 $NPV=31$、$IRR=24\%$；项目 2 $(-180,150,100)$ 的 $NPV=26$、$IRR=27\%$。$IOCF=(-120,100,50)$ 的 $NPV=5&gt;0$、$IRR=18\%&gt;10\%$，选项目 1</td><td>增量的 $NPV$ 恒等于两项目 $NPV$ 之差，所以<mark>增量法必然支持 NPV 高的项目</mark>；增量的 $IRR$ 只能和 $r$ 比</td></tr>
+    <tr><td>周期不同</td><td><span class="term">约当年金<small>（原书：EAA，equivalent annual annuity）</small></span>法</td><td>$EAA=\dfrac{NPV}{PVIFA(r,T)}$，把各自的 $NPV$ 摊成每年等额，比年均值</td><td>例 5-18（$r=15\%$）：项目 1 $(-100,-40,-40)$，$NPV=-165$，$EAA=\dfrac{-165}{1.6257}\approx-101$；项目 2 $(-160,-10,-10,-10)$，$NPV=-183$，$EAA=\dfrac{-183}{2.2832}\approx-80$。项目 2 年均成本更低</td><td>隐含"到期后可无限重置"的假设，所以多用于成本类决策，也叫约当年均成本 EAC；无法重置时不能用</td></tr>
+    <tr><td>周期不同（并列法）</td><td>最小公倍数寿命法（重置链法）</td><td>取两方案寿命期的最小公倍数（如 2 年与 3 年方案取 6 年），假定方案到期后按原现金流形态不断复制重置，比较公共周期内的总 NPV</td><td>结论与约当年金法（EAA）严格等价</td><td>同样基于"到期后可按原状态无限重置"的前提；项目不可重置时不能用。（注：EAA 既是设备更新重置决策的工具，也是融资租赁租金比较的直觉模型）</td></tr>
+  </tbody>
+</table>
+
+<p><strong>Fisher 交叉折现率</strong>：两方案 NPV 曲线在坐标系中的交点对应的折现率 $r^*$，在数值上严格等于两项目增量现金流的内部收益率 $\Delta IRR$。在典型投资型方案比较中（增量现金流为投资型、初始投资大且常规 IRR 较低）：若资本成本 $r < \Delta IRR$，NPV 与 IRR 排序冲突；若 $r > \Delta IRR$，结论一致。</p>
+<p>例 5-17 用 $PI$ 也出现同样的冲突（项目 1 的 $PI$ 为 1.17、项目 2 为 1.22），增量法同样支持项目 1。折现率改为 20% 时，三个指标都支持项目 2，可见冲突会随 $r$ 变化。冲突的直接表面原因在于相对值指标去掉了规模（深层理论根源见上文再投资假设差异）：把项目 1 的现金流都放大 10 倍，$PI$ 与 $IRR$ 不变，$NPV$ 放大 10 倍。</p>
+
+<p class="pitfall">寿命不同的互斥项目不能直接比总 NPV。例 5-18 中项目 1 的总成本现值更低，但它只用 2 年；按年平均，项目 2 每年 80 万比项目 1 每年 101 万更省。</p>
+
+<details class="quiz"><summary>回想题</summary>
+<p><strong>1. 为什么 NPV 叫第一法则？</strong>它是绝对值，给定 $r$ 时唯一；IOCF 法总是支持 NPV 高的项目；其他相对指标与它冲突时以它为准。</p>
+<p><strong>2. IRR 的四个问题是什么？</strong>不区分投融资（融资项目规则相反）、可能多解、可能无解、可能与 NPV 冲突。</p>
+<p><strong>3. 什么时候用 IOCF，什么时候用 EAA？</strong>周期相同用 IOCF；周期不同、且能假设无限重置时用 EAA。</p>
+</details>
+<div class="takeaway"><div class="t-h">带走这一点</div><p>以 NPV 为准：IRR、PI 是相对值，会和 NPV 冲突；互斥项目周期相同看增量现金流，周期不同把 NPV 摊成约当年金再比。</p></div>
+</section>
+
+<section id="c6">
+<h2>第6章 · 投资决策的其他方法<span class="role">应对不确定 ★★</span></h2>
+<p class="prereq">承接：第5章的 NPV 判据；第3章的 $PVIFA$。输出给：第10章期权估值法（决策树里"灵活性有价值"的思想）；第11章可转债的期权属性。</p>
+
+<p>第5章把参数都当成确定的数。实际上价格、销量、成本都是随机变量，$NPV$ 等指标作为它们的函数也会变。本章三种方法从不同角度处理这一点：盈亏平衡分析找结论翻转的临界值，灵敏度分析描述参数在整个范围内变动的影响，决策树分析考虑分阶段做决定。原书的概括是：<mark>盈亏平衡分析看质变，灵敏度分析看量变</mark>。</p>
+
+<h3 id="c6-bep">盈亏平衡分析</h3>
+<p>设初始投资 $C_0$、存续 $T$ 年、直线折旧无残值（$D=C_0/T$）、不考虑负债。单价 $p$、销量 $Q$、固定成本 $f$、平均可变成本 $c$，则 $EBITDA=pQ-f-cQ$。</p>
+<p>令净利润为 0（$I=0$，忽略摊销），得<strong>净利润下的销量盈亏平衡点</strong>：</p>
+$$Q_{NI}=\frac{f+D}{p-c}$$
+<dl class="symbols">
+  <dt>$p-c$</dt><dd>单位边际贡献：每多卖一件，多出来覆盖固定支出的钱。</dd>
+  <dt>$f+D$</dt><dd>每年要覆盖的固定成本加折旧。会计口径只要求收回资产的账面原值。</dd>
+</dl>
+<p>令 $NPV=0$，即 $OCF\cdot PVIFA(r,T)=C_0$，代入 $OCF=(1-t)(pQ-f-cQ-D)+D$，得<strong>净现值下的销量盈亏平衡点</strong>：</p>
+$$Q_{NPV}=\frac{EAA+(1-t)f-tD}{(1-t)(p-c)},\qquad EAA=\frac{C_0}{PVIFA(r,T)}$$
+<dl class="symbols">
+  <dt>$EAA$</dt><dd>把初始投资摊成每年等额的成本。和折旧不同，它包含了资金占用的机会成本 $r$。</dd>
+  <dt>$(1-t)f$</dt><dd>固定成本在税前扣除，实际负担是税后部分。</dd>
+  <dt>$-tD$</dt><dd>折旧的税盾：折旧在税前扣除少交的税，减轻了需要覆盖的负担。</dd>
+  <dt>$(1-t)(p-c)$</dt><dd>每多卖一件带来的税后现金。</dd>
+</dl>
+<p>为什么<mark>$Q_{NPV}&gt;Q_{NI}$</mark>？在 $p$、$c$、$f$、$t$ 不变、同一笔投资的前提下，考虑时间价值时 $PVIFA(r,T)&lt;T$，所以 $EAA=\dfrac{C_0}{PVIFA(r,T)}&gt;\dfrac{C_0}{T}=D$；把分子里的 $EAA$ 换成更小的 $D$，正好化简回 $Q_{NI}$。如果不考虑时间价值，$EAA$ 就退化为折旧，两个平衡点重合。原书的评价是：$Q_{NPV}$ 更合理，但要预测折现率，结果未必比 $Q_{NI}$ 精确。</p>
+
+<p><strong>现金盈亏平衡点（保现销量）</strong>：只要求项目收回当期付现固定成本，不考虑固定资产沉没投资的折旧摊销回收：</p>
+<ul>
+  <li><em>税前简化口径</em>：令收入覆盖付现成本，$Q_{\text{cash}} = \dfrac{f}{p-c}$；</li>
+  <li><em>含税严谨口径</em>：令税后经营现金流 $OCF = (1-t)(pQ-f-cQ-D)+D = 0$，解得 $Q_{\text{cash}} = \dfrac{f - \frac{t}{1-t}D}{p-c}$（折旧税盾减轻了需靠销售覆盖的现金负担）。</li>
+</ul>
+
+<p><strong>三层次盈亏平衡点大小序列</strong>：在相同参数下，严格满足：</p>
+$$Q_{\text{cash}} < Q_{NI} < Q_{NPV}$$
+<p>现金平衡只保当期现金不亏；会计平衡只保账面利润为零（未补偿时间价值）；现值平衡还必须补偿投资者的资本成本 $r$（财富创造门槛最高）。</p>
+<p><strong>例 6-3（酒精消毒液生产线，同一项目两种口径）</strong>：设备 380,000 元用 5 年，$D=76{,}000$；租金 $f=30{,}000$；$p=10$，$c=5$；$r=10\%$，$PVIFA(10\%,5)=3.8$，$t=25\%$；预计年销量 24,000 瓶。</p>
+$$Q_{NI}=\frac{30000+76000}{10-5}=21{,}200\ \text{瓶}$$
+$$EAA=\frac{380000}{3.8}=100{,}000,\qquad Q_{NPV}=\frac{100000+0.75\times30000-0.25\times76000}{0.75\times(10-5)}=\frac{103500}{3.75}=27{,}600\ \text{瓶}$$
+<p>预计销量 24,000 瓶介于两者之间：<mark>按净利润看不亏，按净现值看亏</mark>。同一组数还可以算出净现值下的可变成本平衡点 $c_{NPV}=4.25$ 元、单价平衡点 $p_{NPV}=10.75$ 元（公式只是把 $Q$ 固定、改解 $c$ 或 $p$）。例 6-1（口罩机，$Q_{NI}=30{,}000$ 个）和例 6-2（加盟后，$EAA$ 摊的是加盟费，$Q_{NPV}=50{,}000$ 个）是两个参数不同的情形，不能拿来比较大小。</p>
+
+<h3>灵敏度分析</h3>
+<p><span class="term">灵敏度分析<small>（原书：sensitivity analysis）</small></span>回答两个问题：某个参数变化会让决策怎样变；要让决策不变，参数可以在多大范围内变动。原书的三步：①确定参数的概率分布；②建立参数与决策指标的函数关系；③由参数分布推出指标的分布。为简化，通常假设参数相互独立、取离散值（例 6-4 影视项目：销售费用 1000 万或 3000 万，收入 3 亿、2 亿或 0.8 亿）。参数多、相互关联时解析式难求，可用<strong>数值模拟</strong>：例 6-6 手机生产线让价格与销量相关，模拟 500 次，得到双峰分布的 $NPV$。</p>
+<p>单因素敏感性分析的核心指标是<strong>敏感度系数（Sensitivity Coefficient）</strong>：</p>
+$$S_{Ai} = \frac{\Delta A / A}{\Delta F_i / F_i}$$
+<p>其中 $A$ 为评价指标（如 NPV），$F_i$ 为不确定因素（如单价、投资额、经营成本）。$|S_{Ai}|$ 的绝对值越大，说明该不确定因素的波动对项目经济效果的影响越剧烈，该因素即为关键敏感因素。</p>
+<div class="box"><div class="b-h">它有什么用</div><p>管理者对参数的判断来自经验和调研，难免不准。灵敏度分析衡量"判断偏了会怎样"，是描述项目风险的一种手段。</p></div>
+
+<h3>决策树分析</h3>
+<p>很多项目分阶段进行，前一阶段的结果出来后还能再决定。决策树把"等信息出来再决定"这一选择权算进价值，用逆向归纳从末端往回推：每个决策点取最大值，每个机会点取期望。</p>
+<p><strong>例 6-7（奶茶店扩张）</strong>：开一家店投入 500 万，之后每年永续现金流 60 万或 120 万，各 50%；$r=20\%$。</p>
+<ul>
+  <li>单阶段：两种情况的 $NPV$ 分别为 $\dfrac{60}{0.2}-500=-200$ 和 $\dfrac{120}{0.2}-500=100$，$E(NPV)=-50$ 万，拒绝。</li>
+  <li>多阶段：第 1 年结果出来后，行情好就扩到 5 家。新增 4 家每家在第 1 年末的 $NPV$ 是 100 万，合计 400 万，折回今天 $\dfrac{400}{1.2}\approx333.3$ 万，该分支 $NPV=433.3$ 万；行情差不扩张，$-200$ 万。</li>
+</ul>
+$$E(NPV)=50\%\times\left(100+\frac{400}{1+20\%}\right)+50\%\times(-200)\approx116.7\ \text{万元}&gt;0$$
+<p>原来被拒绝的项目变成可接受。<strong>例 6-8（并购，收缩策略）</strong>：花 5000 万收购，每年永续现金流 1600 万或 $-200$ 万，$r=15\%$。单阶段 $E(NPV)=-333.3$ 万；若第 1 年亏损后能无成本终止，坏分支 $NPV=\dfrac{-200}{1.15}-5000\approx-5173.9$ 万，$E(NPV)=246.4$ 万，接受。另外，财务顾问费 20 万无论是否并购都要付，是沉没成本，不计入投资。</p>
+<p class="pitfall">算奶茶店好分支时，400 万是扩张后新增门店带来的 $NPV$（已经扣掉了新店投资），要按第 1 年末的时点折现一次，不能直接加在 100 万上，也不能当成支出。</p>
+
+<details class="quiz"><summary>回想题</summary>
+<p><strong>1. 为什么 $Q_{NPV}&gt;Q_{NI}$？</strong>同一笔投资、直线折旧无残值时，$EAA=C_0/PVIFA&gt;C_0/T=D$，净现值口径还要求覆盖资金的机会成本。</p>
+<p><strong>2. 盈亏平衡分析和灵敏度分析的区别？</strong>前者找结论恰好翻转的临界值（质变），后者描述参数整个变动范围的影响（量变）；二者都建立在参数是随机变量的基础上。</p>
+<p><strong>3. 决策树为什么能让负 NPV 项目变成可接受？</strong>后续阶段可以相机选择扩张或止损，这种灵活性本身有价值。</p>
+</details>
+<div class="takeaway"><div class="t-h">带走这一点</div><p>参数会变：盈亏平衡找临界值（净现值口径比净利润口径要求更高），灵敏度看变动范围，决策树给"以后再决定"的灵活性定价。</p></div>
+</section>
+
+<section id="c7">
+<h2>第7章 · 资本结构与项目价值<span class="role">分母的地基 ★★★</span></h2>
+<p class="prereq">承接：第2章 $WACC$ 的定义；第4章 $OCF$。输出给：第8章 MM 第二定理（由本章推出）；第9章税后债务成本 $r_B(1-t)$；第10章 MM 第一定理法。</p>
+
+<p>从本章起进入分母。项目一旦完成出资，未来现金流主要由经营和行业决定；最可能影响折现率的是初始投资怎么筹：股权出多少，债权出多少。</p>
+<p>先定两条：<span class="mark">债权价值 $B$ 是分给债权人的现金流用 $r_B$ 折现</span>，<span class="mark">股权价值 $S$ 是分给股东的现金流用 $r_S$ 折现</span>，所以 $B$、$S$ 都是<strong>市场价值</strong>，不是账面价值。<span class="term">资本结构<small>（原书：B/S）</small></span>就是二者之比。项目价值 $V_L=B+S$，项目的折现率是 $r_S$ 与 $r_B$ 的加权，即<span class="term">加权平均资本成本<small>（原书：WACC，weighted average cost of capital）</small></span>。融资决策的核心问题因此是：$B/S$ 会不会影响 $WACC$，会不会影响 $V_L$？</p>
+
+<h3>无税：资本结构无关</h3>
+<p>莫迪利安尼和米勒 1958 年给出<span class="term">MM 第一定理<small>（原书：MM 第一定理，MMI）</small></span>：</p>
+$$V_L=V_U=\frac{OCF}{r_U}$$
+<dl class="symbols">
+  <dt>$V_U$</dt><dd>无杠杆项目价值：全部用股权出资时的价值。</dd>
+  <dt>$OCF$</dt><dd>也叫<span class="term">无杠杆现金流<small>（原书：UCF，unlevered cash flow）</small></span>，与后文的杠杆现金流相对。</dd>
+  <dt>$r_U$</dt><dd><span class="term">无杠杆股权成本<small>（原书：无杠杆的股权资本成本）</small></span>：全股权出资时股东要求的回报，只反映经营风险。</dd>
+</dl>
+<div class="box"><div class="b-h">前置假设与自制杠杆证明机制</div>
+<p><strong>前置假设</strong>：无税收、无套利、无交易成本、无代理成本、无破产成本、个人与企业借贷利率相同、投资者具有同质预期。</p>
+<p><strong>自制杠杆（Homemade Leverage）与套利证明</strong>：为什么无税时借债不能提高公司价值？MM 证明了投资者可以自制杠杆：若有负债公司（L）的市值由于加杠杆而高于无负债公司（U）（$V_L > V_U$），理性投资者完全可以卖掉手中的 L 公司股票，转而在个人账户按相同利率借款（个人自制杠杆），并买入 U 公司股票。通过个人借债复制完全相同的未来现金流与风险敞口，投资者不仅能拿到等额净现金，还能套取两家公司的股价差额。套利行为会促使 L 公司股票被抛售、U 公司股票被买进，直至两家公司总价值完全相等：$V_L = V_U$。</p></div>
+<p>原书的四点理解：①前提假设很强；②项目价值只由未来现金流决定，<mark>估值更重要的是预测现金流，而不是设计资本结构</mark>；③不能靠借债增加价值；④决定价值的两个基本因素是 $OCF$ 和 $r_U$。米勒的比喻：项目价值是一块馅饼，资本结构是切法，馅饼大小与切法无关。</p>
+<p>直接推论：$WACC$ 也与资本结构无关。成本率可以看成"现金所得 ÷ 期初投入"，所以 $WACC=\dfrac{OCF}{V_L}$，它只与 $B+S$ 有关，等于 $r_U$。<mark>$V_L$ 与 $WACC$ 是一枚硬币的两面，二者乘积就是 $OCF$</mark>，知道一个就能算出另一个。MM 还指出第三条无关性：投资决策与融资决策无关，投资的前提是回报率不低于 $r_U$。</p>
+
+<h3>有税：利息税盾让负债增值</h3>
+<p>利息在税前支付，股利在税后支付。于是有<strong>有税的 MM 第一定理</strong>：</p>
+$$V_L=B+S=V_U+tB=\frac{EBIT(1-t)}{r_U}+tB$$
+<p>$tB$ 怎么来的：每期利息 $r_B B$，因为在税前扣除，每期少交税 $t\,r_B B$。假设项目永续经营、负债 $B$ 不变，这笔税盾和债务风险相同，按 $r_B$ 折现：</p>
+$$PV(\text{税盾})=\frac{t\,r_B B}{r_B}=tB$$
+<p>同理，$WACC$ 要改为用税后债务成本 $r_B(1-t)$ 加权，于是 $WACC$ 下降、价值上升，与 $V_L=V_U+tB$ 一致。此后全书默认考虑税收。</p>
+
+<h3>破产成本、代理成本：负债不能无限加</h3>
+<p>按有税 MM 第一定理，负债越多价值越大，100% 负债最好，但实践中很少见。原因之一是<strong>破产成本</strong>：债务要按法定清偿，付不出利息就破产。<mark>税盾大于破产成本时应增加负债；超过某个额度后，破产成本超过税盾，继续借债会让 $WACC$ 上升、价值下降</mark>。破产成本只在破产时才发生，很难度量。原因之二是<strong>代理成本</strong>：股东和债权人目标不一致，员工与二者之间也有利益冲突，这些冲突的成本可以放在博弈论框架里分析。此外，现实中的税也不只有企业所得税。</p>
+
+<h3>权衡理论：最优资本结构的存在性</h3>
+<p><strong>权衡理论（Trade-off Theory）</strong>将负债的正面效应（利息税盾）与负面效应（破产成本/财务困境成本与代理成本）置于同一方程权衡：</p>
+$$V_L = V_U + PV(\text{利息税盾}) - PV(\text{财务困境成本}) - PV(\text{代理成本})$$
+<p>当负债较少时，税盾收益占主导，企业价值随负债上升；超过临界点后，财务困境成本和代理成本呈指数级上升，吞噬税盾收益。<mark>在边际税盾收益等于边际财务困境成本时，企业总价值最大、$WACC$ 降至最低，达到最优资本结构</mark>。</p>
+
+<h3>优序融资理论（Pecking Order Theory）</h3>
+<p>基于信息不对称与逆向选择理论（Myers & Majluf），管理层比外部投资者掌握更多内部经营信息。外部投资者将“增发新股”视作“管理层认为当前股价被高估”的利空信号，导致股价下跌。为规避信号折价，企业融资严格遵循<strong>标准三档顺序</strong>：</p>
+$$\text{内部留存收益} \;\longrightarrow\; \text{债权融资（低风险债优先）} \;\longrightarrow\; \text{外部股权融资}$$
+<p>优序融资理论认为企业不存在一个恒定的“最优目标资本结构”，当前的资产负债率仅是历年盈利积累与外部投资缺口差额的历史沉淀结果。</p>
+<p class="pitfall">有税 MM 第一定理并不推出"负债越多越好"。它的前提是没有破产成本和代理成本；加入这两项后，负债的好处有上限，存在使价值最大的资本结构（本章习题 3、4）。</p>
+
+<details class="quiz"><summary>回想题</summary>
+<p><strong>1. 无税 MM 第一定理的结论和假设？</strong>$V_L=V_U=OCF/r_U$，资本结构不影响价值；假设无税、无套利、无交易成本、无代理成本、无破产成本。</p>
+<p><strong>2. $tB$ 为什么不含 $r_B$？</strong>每期税盾 $t\,r_B B$ 按 $r_B$ 永续折现，$r_B$ 被约掉。</p>
+<p><strong>3. 为什么说 $V_L$ 与 WACC 是一枚硬币的两面？</strong>$WACC\times V_L=OCF$，给定 $OCF$，知道一个就知道另一个。</p>
+</details>
+<div class="takeaway"><div class="t-h">带走这一点</div><p>无税时切法不改变馅饼大小；有税时利息税盾让价值增加 $tB$；破产成本和代理成本限制了负债的好处。</p></div>
+</section>
+
+<section id="c8">
+<h2>第8章 · 股权资本成本<span class="role">分母最难测的一半 ★★★</span></h2>
+<p class="prereq">承接：第7章 MM 定理；第3章 CAPM 与贝塔。输出给：第10章 WACC 法中的 $r_S$、股权现金流法的折现率。</p>
+
+<p><span class="term">股权资本成本<small>（原书：股权资本成本，记 $r_S$）</small></span>是投资者对项目做股权投资时，期望获得的、与所承担风险相匹配的报酬率。它在不同场景里叫法不同：投资决策里是股权现金流的折现率，融资决策里是融资方付出的股权成本，股票市场里是股票收益率。三者本质一致：投资方要求的回报就是融资方承担的成本，这反映了无套利思想。它有两个特征：<strong>预期</strong>（折现的是未来现金流，不管融资与否它都客观存在）和<strong>理性</strong>（风险越高要求越高；外部因素如宏观经济、行业，内部因素如经营业绩、管理水平）。</p>
+
+<p>难点在于<mark>股权资本成本无法直接观测</mark>。债权的回报写在借贷合同里，正常经营时照付即可；股东的回报无法用书面契约确定，即使写了承诺也不可信。原书用回归来类比：真实的回归系数客观存在但不可知，只能用数据算出估计值去逼近它。之所以非测不可，是因为它是一串计算的起点：$r_S$ → 股权价值 $S$ → 加上债权价值得到资本结构 → 加上 $r_S$、$r_B$ 得到 $WACC$ → 项目价值。</p>
+
+<p>测算原理分两类：<strong>事前估计法</strong>用预期财务指标，预测未来现金流，再找使其现值等于当前股价或投入的折现率，好处是贴合"预期"特征，坏处是结果几乎完全取决于财务假设；<strong>事后估计法</strong>用已实现的历史收益率算风险溢价，数据客观易得，但要求投资者理性、市场有效，历史收益又混有噪音。</p>
+
+<h3>四种测算方法</h3>
+<table>
+  <thead><tr><th>方法</th><th>公式</th><th>符号与关键项</th><th>前提与局限</th><th>原书例</th></tr></thead>
+  <tbody>
+    <tr><td>股利折现模型（DDM）</td><td>$r_S=\dfrac{Div_1}{P_0}+g$</td><td>由永续增长年金 $P_0=\dfrac{Div_1}{r_S-g}$ 反解。$\dfrac{Div_1}{P_0}$ 是股利收益率，$g$ 是股利增长带来的回报（增长率 $g$ 常由内生增长模型 $g = b \times ROE$ 计算，$b$ 为利润留存率）</td><td>股利永续稳定增长、$r_S&gt;g$。依赖股利政策：许多公司（包括互联网公司）不发或少发现金股利；股价是否等于股权现值、增长率是否稳定都有争议</td><td>例 8-2：$\dfrac{1}{20}+10\%=15\%$</td></tr>
+    <tr><td>MM 第二定理</td><td>无税 $r_S=r_U+\dfrac{B}{S}(r_U-r_B)$；有税 $r_S=r_U+\dfrac{B}{S}(1-t)(r_U-r_B)$</td><td>见下方释义</td><td>关键在于确定 $r_U$</td><td>例 8-3：$r_U=7\%$、$r_B=5\%$、$B/S=1$，无税 9%，税率 25% 时 8.5%</td></tr>
+    <tr><td>资本资产定价模型（CAPM）</td><td>$r_S=r_f+\beta_S(r_m-r_f)$</td><td>$r_f$、$r_m-r_f$ 由市场给定，<mark>关键是测 $\beta_S$</mark></td><td>假设条件严苛；市场组合难以观测，用历史数据回归求 $\beta$ 往往难以进行，更常用可比公司法</td><td>例 8-5 至 8-9</td></tr>
+    <tr><td>套利定价理论（APT）</td><td>$r_S=\alpha_S+\beta_{S1}F_1+\dots+\beta_{Sn}F_n+e_S$</td><td>$F_k$：风险因子（宏观如 GDP、利率、通胀，微观如财务杠杆、账面市值比）；$\beta_{Sk}$：对各因子的敏感度</td><td>只需少数精明投资者消除套利机会，比 CAPM 假设弱；但残差风险大时精度下降</td><td>Fama-French 三因子是其特例</td></tr>
+  </tbody>
+</table>
+
+<p>MM 第二定理的推导：无税时 $r_U=WACC$，与 $WACC$ 定义联立即得。有税时由 $V_L=V_U+tB$ 得 $V_U=S+(1-t)B$；两边每期现金流相等，$S\,r_S+B\,r_B=V_U\,r_U+tB\,r_B$，代入整理得有税版本。</p>
+<dl class="symbols">
+  <dt>$r_U$</dt><dd>没有负债时股东要求的回报，原书称之为一把"标尺"，其他资本结构下的 $r_S$ 都由它算出。</dd>
+  <dt>$\dfrac{B}{S}$</dt><dd>负债与股权的市场价值之比。负债越多，同样的经营风险由更少的股权承担。</dd>
+  <dt>$r_U-r_B$</dt><dd>经营风险回报超过债务回报的部分，每多一单位杠杆，股东就要多承担一份。</dd>
+  <dt>$(1-t)$</dt><dd>税盾分担了一部分风险：税率越高，股东承担的风险越低，$r_S$ 越低。</dd>
+</dl>
+
+<h3>可比公司法测 β：哈马达方程（Hamada）四步全链路</h3>
+<p>若债务资本也承担系统性风险（$\beta_B > 0$），资产贝塔的一般加权关系由有税 MM 第二定理推导出：</p>
+$$\beta_U = \frac{\beta_S S + \beta_B(1-t)B}{S + (1-t)B}$$
+<p>若假定债务无违约风险（$\beta_B = 0$），代入上式即严格退化为经典的<strong>哈马达方程（Hamada Equation）</strong>：$\beta_L = \beta_U \left[1 + (1-t)\dfrac{B}{S}\right]$。它把 $\beta$ 拆为纯业务经营风险（$\beta_U$）与财务杠杆风险：先去杠杆剔除可比公司的负债结构，再加上目标项目自身的资本结构：</p>
+
+<div class="box"><div class="b-h">可比公司法求 WACC 的大题标准四步链</div>
+<ol>
+  <li><strong>去杠杆</strong>：利用可比上市公司的 $\beta_{\text{可比}}$ 及 $(B/S)_{\text{可比}}$，求出反映纯粹经营风险的资产贝塔 $\beta_U$；多家可比公司时取 $\beta_U$ 的均值；</li>
+  <li><strong>加杠杆</strong>：将 $\beta_U$ 代入目标项目的负债权益比 $(B/S)_{\text{目标}}$，折算目标项目的权益贝塔 $\beta_{\text{目标}}$；</li>
+  <li><strong>算股权成本</strong>：将目标 $\beta_{\text{目标}}$ 代入 CAPM，求出 $r_S = r_f + \beta_{\text{目标}}(r_m - r_f)$；</li>
+  <li><strong>加权合成 WACC</strong>：与税后债务成本 $r_B(1-t)$ 按目标市值比重加权合成 $WACC$。</li>
+</ol></div>
+<p>目标项目没有股票交易数据时，找业务相近的上市公司。它的 $\beta$ 混着它自己的负债水平，要先剔除，再按目标的资本结构加回：</p>
+$$\beta_U=\frac{\beta_{\text{可比}}}{1+(1-t)\dfrac{B_{\text{可比}}}{S_{\text{可比}}}},\qquad \beta_{\text{目标}}=\beta_U\left[1+(1-t)\frac{B_{\text{目标}}}{S_{\text{目标}}}\right]$$
+<p>多家可比公司时，取平均的无杠杆贝塔作为行业的 $\beta_U$。<strong>例 8-8</strong>：家电企业 A 进入汽车业，A 的负债权益比 $B/S=3/4$；可比公司 B 的 $B/S=5/6$、$\beta=1.2$；$t=25\%$，$r_f=4\%$，市场风险溢价 7%。</p>
+$$\beta_U=\frac{1.2}{1+0.75\times\frac{5}{6}}\approx0.7385,\qquad \beta_A=0.7385\times\left(1+0.75\times\tfrac{3}{4}\right)\approx1.1538$$
+<p>再代入 CAPM：$r_S=4\%+1.1538\times7\%\approx12.08\%$（这一步原书未列出，属讲义补算）。</p>
+<p>APT 与 CAPM 的关系：<mark>CAPM 是只含市场因子的单因子 APT</mark>。但二者前提不同，形式相同不等于理论相同；APT 是近似定价，CAPM 是精确定价。</p>
+<p class="pitfall">$\beta=0$ 只说明没有系统性风险，不等于无风险，可能还有非系统性风险。$\beta$ 可正可负，负值表示与市场反向波动，常见于做空类资产。</p>
+
+<details class="quiz"><summary>回想题</summary>
+<p><strong>1. 股权资本成本为什么只能测算？</strong>股东回报无法用合同确定；债权回报写在合同里，可以直接观测。</p>
+<p><strong>2. 四种测法各自依赖什么输入？</strong>DDM：股价、下期股利、增长率；MM 第二定理：$r_U$、$r_B$、$B/S$、$t$；CAPM：$r_f$、市场风险溢价、$\beta$；APT：各风险因子与敏感度。</p>
+<p><strong>3. 为什么用可比公司的 β 要先去杠杆？</strong>它的 $\beta$ 含有它自己的财务杠杆风险，与目标的资本结构不同。</p>
+</details>
+<div class="takeaway"><div class="t-h">带走这一点</div><p>股权资本成本看不见、只能估：四种方法各有前提，CAPM 最常用，难点在 $\beta$，可比公司法先去杠杆再加杠杆。</p></div>
+</section>
+
+<section id="c9">
+<h2>第9章 · 债权资本成本<span class="role">分母较易测的一半 ★★</span></h2>
+<p class="prereq">承接：第8章（与股权成本对照）；第3章单利与复利。输出给：第10章 WACC 中的 $r_B$ 与税后 $r_B(1-t)$；第10章 MM 第一定理法的 $tB$。</p>
+
+<p><span class="term">债权资本成本<small>（原书：债权资本成本，记 $r_B$）</small></span>是债权投资者期望的、与风险相匹配的报酬率。广义包括利息和筹资费用，狭义只含利息；筹资费用一般较小，两者差别不大。</p>
+<div class="box"><div class="b-h">理论定义与实务做法不一致</div>
+<p>理论上，它应是为新项目<strong>将要借入的新债务</strong>的成本，与现有债务的历史成本无关；而且应按债务人<strong>最终实际能支付的利息</strong>算，因为债务人可能违约。照此定义根本算不出来。<mark>实务中用现有债务的历史成本，并以合同承诺的利息为准。</mark></p>
+<p>用现有成本代替未来成本的理由：现有债权未来的现金流基本确定，算得出回报率；债权成本比股权成本稳定，经济环境变化先冲击股权现金流。用承诺回报率代替期望回报率的理由：违约概率难估；决策者以股东利益最大化为目标，违约清算时股东权益归零，所以决策者会假设能还清全部债务；违约带来的中介、法律费用由企业承担，期望回报率反而低估了违约成本。</p></div>
+<p>它比股权成本简单，是因为债权现金流基本由合同给定，只需在无风险利率基础上，按无法按期兑付的情况做调整。</p>
+
+<h3>三组利率</h3>
+<p>债权资本成本和利率是"一个硬币的两面"：企业付出的叫成本，债权人得到的叫利率。</p>
+<table>
+  <thead><tr><th>利率对</th><th>关系式</th><th>符号</th><th>原书例</th></tr></thead>
+  <tbody>
+    <tr><td>名义利率与实际利率</td><td>$1+i=(1+r)(1+\pi)$，近似 $i\approx r+\pi$（<span class="term">费雪方程<small>（原书：Fisher Equation）</small></span>）</td><td>$i$ 名义利率，$r$ 实际利率（以购买力计），$\pi$ 通胀率；事前用预期通胀 $E\pi$</td><td>例 9-1：名义 15.5%、通胀 5%，实际 10%。例 9-2：贷款名义 7%，预期通胀 3% 时事前实际利率 4%，低于业务实际回报 5%，接受；事后通胀只有 1.5%，实际利率 5.5%，决策无效</td></tr>
+    <tr><td>年化利率与有效年利率</td><td>$EAR=\left(1+\dfrac{i}{n}\right)^n-1$</td><td>$i$ 年化利率（报价、票面利率都是它，必须和付息周期一起给出），$n$ 一年计息次数</td><td>例 9-3：年化 8%、按季付息，$EAR=1.02^4-1=8.24\%$。二者体现单利与复利的区别</td></tr>
+    <tr><td>税前利率与税后利率</td><td>税后 $=r_B(1-t)$</td><td>利息在税前支付，抵扣了部分税款</td><td>进入第10章 $WACC$</td></tr>
+  </tbody>
+</table>
+<p class="pitfall">费雪方程里的 $r$ 是实际利率，$i$ 是名义利率，和全书的折现率 $r$、期数 $i$ 不是一回事。折现时口径要配对：名义现金流配名义利率，实际现金流配实际利率。</p>
+
+<h3>四种测算方法</h3>
+<table>
+  <thead><tr><th>方法</th><th>什么时候用</th><th>做法</th><th>原书例</th></tr></thead>
+  <tbody>
+    <tr><td><span class="term">到期收益率<small>（原书：yield to maturity）</small></span>法（不考虑筹资费用）</td><td>已有债券发行，市场价值易得</td><td>$P_0=\sum_{k=1}^{n}\dfrac{I_k}{(1+y)^k}+\dfrac{M}{(1+y)^n}$，解出 $y$ 即 $r_B$。$y$ 是持有到期、按期兑付时的内部收益率，是承诺收益率，不考虑违约</td><td>例 9-4：5 年期、面值 100、票面 4%。平价 100 时 $y=4\%$（等于票面利率）；溢价 102 时 3.56%；折价 98 时 4.46%</td></tr>
+    <tr><td>到期收益率法（考虑筹资费用）</td><td>发行或借款有中介、会计等费用</td><td>左边用净筹得资金代替发行价，到期本金仍按面值</td><td>例 9-7：每份分摊筹资费 2 元，净得 98 元，$y=4.46\%$</td></tr>
+    <tr><td>可比企业法</td><td>没有债务，或债务市价难估</td><td>用行业、运营与盈利模式相近企业的债权成本，调整后使用</td><td>—</td></tr>
+    <tr><td>风险调整法</td><td>既无债券也无可比企业</td><td>同期限国债到期收益率 + 同信用等级债券的信用风险溢价</td><td>例 9-8：B 级溢价 $(4\%+3.6\%)/2=3.8\%$，10 年期国债 4.8%，$r_B=8.6\%$</td></tr>
+  </tbody>
+</table>
+
+<details class="quiz"><summary>回想题</summary>
+<p><strong>1. 理论上的债权资本成本和实务做法差在哪？</strong>理论用新债、实际能付的利息；实务用现有债务、合同承诺的利息。</p>
+<p><strong>2. 为什么用承诺回报率而不用期望回报率？</strong>违约概率难估；决策者假设持续经营、能还清；期望回报率低估了违约成本。</p>
+<p><strong>3. 平价、溢价、折价发行时到期收益率与票面利率的关系？</strong>相等、低于、高于。</p>
+</details>
+<div class="takeaway"><div class="t-h">带走这一点</div><p>债权成本实务上就是现有债务的承诺回报率，最常用到期收益率法；没有债券时用可比企业或"国债 + 信用溢价"。</p></div>
+</section>
+
+<section id="c10">
+<h2>第10章 · 杠杆项目的两种基本估值方法<span class="role">合流 ★★★</span></h2>
+<p class="prereq">承接：第4章 $OCF$；第7章（有税）MM 第一定理；第8章 $r_S$ 与 MM 第二定理；第9章 $r_B$。输出给：第11章融资工具的选择；第12章新对象的估值挑战。</p>
+
+<p>分子和分母都测好了，本章把它们合起来，给带负债的项目估值。原书只立两种基本方法：</p>
+<table>
+  <thead><tr><th>方法</th><th>公式（永续情形）</th><th>税盾放在哪</th><th>需要的输入</th></tr></thead>
+  <tbody>
+    <tr><td><span class="term">WACC 法<small>（原书：加权平均资本成本法）</small></span>（10.1）</td><td>$V_L=\dfrac{OCF}{WACC}$，一般情形 $V_L=\sum\dfrac{OCF_i}{(1+WACC)^i}$</td><td>通过 $r_B(1-t)$ 进入折现率</td><td>$OCF$；$WACC$ 的四个参数 $B/S$、$r_S$、$r_B$、$t$</td></tr>
+    <tr><td><span class="term">MM 第一定理法<small>（原书：MM 第一定理法，即调整现值法 APV）</small></span>（10.2）</td><td>$V_L=\dfrac{OCF}{r_U}+tB$</td><td>单独算出 $tB$ 再加上</td><td>$OCF$、$r_U$、$B$、$t$</td></tr>
+  </tbody>
+</table>
+<p>算出 $V_L$ 后，$NPV=V_L-C_0$。另外，第2章式 2.9 的<span class="term">股权现金流法<small>（原书：FTE，flow to equity）</small></span>只站在股东角度：用<span class="term">杠杆现金流<small>（原书：LCF，levered cash flow）</small></span>按 $r_S$ 折现得股权价值，$S=\dfrac{LCF}{r_S}$。原书在例 10-4 用它验算。</p>
+
+<h3>例 10-4：同一个项目，几条路算出同一个价值</h3>
+<p>项目永续 $EBIT=1000$ 万，$t=20\%$，$r_U=10\%$，初始投资 $C_0=9000$ 万。</p>
+<ol>
+  <li><strong>全股权出资</strong>：$OCF=EBIT(1-t)=800$，$V_U=\dfrac{800}{10\%}=8000$，$NPV=8000-9000=-1000$ 万，应放弃。</li>
+  <li><strong>借 6000 万（$r_B=4\%$），股东出 3000 万，用 MM 第一定理法</strong>：$V_L=8000+20\%\times6000=9200$，<mark>$NPV=9200-9000=+200$ 万</mark>，变为可接受。</li>
+  <li><strong>求股权价值和 $r_S$</strong>：$S=V_L-B=3200$，$B/S=\dfrac{6000}{3200}=\dfrac{15}{8}$；由有税 MM 第二定理 $r_S=10\%+\dfrac{15}{8}\times0.8\times(10\%-4\%)=19\%$。</li>
+  <li><strong>股权现金流法验算</strong>：$LCF=(1000-4\%\times6000)\times0.8=608$，$S=\dfrac{608}{19\%}=3200$，与第 3 步一致。</li>
+  <li><strong>WACC 法验算</strong>：$WACC=19\%\times\dfrac{3200}{9200}+4\%\times0.8\times\dfrac{6000}{9200}=\dfrac{608+192}{9200}=\dfrac{800}{9200}\approx8.70\%$，$V_L=\dfrac{800}{8.70\%}=9200$，一致。</li>
+</ol>
+<p class="pitfall">股东投入 $S_0=3000$ 万，但股权的市场价值 $S=3200$ 万。二者之差 200 万正是项目的 $NPV$：股东用 3000 万买到了值 3200 万的股权。另外注意第 5 步的 $WACC$ 要用第 3 步才得到的 $S$，这正是下文"循环逻辑"的具体表现。</p>
+
+<h3>两法为什么必然等价（10.4）</h3>
+<p>把有税 MM 第二定理代入 $WACC$ 定义：</p>
+$$WACC=\left[r_U+\frac{B}{S}(1-t)(r_U-r_B)\right]\frac{S}{V_L}+r_B(1-t)\frac{B}{V_L}=r_U\,\frac{S+B-tB}{V_L}=r_U\,\frac{V_L-tB}{V_L}$$
+<p>含 $r_B$ 的两项正好抵消。再用有税 MM 第一定理 $V_L-tB=V_U$，得到</p>
+$$WACC\times V_L=r_U\times V_U=OCF$$
+<p>所以 $V_L=\dfrac{OCF}{WACC}$ 与 $V_L=\dfrac{OCF}{r_U}+tB$ 是同一个数。原书的四点解释：两法出发点不同，WACC 法把负债的影响放进折现率，MM 第一定理法把税盾单独算；MM 第一定理法体现了无套利思想，整体等于部分之和；只要 $OCF$ 恒定，$WACC$ 与 $V_L$ 知其一可得其二；<mark>两法等价说明项目价值是唯一的</mark>。</p>
+
+<h3>WACC 法的循环逻辑（10.4）</h3>
+<p>WACC 法分三步：预测 $OCF$，测 $WACC$，折现。第二步要用资本结构 $B/S$。债权价值 $B$ 一般容易测，但知道了 $B/S$ 和 $B$ 就能直接得到 $S$，$B+S$ 已经是项目价值，不必再折现。换言之，<mark>要算 WACC 得先知道 $V_L$，而算 WACC 正是为了求 $V_L$</mark>。$V_L=\dfrac{OCF}{WACC}$ 是估值结果与 WACC 应满足的关系，不是估值的依据。例 10-4 的顺序（先用 MM 第一定理法求 $V_L$，再反推 WACC）就避开了这个问题。</p>
+
+<p class="pitfall"><strong>tB 的成立前提</strong>：教材有税 MM 第一定理推导 $PV(\text{税盾}) = \dfrac{t r_B B}{r_B} = tB$ 时，严格假设了<strong>负债绝对额 $B$ 恒定不变，且利息税盾按债务资本成本 $r_B$ 折现</strong>。若负债额随企业总价值按固定比率动态调整，税盾风险将等同于经营资产风险，税盾现值不再是 $tB$。这正是两种估值方法适用场景不同的理论根源。</p>
+
+<h3>WACC 法、APV 法与 FTE 法的选择与做题准则</h3>
+<table>
+  <thead><tr><th>估值方法</th><th>适用场景与核心特征</th><th>折现率与现金流口径</th><th>适用理由与局限</th></tr></thead>
+  <tbody>
+    <tr><td><strong>WACC 法</strong></td><td>企业或项目维持<strong>恒定的目标资本结构（$B/S$ 比例恒定）</strong></td><td>无杠杆经营现金流 $OCF$ 用 $WACC$ 折现，得到项目总价值 $V_L$</td><td>负债金额随项目价值同比波动，每期加权平均成本恒定；但存在估值循环逻辑。</td></tr>
+    <tr><td><strong>APV 法（MM第一定理法）</strong></td><td><strong>负债绝对金额固定（$B$ 恒定）</strong>或有明确固定的还本还息时间表</td><td>先以 $r_U$ 折现 $OCF$ 算基准全股权价值 $V_U$，再单独加上按 $r_B$ 贴现的利息税盾 $tB$</td><td>利息税盾以固定本金直接计算，无需循环论证（教材口径：负债 $B$ 不变且按 $r_B$ 折现，税盾按 $r_U$ 折现为其他学术流派观点，本书不采用）。</td></tr>
+    <tr><td><strong>FTE 法（股权现金流法）</strong></td><td>资本结构极其复杂、杠杆率极高，或投资者<strong>单纯聚焦股东自身现金回报</strong></td><td>扣除本息后的杠杆现金流 $LCF$ 用股权资本成本 $r_S$ 折现，直接得到股权价值 $S$</td><td>只看股东，避开债务价值评估；但 $r_S$ 随负债结构剧烈变动时难以保持恒定。</td></tr>
+  </tbody>
+</table>
+
+<h3>其他估值方法（10.5）</h3>
+<p>以上都是<strong>绝对估值法</strong>，只需要待估项目自己的现金流和折现率。<span class="term">相对估值法<small>（原书用词）</small></span>的依据是：理性投资者为一项资产愿付的价格，大致等于市场上性能相同的替代品的价格。若目标项目与可比项目风险相近、现金流成比例，价值之比就等于某个关键指标 $a$ 之比：</p>
+$$\text{目标项目价值}=\text{目标项目指标 }a\times\frac{\text{可比项目价值}}{\text{可比项目指标 }a}$$
+<p>后一项就是"估值倍数"。四步：选可比项目（行业、运营模式、盈利模式、资本结构相近）→ 选指标 → 算倍数（多个可比项目取平均或中位数，剔除负值和异常值，必要时按目标的信誉、技术给溢价或折价）→ 算目标价值。</p>
+<table>
+  <thead><tr><th>倍数</th><th>特点</th><th>不足</th><th>适用</th></tr></thead>
+  <tbody>
+    <tr><td>EBITDA 倍数（EV/EBITDA）</td><td>剔除了会计政策和发展阶段差异</td><td>不反映资本支出需求，与实际经营现金流相关性小</td><td>财务杠杆高、重资产、高折旧的项目；例 10-5 中 W 公司 $EV=129.61$ 亿元</td></tr>
+    <tr><td>市盈率（PE）</td><td>数据易得，把价值和盈利能力联系起来，直观</td><td>净利润受资本结构、折旧摊销等会计制度影响大；利润波动大时不稳定，<mark>净利润为负时失效</mark></td><td>周期性较弱的行业：公共服务、食品、道路运输</td></tr>
+    <tr><td>市净率（PB）</td><td>数据易得，净资产账面值较稳定、一般不为负</td><td>净资产反映初始成本，未必反映未来盈利；受会计政策影响，可比性下降</td><td>周期性较强、固定资产多的行业；最典型的是银行业</td></tr>
+  </tbody>
+</table>
+<p>两类方法互补：绝对估值法理论严谨、只要假设正确结果较准，但假设主观、工作量大；相对估值法简单透明，但缺少严格理论支撑，可比项目的选取主观，且不能完全反映内在价值。<span class="term">期权估值法<small>（原书用词）</small></span>用于高风险、高回报的项目：研发成果只有在有市场价值时才"执行"投产，回报形状和看涨期权一样，可以借鉴 Black-Scholes 等期权定价方法，原书不展开。</p>
+
+<details class="quiz"><summary>回想题</summary>
+<p><strong>1. 两种基本估值方法各把税盾放在哪？</strong>WACC 法放进折现率（$r_B(1-t)$）；MM 第一定理法单独加 $tB$。</p>
+<p><strong>2. 例 10-4 的五步各算出什么？</strong>$V_U=8000$、$NPV=-1000$；$V_L=9200$、$NPV=200$；$S=3200$、$r_S=19\%$；$LCF=608$、$S=3200$；$WACC\approx8.70\%$、$V_L=9200$。</p>
+<p><strong>3. WACC 法的循环逻辑是什么？</strong>算 WACC 需要资本结构，而知道资本结构就已经知道价值。</p>
+</details>
+<div class="takeaway"><div class="t-h">带走这一点</div><p>WACC 法把税盾放进分母，MM 第一定理法把税盾单列，二者必然相等；实际计算先求价值再反推 WACC，可避开循环逻辑。</p></div>
+</section>
+
+<section id="c11">
+<h2>第11章 · 项目融资实务<span class="role">工具清单 ★</span></h2>
+<p class="prereq">承接：第7章（债权的税盾、股权的控制权）；第10章估值。输出给：第12章互联网科技企业的特殊融资顺序。</p>
+
+<p>前面讨论融资只看股权和债权的比例，本章看钱实际从哪里来。原书按三类渠道组织：</p>
+<table>
+  <thead><tr><th>渠道</th><th>方式</th><th>要点</th></tr></thead>
+  <tbody>
+    <tr><td rowspan="3">内部融资</td><td>留存收益融资</td><td>最常见。只适用于已经盈利的公司。用它的条件是留存收益再投资创造的价值更大，否则公司价值缩水（资本利得税高时条件放宽）。优点：交易成本低，股东不用交资本利得税，<mark>不引入外部力量、股权不被稀释</mark>。缺点：额度有限，新项目享受不到债权融资的税盾</td></tr>
+    <tr><td>资产变卖融资</td><td>出售老旧生产线、存货或其他资产，多见于效益不佳或战略收缩、转型的公司；急需资金时也可卖掉有用资产再租回使用</td></tr>
+    <tr><td>营运资本融资</td><td>缩短应收账款周期、延长应付账款周期来筹钱，较少使用，资金链一断可能亏损甚至破产；常见于连接上下游的平台公司</td></tr>
+    <tr><td rowspan="3">外部股权融资</td><td>首次公开发行（IPO）</td><td>优点：发行范围广，上市后再融资难度和成本更低，提升声誉与价值。缺点：发行条件严苛、流程漫长，时间与金钱成本高</td></tr>
+    <tr><td>股权再融资（SEO）</td><td>上市公司再次发股。<mark>按原持股比例由现有股东认购（如配股）不稀释；不由现有股东认购或认购比例不一致（如定向增发）会稀释</mark></td></tr>
+    <tr><td>私募股权融资</td><td>向特定投资者非公开融资，是多数初创期、发展期公司的选择；可引入与业务联系密切的战略投资者</td></tr>
+    <tr><td rowspan="2">外部债权融资</td><td>债券融资</td><td>直接融资；按利息是否固定、发行主体信用、付息方式等分类。两种特殊债券见下文</td></tr>
+    <tr><td>借款融资</td><td>间接融资。银行贷款：中小企业融资难，银行在资本市场占比过高。民间借贷相对银行：要求低、利率高、放款快</td></tr>
+  </tbody>
+</table>
+
+<div class="box"><div class="b-h">两种特殊债券</div>
+<p><span class="mark">可转换债券</span>：持有人可按约定条件把债券转成公司普通股。股价高于债券现值时转股，低于时继续拿利息和本金，<mark>这种选择权类似看涨期权</mark>，投资者愿意为它接受较低的票面利率，所以发行方的债权融资成本更低。发行人若写明赎回条款，在一定条件下也可以赎回。</p>
+<p><span class="mark">资产支持证券</span>：资产证券化的产物，用某项资产产生的现金流支付收益，通常以债券形式发行。企业把能产生现金流的资产（如住房抵押贷款、消费贷款、汽车贷款）出售，资产所有权不再属于企业，也就不承担企业的风险。优点：提高资产流动性；分出优先级与次级，高信用等级部分利率更低，降低融资成本；把风险资产卖出去，降低企业风险。</p></div>
+
+<h3>项目融资与传统公司融资的核心区别</h3>
+<p>项目融资（Project Finance）是大型工程建设常见的特殊融资安排，具备四大核心特征：</p>
+<ul>
+  <li><strong>依赖项目自身资产与现金流</strong>：贷款人主要依据项目未来产生的现金流作为还本付息来源，并以项目自身资产设定抵押，而非依赖项目发起人（母公司）的主体资信；</li>
+  <li><strong>有限追索权或无追索权（Limited / Non-recourse）</strong>：若项目失败违约，债权人只能处置项目自身资产清偿，无权向发起人追索（或仅在建设期提供有限担保），发起人的责任仅限于其出资额；</li>
+  <li><strong>表外融资（Off-balance Sheet）</strong>：项目通常设立独立的特殊目的实体（SPV），债务体现在 SPV 资产负债表上，不合并进发起人母公司的财务报表，不恶化母公司的资产负债率；</li>
+  <li><strong>多方结构化风险分担</strong>：通过工程总承包（EPC）、长期产品承购协议（Off-take）、特许经营协议（Concession）等一系列闭环合同群，将建设、市场、运营风险分配给最具承担能力的各参与方。（注：在资产变卖中，<strong>售后回租</strong>兼具资产变现、融资筹资与资产表外化的多重属性，是项目融资流动性管理的常用变体）。</li>
+</ul>
+
+<h3>关键偿债能力评价指标</h3>
+<ul>
+  <li><strong>偿债备付率（DSCR, Debt Service Coverage Ratio）</strong>：衡量项目在特定年份产生的现金流覆盖当期应还本付息额的安全裕度：
+  $$DSCR_t = \frac{\text{可用于还本付息的资金}_t}{\text{当期应还本付息总额}_t} = \frac{OCF_t}{\text{当期还本额}_t + \text{当期付息额}_t}$$
+  （分子为当期未扣还本付息的现金流 $EBIT(1-t) + D + A - \Delta NWC_t$；工程实务通常要求 $DSCR \ge 1.2 \sim 1.3$ 作为安全线）。</li>
+  <li><strong>利息保障倍数（ICR, Interest Coverage Ratio）</strong>：衡量企业经营利润覆盖利息支出的倍数：$ICR = \dfrac{EBIT}{I}$。</li>
+</ul>
+
+<p class="pitfall">"配股不稀释"有前提：现有股东按原持股比例认购。股权再融资是否稀释，取决于新股由谁认购、按什么比例认购，不取决于名称。</p>
+
+<details class="quiz"><summary>回想题</summary>
+<p><strong>1. 内部融资有哪三种？留存收益融资的优缺点？</strong>留存收益、资产变卖、营运资本。优点是成本低、不稀释；缺点是额度有限、没有税盾。</p>
+<p><strong>2. 想股权融资又不想稀释，怎么设计？</strong>由现有股东按原比例认购，如配股（本章习题 2）。</p>
+<p><strong>3. 可转债为什么票面利率低？</strong>它附带类似看涨期权的转股权，投资者用部分利息换这项权利。</p>
+</details>
+<div class="takeaway"><div class="t-h">带走这一点</div><p>融资渠道分内部、外部股权、外部债权三类；是否稀释看认购比例；可转债相当于债券加一份转股期权。</p></div>
+</section>
+
+<section id="c12">
+<h2>第12章 · 金融科技背景下的工程经济学<span class="role">展望 ★</span></h2>
+<p class="prereq">承接：全书的估值框架（第1–11章）。输出给：工程经济学今后的发展方向。</p>
+
+<p><span class="term">金融科技<small>（原书：FinTech）</small></span>按金融稳定理事会 2016 年的定义，是"技术驱动的金融创新"。相较传统金融有两个特点：金融与现代科技融合更深（如大数据风控、人工智能选投资组合，而不只是业务搬到线上）；由金融驱动转为技术驱动，核心是用户数据。它给工程经济学带来新的实践问题，也带来人工智能、大数据、云计算等新工具。</p>
+
+<p>最主要的挑战集中在项目估值上：</p>
+<table>
+  <thead><tr><th>变化</th><th>原书的描述</th><th>可行的应对</th></tr></thead>
+  <tbody>
+    <tr><td>估值对象变了</td><td>从项目、公司扩展到一款 APP、一项技术，甚至一个人。例 12-1：网红甲 2016 年融资 1200 万元，四家投资方共占 12%（乙基金出资 500 万占 5%），对应总估值 1 亿元</td><td>估值的本质没变：抓住对象的关键特征，评估其价值来源</td></tr>
+    <tr><td>估值方法变了</td><td>许多新对象没有规则的现金流，或现金流持续为负，绝对估值法难用；差异太大缺少可比项目、统计口径不一致，相对估值法也难用</td><td>用大数据、人工智能预测现金流；使用行业统一的统计口径</td></tr>
+    <tr><td>融资实务变了</td><td>互联网科技企业往往<mark>先内部股权、再外部股权、最后外部债权</mark>，权衡理论和优序融资理论都解释不了</td><td>原书认为它们更像遵循一套特殊的优序融资理论，对理论框架是挑战</td></tr>
+  </tbody>
+</table>
+<p>（优序融资理论一般认为企业先用内部资金、再借债、最后发股票；原书未展开，此句为讲义补充。）</p>
+<p>未来方向有两条：技术发展推动估值方法论创新（借助信息技术缩短计算时间，让原本做不到的分析成为可能）；估值方法论创新也反过来为技术进步指明方向、提出更高标准。</p>
+
+<p class="pitfall">估值对象和方法在变，不等于第一公理失效。原书强调估值的本质未变，无论对什么对象，都要评估其价值来源；现金流折现在新对象上难用，是预测难，不是原理错。</p>
+
+<details class="quiz"><summary>回想题</summary>
+<p><strong>1. 金融科技给工程经济学带来哪三个变化？</strong>估值对象、估值方法、融资实务。</p>
+<p><strong>2. 互联网科技企业的融资顺序是什么？为什么特殊？</strong>内部股权 → 外部股权 → 外部债权；权衡理论和优序融资理论都解释不了。</p>
+</details>
+<div class="takeaway"><div class="t-h">带走这一点</div><p>金融科技改变了估值对象、方法和融资路径，但估值的本质不变：评估价值来源，把未来折算到今天。</p></div>
+</section>
+
+<section id="synthesis">
+<h2>全书合流 · 贯穿线索</h2>
+<p>按章读完后，下面这些线索会在多章反复出现。把它们串起来，各章就不再是孤立的知识点。</p>
+<table>
+  <thead><tr><th>线索</th><th>在各章的形态</th><th>串起来看</th></tr></thead>
+  <tbody>
+    <tr><td>税盾</td><td>第4章：折旧、摊销、利息都能抵税，$OCF$ 只收折旧摊销的税盾 $t(D+A)$；第6章：$Q_{NPV}$ 分子里的 $-tD$；第7章：利息税盾现值 $tB$、$WACC$ 中的 $r_B(1-t)$；第8章：MM 第二定理和去 / 加杠杆公式里的 $(1-t)$；第9章：税后利率；第10章：WACC 法放进分母、MM 第一定理法单列；第11章：内部融资享受不到税盾</td><td><mark>利息税盾只算一次</mark>：不进 $OCF$，要么体现在折现率里，要么单独加 $tB$</td></tr>
+    <tr><td>折现率 = 时间价值 + 风险补偿</td><td>第3章：两种价值、只补偿系统性风险；第8章：CAPM 中 $r_f$ 与 $\beta(r_m-r_f)$；第9章：风险调整法"国债收益率 + 信用溢价"、费雪方程剥离通胀</td><td>无论股权还是债权，要求的回报都是"无风险基准 + 风险溢价"</td></tr>
+    <tr><td>反解折现率</td><td>第5章：$IRR$；第8章：事前估计法、DDM 由股价反解 $r_S$；第9章：到期收益率</td><td>都是"已知价格和现金流，求让二者相等的折现率"，即同一个 IRR 计算</td></tr>
+    <tr><td>年金系数 $PVIFA$</td><td>第3章：年金现值；第5章：$EAA=NPV/PVIFA$；第6章：$EAA=C_0/PVIFA$</td><td>把一笔现值和等额年金互相换算</td></tr>
+    <tr><td>无套利与价值唯一</td><td>第1章：均衡价值下无法低买高卖；第7章：MM 定理；第8章：股权成本的多重含义本质统一、APT；第10章：两法等价</td><td>同一个项目只有一个价值，不同算法必须算出同一个数</td></tr>
+    <tr><td>借可比对象</td><td>第8章：可比公司 $\beta$；第9章：可比企业债权成本；第10章：相对估值法；第12章：新对象缺少可比项目</td><td>自己的数据测不出来时，借相似对象的数据，并调整差异（如去杠杆）</td></tr>
+    <tr><td>灵活性有价值</td><td>第6章：决策树中的扩张与止损；第10章：期权估值法；第11章：可转债的转股权</td><td>"以后再决定"的权利可以定价，回报形状类似看涨期权</td></tr>
+  </tbody>
+</table>
+
+<figure>
+<pre class="mermaid">
+flowchart TB
+  F1["第一公理 PV = Σ CF_i / (1+r)^i"] -->|"永续、等额"| F2["第一公式 PV = CF / r"]
+  F1 -->|"只付 T 期"| AN["年金 PV = C · PVIFA(r,T)"]
+  F2 -->|"每期增长 g"| GP["永续增长年金 PV = C_1 / (r − g)"]
+  F2 -->|"减去初始投资"| NPV["NPV = PV − C_0"]
+  NPV -->|"令 NPV = 0 反解 r"| IRR["IRR、到期收益率 y"]
+  AN -->|"NPV 或 C_0 除以 PVIFA"| EAA["约当年金 EAA"]
+  GP -->|"由股价反解 r_S"| DDM["DDM r_S = Div_1 / P_0 + g"]
+  F2 -->|"分子取 OCF，分母取 r_U"| MM1["MM 第一定理 V_U = OCF / r_U"]
+  MM1 -->|"加入税盾"| MM1T["有税 V_L = V_U + tB"]
+  MM1T -->|"代入现金流相等条件"| MM2["MM 第二定理 r_S"]
+  MM2 -->|"代入 WACC 定义"| W["WACC × V_L = OCF"]
+  MM1T --> EQ["两法等价 V_L 唯一"]
+  W --> EQ
+  F2 -->|"分子取 LCF，分母取 r_S"| FTE["股权现金流法 S = LCF / r_S"]
+</pre>
+<figcaption>公式谱系：全书核心公式都从第一公理出发，箭头上写的是每一步放松了什么条件或代入了什么。</figcaption>
+</figure>
+
+<h3>话语体系映射：国内投资评价 vs 本书现代公司金融规范</h3>
+<table>
+  <thead><tr><th>国内传统工程评价概念</th><th>本书对应概念</th><th>对应现金流公式</th><th>匹配的折现率</th></tr></thead>
+  <tbody>
+    <tr><td><strong>项目投资现金流量表（全投资现金流）</strong></td><td>无杠杆经营现金流（OCF / UCF）</td><td>$EBIT(1-t)+D+A-\Delta NWC-Capex$（注：本书 OCF 已扣营运资本增加与资本支出，即项目自由现金流 FCFF）</td><td>加权平均资本成本 $WACC$（若项目全股权无负债，则退化为 $r_U$）</td></tr>
+    <tr><td><strong>项目资本金现金流量表（自有资金现金流）</strong></td><td>杠杆现金流 / 股权现金流（LCF / FCFE）</td><td>$(EBIT - I)(1-t) + D + A - \Delta NWC - Capex - \text{还本} + \text{新借债}$（永续时简写为 $(EBIT-r_B B)(1-t)$）</td><td>股权资本成本 $r_S$</td></tr>
+  </tbody>
+</table>
+
+<h3>期末资本预算大题标准解题四步模板</h3>
+<ol>
+  <li><strong>编制三阶段现金流表</strong>：
+    <ul>
+      <li>期初（$t=0$）：列出固定资产投资支出与初始垫支营运资本，总流出 $- (Capex + \Delta NWC_0)$；</li>
+      <li>经营期（$t=1 \dots T$）：计算各期 $OCF_t = \text{收入} - \text{付现成本} - \text{所得税} - \Delta NWC_t = EBIT(1-t) + D + A - \Delta NWC_t$；</li>
+      <li>终结期（$t=T$）：末期 $OCF_T$ 加上税后残值净流入 $Sal - (Sal - BV)t$，加上垫支营运资本全额收回 $+\Delta NWC_{\text{总额}}$。</li>
+    </ul>
+  </li>
+  <li><strong>确定资本成本 / 折现率</strong>：
+    <ul>
+      <li>若要求全投资评价，按 Hamada 方程换算 $\beta_L$，代入 CAPM 求 $r_S$，与税后债权成本 $r_B(1-t)$ 合成 $WACC$。</li>
+    </ul>
+  </li>
+  <li><strong>折现计算决策指标</strong>：
+    <ul>
+      <li>计算各期折现现金流 $DCF_t = \dfrac{CF_t}{(1+r)^t}$，加总求得净现值 $NPV = \sum DCF_t - C_0$；</li>
+      <li>按线性内插法试算内部收益率 $IRR$，或计算动态投资回收期 $DPP$。</li>
+    </ul>
+  </li>
+  <li><strong>准则判别与撰写结论</strong>：
+    <ul>
+      <li>独立项目：$NPV > 0$ 或 $IRR > r$ 判定项目财务可行；</li>
+      <li>互斥方案：优先以 $NPV$ 最大为准，或增量分析 $\Delta IRR > r$ 选大方案，寿命不等时比较约当年金 $EAA$。</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>期末高频易混概念速查对比表</h3>
+<table>
+  <thead><tr><th>概念对</th><th>核心区别</th><th>做题判定口诀</th></tr></thead>
+  <tbody>
+    <tr><td><strong>沉没成本 vs 机会成本</strong></td><td>前者无论投不投都已发生无法挽回；后者因投本项目而放弃的最佳替代收益</td><td>沉没成本坚决不扣，机会成本必须计入流出</td></tr>
+    <tr><td><strong>会计盈亏 vs 现值盈亏</strong></td><td>会计平衡只求利润为0（收回账面折旧）；现值平衡要求 NPV=0（收回包含资本成本的年均成本 EAA）</td><td>现值平衡点必然大于会计平衡点（$Q_{NPV} > Q_{NI}$）</td></tr>
+    <tr><td><strong>NPV vs IRR 冲突</strong></td><td>NPV 假定按资本成本再投资；IRR 假定按项目自身超高回报再投资</td><td>互斥冲突无条件以 NPV 绝对值为最终标准</td></tr>
+    <tr><td><strong>WACC 法 vs APV 法</strong></td><td>WACC 适用于目标资本结构比重恒定；APV 适用于借款绝对金额固定</td><td>借款额固定用 APV（加 $tB$），负债比率恒定用 WACC</td></tr>
+    <tr><td><strong>项目融资 vs 公司融资</strong></td><td>项目融资依赖项目资产与现金流、有限追索、表外 SPV；公司融资看母公司主体资信全额追索</td><td>大型基建/高风险项目用项目融资风险隔离</td></tr>
+  </tbody>
+</table>
+
+<h3>用一段话复述全书</h3>
+<p>项目价值等于未来现金流的折现值之和（第1、2章）。按投融资分离，先管分子：折现率由时间价值和系统性风险补偿构成，规则现金流有年金公式可用（第3章）；要折现的是不扣利息的经营现金流 $OCF$（第4章）；用 $NPV$ 判断值不值得投，$IRR$、$PI$、回收期作参考，互斥项目用增量现金流或约当年金比较（第5章）；参数不确定时，用盈亏平衡、灵敏度和决策树补充（第6章）。再管分母：无税时资本结构不影响价值，有税时负债带来 $tB$ 的税盾，破产成本和代理成本又限制了负债（第7章）；股权成本只能估，CAPM 最常用（第8章）；债权成本用到期收益率等方法测（第9章）。最后合流：WACC 法与 MM 第一定理法算出同一个价值，WACC 法有循环逻辑，相对估值和期权估值是补充（第10章）。实务里钱来自内部、外部股权和外部债权三类渠道（第11章）；金融科技改变了估值对象、方法和融资方式，但估值的本质没有变（第12章）。</p>
+
+<div class="takeaway"><div class="t-h">全书带走这一点</div><p>整本书是一个分数：分子是不扣利息的经营现金流，分母是按风险要求的回报率。投资决策测分子，融资决策测分母，两种估值方法必须算出同一个价值。</p></div>
+</section>
+
+<section id="supplement">
+<h2>考前补充考点 · 教材外高频点<span class="role">补充 ★★</span></h2>
+<p class="prereq">说明：本节三个考点（MARR 基准收益率、NAV 净年值、价值工程）出自国内工程经济学考试体系，原书 12 章未展开。术语速查与公式表中带「教材外补充」徽标的词条即指向这里；BEP 盈亏平衡点已在第6章展开，点击该词条会跳转到第6章。</p>
+
+<h3 id="supp-marr">MARR：基准收益率（最低可接受收益率 $i_c$）</h3>
+<p><span class="term">基准收益率<small>（国内考试用词，记 $i_c$ 或 MARR）</small></span>是投资者对投资项目要求的<strong>最低财务盈利率</strong>，是判别项目可行性的底线。它与本书折现率 $r$ 的关系见「记号约定」：习题中直接把 $i_c$ 当 $r$ 代入折现，数值同一角色，概念上 $i_c$ 是决策门槛。</p>
+<table>
+  <thead><tr><th>维度</th><th>要点</th></tr></thead>
+  <tbody>
+    <tr><td>测定构成</td><td>$i_c \approx WACC + \text{机会成本} + \text{风险溢价} + \text{通胀率}$：以加权资本成本为基础，叠加放弃其他投资的代价、项目风险补偿与通胀补偿</td></tr>
+    <tr><td>判定准则</td><td>独立方案：$NPV(i_c)\ge 0$ 或 $IRR\ge i_c$ 可行；互斥方案：增量 $\Delta IRR\ge i_c$ 选投资大的方案</td></tr>
+    <tr><td>影响因素</td><td>资金供求、资本成本、通货膨胀、项目风险大小共同决定，<mark>不是一成不变</mark>；风险不同的项目应取不同的 $i_c$</td></tr>
+    <tr><td>口径匹配</td><td>名义现金流配名义 $i_c$、实际现金流配实际 $i_c$（费雪方程），与第9章口径一致</td></tr>
+  </tbody>
+</table>
+<p class="pitfall">$i_c$ 取得过高会错杀好项目、过低会放行差项目；它随项目风险与资金环境调整，不能全公司一个数用到底。</p>
+
+<h3 id="supp-nav">NAV：净年值法（寿命不等方案比选）</h3>
+<p><span class="term">净年值<small>（国内考试用词，NAV / AW / 年值）</small></span>把项目整个寿命期的净现值按资金回收公式等额分摊到各年：$NAV = NPV \times (A/P, i, n) = \dfrac{NPV}{PVIFA(i,n)}$。它就是本书第5章<span class="mark">约当年金 EAA</span> 的另一个名字——同一工具，国内考试称 NAV/AW，本书称 EAA。</p>
+<table>
+  <thead><tr><th>方案类型</th><th>判定准则</th></tr></thead>
+  <tbody>
+    <tr><td>独立方案</td><td>$NAV\ge 0$ 可行（与 $NPV\ge 0$ 等价）</td></tr>
+    <tr><td>收益型互斥方案</td><td>选 $NAV$ 最大者</td></tr>
+    <tr><td>产出相同 / 纯成本型方案</td><td>选约当年均成本 $EAC$ 最小者</td></tr>
+  </tbody>
+</table>
+<p><strong>例</strong>：$NPV=100$、$PVIFA(10\%,5)\approx 3.791$，则 $NAV\approx 26.4$，可与任意寿命方案的年均值直接比较。</p>
+<p class="pitfall">NAV/EAA 比选寿命不等方案隐含「到期后可按原状态无限重置」的假设，与重置链法（最小公倍数寿命法）结论严格等价；项目不可重置时不能用。</p>
+
+<h3 id="supp-ve">价值工程：$V=F/C$</h3>
+<p><span class="term">价值工程<small>（国内考试用词，VE / 价值分析）</small></span>通过对产品或服务的功能与全寿命周期成本（LCC）做系统分析，力图以<strong>最低全寿命成本可靠实现必要功能</strong>。核心公式 $V=\dfrac{F}{C}$（价值 = 功能 / 成本）。</p>
+<table>
+  <thead><tr><th>途径</th><th>功能 $F$</th><th>成本 $C$</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>① 最优</td><td>↑</td><td>↓</td><td>功能提高、成本下降，价值大幅提升</td></tr>
+    <tr><td>②</td><td>↑↑</td><td>↑</td><td>功能大幅提高、成本略增</td></tr>
+    <tr><td>③</td><td>→</td><td>↓</td><td>功能不变、成本下降</td></tr>
+    <tr><td>④</td><td>↑</td><td>→</td><td>功能提高、成本不变</td></tr>
+    <tr><td>⑤</td><td>↓</td><td>↓↓</td><td>功能略降、成本大幅下降</td></tr>
+  </tbody>
+</table>
+<p><strong>价值系数与对象选择</strong>：$V_i=\dfrac{F_i}{C_i}$。<mark>$V_i&lt;1$ 表示成本偏高，应列为重点改进对象</mark>；$V_i&gt;1$ 表示功能重要或成本分配不足；$V_i\approx 1$ 表示功能与成本匹配。对象选择优先挑成本高、功能重要、改进潜力大的部件（可用 ABC 分析法按成本比重分类）。</p>
+<p class="pitfall">$V_i&gt;1$ 不一定「好」：可能是功能过剩或成本分配不足，需结合功能重要性具体分析，不能只看比值大小。</p>
+
+<details class="quiz"><summary>回想题</summary>
+<p><strong>1. 基准收益率 $i_c$ 由哪些部分构成？判定准则是什么？</strong>约等于 WACC + 机会成本 + 风险溢价 + 通胀率；独立方案 $NPV(i_c)\ge 0$ 或 $IRR\ge i_c$ 可行，互斥方案 $\Delta IRR\ge i_c$ 选大方案。</p>
+<p><strong>2. NAV 与本书的 EAA 是什么关系？适用什么场景？</strong>同一工具的两个名字（$NAV=NPV/PVIFA$）；用于寿命不等的互斥方案比选，隐含无限重置假设，与重置链法等价。</p>
+<p><strong>3. 价值工程提升价值的五条途径？$V_i&lt;1$ 说明什么？</strong>①F↑C↓ ②F↑↑C↑ ③F→C↓ ④F↑C→ ⑤F↓C↓↓；$V_i&lt;1$ 表示成本偏高，应列为重点改进对象。</p>
+</details>
+<div class="takeaway"><div class="t-h">带走这一点</div><p>三个教材外高频点：$i_c$ 是决策门槛（习题中当 $r$ 用）；NAV 就是 EAA，专治寿命不等比选；价值工程 $V=F/C$，$V_i&lt;1$ 的部件优先改进。</p></div>
+</section>
+
+</article>
+</div>
+<script src="assets/kramer.js"></script>
+
+<!-- 术语/符号全能词典与阅读控制引擎 (包含 KaTeX 符号挂载、富文本考点卡片与宽度切换) -->
+<script>
+(function() {
+  "use strict";
+
+  // 1. 核心词典数据库与别名索引
+  const GROUPS = [
+  {
+    "key": "dec",
+    "label": "决策指标与比选"
+  },
+  {
+    "key": "tv",
+    "label": "时间价值与系数"
+  },
+  {
+    "key": "cf",
+    "label": "现金流与利润口径"
+  },
+  {
+    "key": "cap",
+    "label": "资本成本与风险"
+  },
+  {
+    "key": "cs",
+    "label": "资本结构与估值"
+  },
+  {
+    "key": "unc",
+    "label": "不确定性与价值工程"
+  },
+  {
+    "key": "pra",
+    "label": "融资实务与偿债"
+  },
+  {
+    "key": "bas",
+    "label": "基础概念与决策准则"
+  }
+];
+  const GLOSSARY_DB = {
+  "IRR": {
+    "title": "内部收益率（IRR）",
+    "badge": "核心决策指标",
+    "en": "Internal Rate of Return",
+    "def": "使投资方案在计算期内各年净现金流量的现值累计等于零时的折现率。反映项目占用资金所能获得的内在最大获利率，只取决于现金流结构本身。",
+    "formula": "∑ [CF_t / (1 + IRR)^t] = 0 (t=0..n)",
+    "rule": "【独立方案】<b class=\"ok\">IRR ≥ i_c（基准收益率）则可行</b>。<br>【融资方案】规则反转：<b class=\"ok\">IRR < r 才接受</b>。<br>【互斥方案】<strong>严禁直接比较 IRR 绝对大小！</strong>必须用增量现金流求 ΔIRR，当 <b class=\"ok\">ΔIRR > i_c 时选投资大的方案</b>。",
+    "exam": "① <strong>再投资率假定缺陷</strong>：IRR 隐含假定中间现金流能按 IRR 自身的高收益再投资（严重虚高）；而 NPV 假定按资本成本再投资，更符合实际。<br>② <strong>非常规现金流多解/无解</strong>：现金流变号多次时可能存在多个实数解（笛卡尔符号法则），规则失效。<br>③ <strong>手算方法</strong>：无法直接反解，必须用线性试错插值法逼近。",
+    "group": "dec",
+    "tex": "\\sum_{t=0}^{n} \\frac{CF_t}{(1+IRR)^t} = 0",
+    "example": "例5-16：项目1现金流(-300,250,150)，试错插值解得 IRR≈24% > r=10%，独立看可行。",
+    "related": [
+      "NPV",
+      "ΔIRR",
+      "MIRR",
+      "指标冲突",
+      "MARR"
+    ]
+  },
+  "ΔIRR": {
+    "title": "差额内部收益率（ΔIRR / 增量内部收益率）",
+    "badge": "互斥比选指标",
+    "en": "Incremental Internal Rate of Return",
+    "def": "两互斥方案各期增量现金流（大投资方案减小投资方案）的净现值等于零时的折现率。在数值上严格等于两方案 NPV 曲线的交点（Fisher 交叉折现率）。",
+    "formula": "NPV_A(ΔIRR) - NPV_B(ΔIRR) = 0",
+    "rule": "当增量现金流为投资型时：若 <b class=\"ok\">ΔIRR ≥ i_c，说明增量投资合算，选投资额大的方案</b>；若 <b class=\"no\">ΔIRR < i_c，选小方案</b>。",
+    "exam": "① 增量的 NPV 恒等于两方案 NPV 之差，因此增量分析必然支持 NPV 较高的方案；<br>② 必须确保是『大方案减小方案』，若符号颠倒为融资型增量现金流，则判定准则反转。",
+    "group": "dec",
+    "tex": "NPV_A(\\Delta IRR) - NPV_B(\\Delta IRR) = 0",
+    "example": "例5-16：IOCF=(-120,100,50) 的 ΔIRR≈18% > 10%，增量合算，选投资大的项目1。",
+    "related": [
+      "IOCF",
+      "交叉折现率",
+      "IRR",
+      "指标冲突"
+    ]
+  },
+  "NPV": {
+    "title": "净现值（NPV）",
+    "badge": "第一决策准则",
+    "en": "Net Present Value",
+    "def": "项目在整个寿命期内各年的净现金流量，按基准折现率折算到期初的现值代数和。衡量投资为股东带来的绝对财富增量。",
+    "formula": "NPV = ∑ [CF_t / (1 + r)^t] = PV(流入) - C_0",
+    "rule": "【独立方案】<b class=\"ok\">NPV ≥ 0 则项目可行</b>。<br>【互斥方案】<b class=\"ok\">无条件以 NPV 最大者为最优</b>。<br><strong>投资决策第一法则：所有相对指标与 NPV 冲突时均以 NPV 为准。</strong>",
+    "exam": "① 隐含假定再投资收益率为企业资本成本 r，切合实际；<br>② 寿命不等的互斥方案不能直接比较总 NPV，须用最小公倍数重置链法或约当年金 EAA。",
+    "group": "dec",
+    "tex": "NPV = \\sum_{t=0}^{n} \\frac{CF_t}{(1+r)^t} = PV_{\\text{流入}} - C_0",
+    "example": "例5-16：r=10% 时项目1 NPV=31 > 项目2 NPV=26，互斥选项目1（尽管其IRR更低）。",
+    "related": [
+      "IRR",
+      "PI",
+      "指标冲突",
+      "EAA",
+      "C_0"
+    ]
+  },
+  "NAV": {
+    "title": "净年值（NAV / AW / 年值）",
+    "badge": "互斥比选指标",
+    "external": true,
+    "en": "Net Annual Value / Annual Worth",
+    "def": "通过资金回收公式，把项目整个寿命期内的净现值 NPV 等额分摊到计算期各年的等额年金。",
+    "formula": "NAV = NPV × (A/P, i, n) = NPV / PVIFA(i, n)",
+    "rule": "【独立方案】<b class=\"ok\">NAV ≥ 0 可行</b>；【互斥方案】<b class=\"ok\">直接选择 NAV 最大者</b>。",
+    "exam": "比选寿命不等的互斥方案的最优利器，结论与无限期重置链法严格等价，免去求最小公倍数寿命的繁琐重置计算。",
+    "group": "dec",
+    "tex": "NAV = NPV \\cdot (A/P, i, n) = \\frac{NPV}{PVIFA(i,n)}",
+    "example": "NPV=100、PVIFA(10%,5)≈3.791 → NAV≈26.4，与任意寿命方案的年均值直接可比。",
+    "related": [
+      "EAA",
+      "NPV",
+      "PVIFA"
+    ]
+  },
+  "PI": {
+    "title": "盈利倍数（PI / 现值指数）",
+    "badge": "资本受限排序",
+    "en": "Profitability Index / Benefit-Cost Ratio",
+    "def": "项目未来各期现金流入的现值总和与初始投资额之比，反映单位初始投资所创造的现值效率。",
+    "formula": "PI = PV(未来现金流) / C_0 = 1 + NPV / C_0",
+    "rule": "【独立方案】<b class=\"ok\">PI ≥ 1 则项目可行</b>（等价于 NPV ≥ 0）。",
+    "exam": "① 属于相对值指标，受初始投资规模影响，互斥方案比选时易与 NPV 冲突；<br>② <strong>唯一核心用武之地</strong>：在资本限额（Capital Rationing）条件下，对独立项目按 PI 从高到低排序组合择优。",
+    "group": "dec",
+    "tex": "PI = \\frac{PV_{\\text{未来现金流}}}{C_0} = 1 + \\frac{NPV}{C_0}",
+    "example": "PV=120、C_0=100 → PI=1.2 > 1 可行；资本受限时按 PI 从高到低排序组合。",
+    "related": [
+      "NPV",
+      "C_0",
+      "指标冲突"
+    ]
+  },
+  "PP": {
+    "title": "静态投资回收期（PP）",
+    "badge": "辅助流动性指标",
+    "en": "Payback Period",
+    "def": "在不考虑资金时间价值的前提下，以项目的净收益回收初始全部投资所需要的实际年限。",
+    "formula": "Pt = (累计净现金流开始为正年份 - 1) + |上年累计净现金流| / 当年净现金流",
+    "rule": "<b class=\"ok\">Pt ≤ Pc（基准投资回收期）时项目可行</b>。",
+    "exam": "<strong>致命缺陷（简答必考）</strong>：① 忽视资金时间价值；② <strong>完全忽视回收期之后的现金流量</strong>（可能错杀后期现金流极其丰富的大项目）；③ 割裂全寿命期效益。",
+    "group": "dec",
+    "tex": "P_t = (h-1) + \\frac{|\\text{上年累计净现金流}|}{\\text{当年净现金流}}",
+    "example": "累计净现金流第3年转正：PP=2+|−40|/60≈2.67年 ≤ Pc=3，可行。",
+    "related": [
+      "DPP",
+      "OCF"
+    ]
+  },
+  "DPP": {
+    "title": "动态投资回收期（DPP）",
+    "badge": "流动性风险指标",
+    "en": "Discounted Payback Period",
+    "def": "在考虑资金时间价值的前提下，以项目的各期折现现金流量累计收回初始全部投资所需要的年限。",
+    "formula": "∑ [CF_t / (1 + r)^t] = 0 (t从0累计至DPP)",
+    "rule": "<b class=\"ok\">DPP ≤ Pc 可行</b>；在项目寿命期 T 内必定满足 DPP < T 对应 NPV > 0。",
+    "exam": "虽弥补了时间价值缺陷，但仍无法克服『忽视回收期后所有现金流』的根本局限，仅作为项目流动性与抗风险能力的辅助参考。",
+    "group": "dec",
+    "tex": "\\sum_{t=0}^{DPP} \\frac{CF_t}{(1+r)^t} = 0",
+    "example": "折现后累计第4年转正：DPP=3+|−18|/52≈3.35年；仍忽略其后全部现金流。",
+    "related": [
+      "PP",
+      "NPV"
+    ]
+  },
+  "MIRR": {
+    "title": "修正内部收益率（MIRR）",
+    "badge": "IRR缺陷校正",
+    "en": "Modified Internal Rate of Return",
+    "def": "将项目未来的全部现金流出按融资成本贴现到期初，将未来的全部现金流入按真实再投资率（资本成本）滚存到期末终值 FV，求解使期初流出现值等于期末终值的唯一收益率。",
+    "formula": "PV(流出) = FV(流入) / (1 + MIRR)^n",
+    "rule": "<b class=\"ok\">MIRR ≥ i_c 则项目在财务上可行</b>。",
+    "exam": "彻底解决了 IRR 的两大死穴：① 非常规现金流下的多根与无实数解问题（解唯一）；② 纠正了虚高的超高再投资率假设。",
+    "group": "dec",
+    "tex": "PV_{\\text{流出}} = \\frac{FV_{\\text{流入}}}{(1+MIRR)^n}",
+    "example": "流出PV=100、流入按10%滚存FV=161、n=3 → MIRR=(161/100)^(1/3)−1≈17.1%。",
+    "related": [
+      "IRR",
+      "NPV"
+    ]
+  },
+  "EAA": {
+    "title": "约当年金（EAA / EAC）",
+    "badge": "寿命不等比选",
+    "en": "Equivalent Annual Annuity / Cost",
+    "def": "将方案在整个寿命期内的总现值（NPV 或现值总成本 PV_Cost），按年金现值系数分摊为各年相等的等额年金。",
+    "formula": "EAA = NPV / PVIFA(r, n)；EAC = PV_Cost / PVIFA(r, n)",
+    "rule": "收益型互斥方案<b class=\"ok\">选 EAA 最大者</b>；产出相同或纯成本型方案<b class=\"ok\">选 EAC 最小者</b>。",
+    "exam": "专门用于比选寿命不等的互斥方案；隐含假设是该资产或设备在未来可按原技术和成本水平无限次连续重置。",
+    "group": "dec",
+    "tex": "EAA = \\frac{NPV}{PVIFA(r,n)};\\quad EAC = \\frac{PV_{\\text{成本}}}{PVIFA(r,n)}",
+    "example": "例5-18：r=15%，项目1 EAA=−165/1.6257≈−101，项目2 EAA=−183/2.2832≈−80，选年均成本更低的项目2。",
+    "related": [
+      "NAV",
+      "重置链法",
+      "PVIFA",
+      "互斥项目",
+      "现值系数"
+    ]
+  },
+  "WACC": {
+    "title": "加权平均资本成本（WACC）",
+    "badge": "全投资折现率",
+    "en": "Weighted Average Cost of Capital",
+    "def": "以公司各项资本（股权、债权）在资本结构中的市场价值占比为权重，计算出的综合资本成本。利息税盾直接内嵌在税后债务成本中。",
+    "formula": "WACC = (S/V) r_S + (B/V) r_B (1 - t)",
+    "rule": "作为全投资/全公司自由现金流（OCF / FCFF）的法定配对折现率。",
+    "exam": "① 必须严格使用<strong>市场价值（Market Value）</strong>权重，严禁使用账面净资产价值；<br>② 仅适用于新项目的业务风险与目标资本结构均与公司现有水平一致的情形；<br>③ 存在循环逻辑（估值需WACC，算WACC需股权与债权市值）。",
+    "group": "cap",
+    "tex": "WACC = \\frac{S}{V}\\, r_S + \\frac{B}{V}\\, r_B (1-t)",
+    "example": "例10-4：S=3200、B=6000、r_S=19%、r_B=4%、t=20% → WACC≈8.70%，V_L=800/8.70%=9200。",
+    "related": [
+      "r_S",
+      "r_B",
+      "V_L",
+      "WACC法",
+      "MM第二定理"
+    ]
+  },
+  "OCF": {
+    "title": "经营现金流量（OCF / UCF）",
+    "badge": "全投资自由现金流",
+    "en": "Operating Cash Flow / Unlevered Cash Flow",
+    "def": "项目经营活动创造的、未扣除债务利息、归全体出资人（股东和债权人共有）的自由现金流。",
+    "formula": "① 定义式(总公式): OCF = EBIT(1-t) + D + A - ΔNWC - Capex<br>② 税盾效应法: OCF = (S - C)(1-t) + (D + A)·t - ΔNWC - Capex (S为收入, C为付现成本)",
+    "rule": "折现率必须且只能配对使用全投资资本成本 WACC。",
+    "exam": "<strong>严禁在 OCF 中扣除利息费用！</strong>因为利息税盾已经包含在 WACC 的税后债务成本 r_B(1-t) 中，若在 OCF 扣除会导致利息被双重扣减。",
+    "group": "cf",
+    "tex": [
+      "OCF = EBIT(1-t) + D + A - \\Delta NWC - Capex",
+      "OCF = (S-C)(1-t) + (D+A)\\,t - \\Delta NWC - Capex"
+    ],
+    "example": "第4章例：EBITDA=780000、Tax=87500、ΔNWC+Capex=50000 → OCF=780000−87500−50000=642500 元。",
+    "related": [
+      "EBIT",
+      "NOPAT",
+      "折旧税盾",
+      "NWC",
+      "Capex",
+      "LCF"
+    ]
+  },
+  "LCF": {
+    "title": "杠杆现金流（LCF / 股权现金流 / FTE）",
+    "badge": "股东自由现金流",
+    "en": "Levered Cash Flow / Flow to Equity",
+    "def": "扣除经营支出、资本支出、营运资金变动以及还本付息后，纯归属于普通股股东的剩余自由现金流。",
+    "formula": "LCF = OCF - 利息(1-t) - 本金偿还 + 新借债务",
+    "rule": "折现率必须且只能配对使用带杠杆的股权资本成本 r_S，折现得出股权市值 S。",
+    "exam": "公司总价值等于折现得出的股权价值 S 加上债务市值 B；必须与股权成本 r_S 严格配对。",
+    "group": "cf",
+    "tex": "LCF = OCF - I(1-t) - \\text{本金偿还} + \\text{新借债务}",
+    "example": "例10-4：EBIT=1000、利息=4%×6000=240、t=20% → LCF=(1000−240)×0.8=608，S=608/19%=3200。",
+    "related": [
+      "OCF",
+      "FTE",
+      "r_S"
+    ]
+  },
+  "EBIT": {
+    "title": "息税前利润（EBIT）",
+    "badge": "纯经营成果",
+    "en": "Earnings Before Interest and Taxes",
+    "def": "企业扣除营业成本、销售与管理费用、折旧与摊销，但尚未扣除利息和企业所得税之前的纯经营性利润。",
+    "formula": "EBIT = 营业收入 - 付现经营成本 - 折旧摊销 = EBITDA - D - A",
+    "rule": "反映企业纯粹资产营运的盈利能力，彻底剔除了企业资本结构（负债多少）与所得税率的影响。",
+    "exam": "是工程经济学计算税后经营净利润 NOPAT = EBIT(1-t) 与利息保障倍数 ICR 的核心基石。",
+    "group": "cf",
+    "tex": "EBIT = \\text{营业收入} - \\text{付现经营成本} - D - A = EBITDA - D - A",
+    "example": "第4章例：EBITDA=780000、D+A=430000 → EBIT=350000；NOPAT=350000×75%=262500。",
+    "related": [
+      "EBITDA",
+      "NOPAT",
+      "OCF",
+      "ICR"
+    ]
+  },
+  "EBITDA": {
+    "title": "折旧摊销及息税前利润（EBITDA）",
+    "badge": "经营付现盈利",
+    "en": "Earnings Before Interest, Taxes, Depreciation and Amortization",
+    "def": "营业收入扣减付现营业成本与期间费用，剔除非付现的折旧与摊销。近似反映企业经营活动产生的现金总流入。",
+    "formula": "EBITDA = EBIT + 折旧D + 摊销A = 营业收入 - 付现经营成本",
+    "rule": "广泛用于估值倍数（EV/EBITDA）以及偿债能力分析。",
+    "exam": "不代表最终归属任何人的自由现金流，因其尚未扣减维持再生产所必需的资本性支出 Capex 与企业所得税。",
+    "group": "cf",
+    "tex": "EBITDA = EBIT + D + A = \\text{营业收入} - \\text{付现经营成本}",
+    "example": "例10-5：W公司 EV=129.61亿元，即由 EBITDA × 可比 EV/EBITDA 倍数求得。",
+    "related": [
+      "EBIT",
+      "OCF",
+      "DSCR",
+      "相对估值法"
+    ]
+  },
+  "NOPAT": {
+    "title": "税后经营净利润（NOPAT）",
+    "badge": "无杠杆税后收益",
+    "en": "Net Operating Profit After Tax",
+    "def": "假定企业全部以权益资本投资（没有负债、无利息支出）情况下的虚拟税后经营利润。",
+    "formula": "NOPAT = EBIT × (1 - t)",
+    "rule": "是经济增加值（EVA）与全投资现金流计算的核心基石。",
+    "exam": "完全不受资本结构与财务杠杆的干扰，体现项目资产本身的纯税后造血能力。",
+    "group": "cf",
+    "tex": "NOPAT = EBIT \\times (1-t)",
+    "example": "EBIT=350000、t=25% → NOPAT=262500；与有无负债、利息多少无关。",
+    "related": [
+      "EBIT",
+      "OCF"
+    ]
+  },
+  "NWC": {
+    "title": "净营运资本变动（ΔNWC）",
+    "badge": "营运垫支与回收",
+    "en": "Net Working Capital",
+    "def": "经营性流动资产（存货、应收账款）减去经营性流动负债（应付账款）的差额。变动额 ΔNWC 为当期新增资金垫支。",
+    "formula": "ΔNWC = NWC_t - NWC_{t-1}",
+    "rule": "扩张期垫资表现为现金净流出；在项目终结期，垫支的流动资金全额无税回收，表现为现金净流入。",
+    "exam": "ΔNWC 增加是现金流出，减少是现金流入；期初垫多少，终结期必须全额加回回收。",
+    "group": "cf",
+    "tex": "\\Delta NWC = NWC_t - NWC_{t-1}",
+    "example": "存货+应收增加30000、应付增加10000 → ΔNWC=20000（流出）；终结期全额回收20000。",
+    "related": [
+      "OCF",
+      "Capex",
+      "C_0"
+    ]
+  },
+  "Capex": {
+    "title": "资本性支出（Capex）",
+    "badge": "长期投资支出",
+    "en": "Capital Expenditures",
+    "def": "企业用于购置固定资产、厂房、设备、无形资产（土地使用权、专利）等长期资产的现金流出。",
+    "formula": "Capex = 期末固定资产原值 - 期初固定资产原值 + 本期处置原值",
+    "rule": "发生当年作为投资活动现金全额流出，在未来各期通过折旧与摊销逐年转化为费用在税前抵扣。",
+    "exam": "属于项目初始投资性现金流出（相关增量成本，决策时必须全额计入），投产后通过折旧与摊销逐年产生税盾现金流入。",
+    "group": "cf",
+    "tex": "Capex = \\text{期末固定资产原值} - \\text{期初固定资产原值} + \\text{本期处置原值}",
+    "example": "例6-3设备380000元：期初0、期末380000、无处置 → Capex=380000，当期全额流出。",
+    "related": [
+      "OCF",
+      "折旧税盾",
+      "C_0",
+      "沉没成本"
+    ]
+  },
+  "CAPM": {
+    "title": "资本资产定价模型（CAPM）",
+    "badge": "股权成本定价",
+    "en": "Capital Asset Pricing Model",
+    "def": "揭示无套利均衡市场中资产预期收益率与不可分散系统性风险（β）之间线性关系的经典定价模型。",
+    "formula": "r_S = r_f + β (r_m - r_f)",
+    "rule": "用于测定项目的股权资本成本 r_S 与投资者的必要收益率。",
+    "exam": "<strong>核心原理（简答必考）</strong>：只有无法通过多元化投资分散的<strong>系统性风险（β）</strong>才能获得市场风险溢价补偿；企业特有非系统性风险市场不予补偿。",
+    "group": "cap",
+    "tex": "r_S = r_f + \\beta (r_m - r_f)",
+    "example": "例8-8：r_f=4%、ERP=7%、β_目标≈1.1538 → r_S=4%+1.1538×7%≈12.08%。",
+    "related": [
+      "β",
+      "r_f",
+      "风险溢价",
+      "r_S",
+      "Hamada"
+    ]
+  },
+  "β": {
+    "title": "贝塔系数（Beta / β）",
+    "badge": "系统性风险度量",
+    "en": "Beta Coefficient",
+    "def": "衡量某项资产或项目的收益波动相对于整个市场投资组合波动的敏感程度与系统性风险水平。",
+    "formula": "β_i = Cov(r_i, r_m) / σ_m^2",
+    "rule": "β=1 风险与市场相当；β>1 高弹性进攻型；β<1 防御型低风险。",
+    "exam": "无杠杆资产贝塔 β_U 仅由纯经营风险决定；有杠杆权益贝塔 β_L 则包含了经营风险与负债财务风险的双重放大。",
+    "group": "cap",
+    "tex": "\\beta_i = \\frac{Cov(r_i, r_m)}{\\sigma_m^2}",
+    "example": "β=1.2：市场涨10%，该资产倾向涨12%；β=0 仍有非系统性风险（第8章陷阱）。",
+    "related": [
+      "CAPM",
+      "Hamada",
+      "系统性风险",
+      "r_S"
+    ]
+  },
+  "Hamada": {
+    "title": "哈马达方程（Hamada 方程）",
+    "badge": "杠杆风险转换",
+    "en": "Hamada Equation",
+    "def": "在债务无违约风险假设下（β_B = 0），将企业纯经营风险的无杠杆资产贝塔转化为包含负债财务风险的杠杆权益贝塔。",
+    "formula": "β_L = β_U [1 + (1 - t) B / S]；一般式：β_U = [β_S·S + β_B(1-t)B] / [S + (1-t)B]",
+    "rule": "找可比公司 β_L → 卸载杠杆求 β_U → 结合拟投资项目的目标资本结构与税率加载计算 β_{L,项目}。",
+    "exam": "是估算未上市企业或新业务项目折现率时最核心的考点推导公式。",
+    "group": "cap",
+    "tex": [
+      "\\beta_L = \\beta_U \\left[1 + (1-t)\\frac{B}{S}\\right]",
+      "\\beta_U = \\frac{\\beta_S S + \\beta_B (1-t) B}{S + (1-t)B}"
+    ],
+    "example": "例8-8：β_可比=1.2、(B/S)_可比=5/6、t=25% → β_U≈0.7385；按目标B/S=3/4加载 → β_A≈1.1538。",
+    "related": [
+      "β",
+      "CAPM",
+      "r_U",
+      "WACC"
+    ]
+  },
+  "APV": {
+    "title": "调整现值法（APV / MM第一定理法）",
+    "badge": "结构可变估值",
+    "en": "Adjusted Present Value",
+    "def": "将带杠杆的项目总价值拆解为全股权无杠杆基准价值 V_U，加上单独计算的筹资附带收益现值（主要为利息税盾）。",
+    "formula": "V_L = V_U + PV(利息税盾) - PV(破产困境成本) ＝ V_U + tB",
+    "rule": "当项目债务金额固定、或负债比例在未来动态变化时（如 LBO 杠杆收购、特定专项贷款），APV 比 WACC 方便准确得多。",
+    "exam": "避开了 WACC 对目标资本结构恒定的严苛假定，且消除了循环计算问题。",
+    "group": "cs",
+    "tex": "V_L = V_U + PV(\\text{利息税盾}) - PV(\\text{困境成本}) = V_U + tB",
+    "example": "例10-4：V_U=800/10%=8000，tB=20%×6000=1200 → V_L=9200，NPV=+200 由负转正。",
+    "related": [
+      "V_U",
+      "tB",
+      "MM第一定理法",
+      "FTE",
+      "WACC法"
+    ]
+  },
+  "FTE": {
+    "title": "股权现金流法（FTE / 权益法）",
+    "badge": "股东价值估算法",
+    "en": "Flow to Equity",
+    "def": "直接预测归属于股东的杠杆现金流 LCF，按股权资本成本 r_S 折现直接估算股权价值 S，再加上债务市值 B 得到项目总价值。",
+    "formula": "S = ∑ [LCF_t / (1 + r_S)^t]；V = S + B",
+    "rule": "现金流必须扣除本息支出，折现率必须使用有杠杆的股权成本 r_S。",
+    "exam": "常用于金融机构、房地产或高杠杆项目的估值分析。",
+    "group": "cs",
+    "tex": "S = \\sum_t \\frac{LCF_t}{(1+r_S)^t};\\quad V = S + B",
+    "example": "例10-4：LCF=608、r_S=19% → S=3200；V=S+B=3200+6000=9200，与WACC法一致。",
+    "related": [
+      "LCF",
+      "r_S",
+      "APV",
+      "WACC法"
+    ]
+  },
+  "DSCR": {
+    "title": "偿债备付率（DSCR）",
+    "badge": "项目偿债安全",
+    "en": "Debt Service Coverage Ratio",
+    "def": "项目在借款偿还期内各年可用于还本付息的资金（未扣还本付息的经营现金流 EBIT(1-t)+D+A−ΔNWC）与当期应还本付息总额的比值。",
+    "formula": "DSCR = [EBIT(1-t) + D + A − ΔNWC] / (当期还本额 + 当期付息额)",
+    "rule": "工程财务评价中要求 <b class=\"ok\">DSCR > 1</b>，实务贷款通常要求 <b class=\"ok\">≥ 1.2 ~ 1.3</b> 作为安全底线。",
+    "exam": "衡量项目在运营期内偿还债务的抗风险安全储备倍数。分子口径与正文第11章一致：EBIT(1-t)+D+A−ΔNWC。",
+    "group": "pra",
+    "tex": "DSCR_t = \\frac{EBIT(1-t) + D + A - \\Delta NWC_t}{\\text{当期还本额}_t + \\text{当期付息额}_t}",
+    "example": "可用于还本付息资金=150、当年应还本息=100 → DSCR=1.5 ≥ 1.3，偿债安全。",
+    "related": [
+      "ICR",
+      "OCF"
+    ]
+  },
+  "ICR": {
+    "title": "利息保障倍数（ICR / 已获利息倍数）",
+    "badge": "经营利润利息覆盖",
+    "en": "Interest Coverage Ratio",
+    "def": "企业息税前利润 EBIT 与当期利息费用的比值，衡量经营收益对债务利息支出的覆盖能力。",
+    "formula": "ICR = EBIT / 利息费用 I",
+    "rule": "实务中一般要求 <b class=\"ok\">ICR ≥ 2 ~ 3</b>，<b class=\"no\">过低说明企业面临巨大的付息违约与破产风险</b>。",
+    "exam": "仅衡量利息偿还能力，不考虑本金偿还，属于中短期偿债指标。",
+    "group": "pra",
+    "tex": "ICR = \\frac{EBIT}{I}",
+    "example": "EBIT=350000、利息=24000 → ICR≈14.6 ≫ 3；若 ICR<1 则经营利润不够付息。",
+    "related": [
+      "EBIT",
+      "DSCR",
+      "r_B"
+    ]
+  },
+  "BEP": {
+    "title": "盈亏平衡点（BEP / 保本点）",
+    "badge": "不确定性分析",
+    "en": "Break-Even Point",
+    "def": "盈亏平衡点：项目利润（或净现值）恰好为零时的临界产量、单价或成本。第6章区分三层口径——现金（保现）、净利润（会计）、净现值，平衡点依次升高。",
+    "formula": "会计口径 Q_NI = (f+D)/(p-c)；现值口径 Q_NPV = [EAA+(1-t)f-tD]/[(1-t)(p-c)]，其中 EAA=C_0/PVIFA(r,T)",
+    "rule": "平衡点越低，抗风险与抗销售下滑能力越强；三层口径严格满足 <b class=\"ok\">Q_cash &lt; Q_NI &lt; Q_NPV</b>。",
+    "exam": "区分会计盈亏平衡（利润=0，收回账面折旧 D）与现值盈亏平衡（NPV=0，收回含资本成本的 EAA）：现值口径门槛更高。符号沿用正文：f 固定成本、c 单位可变成本、p 单价、t 企业所得税率。",
+    "group": "unc",
+    "tex": [
+      "Q_{NI} = \\frac{f+D}{p-c}",
+      "Q_{NPV} = \\frac{EAA + (1-t)f - tD}{(1-t)(p-c)}"
+    ],
+    "example": "例6-3：f=30000、D=76000、p−c=5 → Q_NI=21200瓶；Q_NPV=27600瓶；预计24000瓶：会计不亏、NPV亏。",
+    "related": [
+      "敏感度系数",
+      "灵敏度分析",
+      "EAA",
+      "OCF"
+    ]
+  },
+  "PVIFA": {
+    "title": "年金现值系数（PVIFA / (P/A, i, n)）",
+    "badge": "时间价值系数",
+    "en": "Present Value Interest Factor of Annuity",
+    "def": "在折现率为 i、期限为 n 期时，将每期等额年金 A 换算为期初现值 P 的乘数。",
+    "formula": "(P/A, i, n) = [1 - (1 + i)^(-n)] / i",
+    "rule": "现值 P = A × (P/A, i, n)。",
+    "exam": "其倒数即为资本回收系数 (A/P, i, n) = i / [1 - (1 + i)^(-n)]，用于算等额还本付息与约当年金 EAA。",
+    "group": "tv",
+    "tex": "(P/A, i, n) = \\frac{1 - (1+i)^{-n}}{i}",
+    "example": "i=10%、n=5 → PVIFA≈3.791；例6-3取3.8，EAA=380000/3.8=100000。",
+    "related": [
+      "FVIFA",
+      "PVIF",
+      "EAA",
+      "NAV",
+      "现值系数"
+    ]
+  },
+  "FVIFA": {
+    "title": "年金终值系数（FVIFA / (F/A, i, n)）",
+    "badge": "时间价值系数",
+    "en": "Future Value Interest Factor of Annuity",
+    "def": "在利率为 i、期限为 n 期时，各期等额年金 A 在期末复利滚存累计的总金额终值 F 的乘数。",
+    "formula": "(F/A, i, n) = [(1 + i)^n - 1] / i",
+    "rule": "终值 F = A × (F/A, i, n)。",
+    "exam": "其倒数即为偿债基金系数 (A/F, i, n) = i / [(1 + i)^n - 1]，用于求解为在未来凑足某笔款项每年应存入的等额资金。",
+    "group": "tv",
+    "tex": "(F/A, i, n) = \\frac{(1+i)^n - 1}{i}",
+    "example": "i=10%、n=5 → FVIFA≈6.105；每年末存1万，5年后本利和≈6.1万。",
+    "related": [
+      "PVIFA",
+      "FVIF",
+      "终值系数"
+    ]
+  },
+  "PVIF": {
+    "title": "复利现值系数（PVIF / (P/F, i, n)）",
+    "badge": "时间价值系数",
+    "en": "Present Value Interest Factor",
+    "def": "未来第 n 期末的 1 元钱，按复利折现率 i 折算到当前期初的价值。",
+    "formula": "(P/F, i, n) = (1 + i)^(-n)",
+    "rule": "现值 P = F × (P/F, i, n)。",
+    "exam": "是所有贴现现金流估值模型最基础的复利折现单元（本书默认复利，单利在学术与估值中不用）。",
+    "group": "tv",
+    "tex": "(P/F, i, n) = (1+i)^{-n}",
+    "example": "i=10%、n=5 → PVIF=1.1^−5≈0.621；5年后的1元今天值0.62元。",
+    "related": [
+      "FVIF",
+      "PVIFA",
+      "折现",
+      "现值系数"
+    ]
+  },
+  "FVIF": {
+    "title": "复利终值系数（FVIF / (F/P, i, n)）",
+    "badge": "时间价值系数",
+    "en": "Future Value Interest Factor",
+    "def": "当前期初的 1 元钱，按复利率 i 滚存 n 期后的本利和终值。",
+    "formula": "(F/P, i, n) = (1 + i)^n",
+    "rule": "终值 F = P × (F/P, i, n)。",
+    "exam": "体现『利滚利』复利增长效应，(P/F) 与 (F/P) 互为倒数。",
+    "group": "tv",
+    "tex": "(F/P, i, n) = (1+i)^n",
+    "example": "i=5%、n=3 → FVIF=1.157625；10000元复利滚存→11576.25元（第3章例）。",
+    "related": [
+      "PVIF",
+      "FVIFA",
+      "复利",
+      "终值系数"
+    ]
+  },
+  "MARR": {
+    "title": "最低可接受收益率（MARR / i_c / 基准收益率）",
+    "badge": "折现基准线",
+    "external": true,
+    "en": "Minimum Acceptable Rate of Return",
+    "def": "投资决策者对投资项目所要求的最低财务盈利率。是项目是否可行（NPV≥0, IRR≥MARR）的判别底线。",
+    "formula": "测定构成：加权资本成本 WACC + 机会成本 + 风险溢价 + 通胀率",
+    "rule": "项目实际收益率必须超过 MARR，方案才具备财务可行性。",
+    "exam": "基准收益率不是一成不变的，受资金供求、资本成本、通货膨胀和项目风险大小共同决定。",
+    "group": "dec",
+    "tex": "i_c \\approx WACC + \\text{机会成本} + \\text{风险溢价} + \\text{通胀率}",
+    "example": "WACC=8%、风险溢价2%、通胀2% → i_c≈12%；IRR=10% < 12% 则不可行。",
+    "related": [
+      "NPV",
+      "IRR",
+      "WACC",
+      "记号约定",
+      "折现率"
+    ]
+  },
+  "VE": {
+    "title": "价值工程（VE / 价值分析）",
+    "badge": "工程优化方法",
+    "external": true,
+    "en": "Value Engineering",
+    "def": "通过对产品或服务的功能与全寿命周期成本（LCC）进行系统分析，力图以最低全寿命成本可靠实现必要功能的系统管理技术。",
+    "formula": "V = F / C（价值 = 功能 / 成本）",
+    "rule": "五大提质增效途径：① F↑, C↓（最优）；② F↑↑, C↑；③ F→, C↓；④ F↑, C→；⑤ F↓, C↓↓。",
+    "exam": "价值系数 V_i = F_i / C_i：V_i < 1 表示成本偏高，应列为重点改进对象；V_i > 1 表示功能重要或成本不足。",
+    "group": "unc",
+    "tex": "V = \\frac{F}{C}",
+    "example": "F=100、C=80 → V=1.25 > 1 功能重要而成本偏低；V<1 的部件列为重点改进对象。",
+    "related": [
+      "敏感度系数"
+    ]
+  },
+  "沉没成本": {
+    "title": "沉没成本（Sunk Cost）",
+    "badge": "增量决策准则",
+    "en": "Sunk Cost",
+    "def": "过去已经发生且无法由后续任何决策改变或收回的成本费用支出。",
+    "formula": "增量现金流 ΔCF = 0（坚决不计入）",
+    "rule": "<strong>决策必须面向未来！</strong>在项目评估中，沉没成本一律坚决不计入现金流。",
+    "exam": "期末典型陷阱：已经花掉的 500 万研发费、可行性调研费，在计算新项目 NPV 时坚决不能算作项目投资！",
+    "group": "bas",
+    "tex": "\\Delta CF_{\\text{沉没}} = 0",
+    "example": "已花500万研发费：无论上不上新项目都收不回 → 计算NPV时坚决不计（ΔCF=0）。",
+    "related": [
+      "机会成本",
+      "侵蚀效应",
+      "C_0"
+    ]
+  },
+  "机会成本": {
+    "title": "机会成本（Opportunity Cost）",
+    "badge": "增量决策准则",
+    "en": "Opportunity Cost",
+    "def": "由于选择本项目而放弃的其他最佳替代投资或资源利用方案所能获得的潜在公允收益。",
+    "formula": "计为本项目的现金流出",
+    "rule": "必须作为项目的初始或经营期现金流出全额扣除。",
+    "exam": "期末典型陷阱：占用企业现有闲置厂房，虽未实际付现，但若该厂房对外出租可得租金，此租金就是机会成本，必须扣除！",
+    "group": "bas",
+    "tex": "\\text{放弃的最佳替代收益} \\Rightarrow \\text{计为项目现金流出}",
+    "example": "闲置厂房对外出租年租金50万：自用即放弃50万 → 每年计50万现金流出。",
+    "related": [
+      "沉没成本",
+      "侵蚀效应"
+    ]
+  },
+  "侵蚀效应": {
+    "title": "侵蚀效应 / 外部性（Erosion / Cannibalization）",
+    "badge": "增量决策准则",
+    "en": "Erosion / Side Effects",
+    "def": "新项目上线导致企业现有老产品销售下降或客户流失造成的现金流损失（自相残杀）。",
+    "formula": "计为本项目的现金流出",
+    "rule": "老产品因新项目损失的经营现金流量，必须作为新项目的现金流出全额扣减。",
+    "exam": "只有属于本项目带来的净转移损失才扣减；若即使不上新项目老产品也会被竞品抢占，则不扣减。",
+    "group": "bas",
+    "tex": "\\text{老产品净现金流减少额} \\Rightarrow \\text{新项目现金流出}",
+    "example": "新品使老品年净现金减少80万 → 新项目每年扣80万；若老品本就会被竞品抢走则不扣。",
+    "related": [
+      "机会成本",
+      "沉没成本",
+      "OCF"
+    ]
+  },
+  "折旧税盾": {
+    "title": "折旧税盾（Depreciation Tax Shield）",
+    "badge": "税收现金流入",
+    "en": "Depreciation Tax Shield",
+    "def": "折旧作为非付现费用在所得税前列支，减少了应纳税所得额，从而少缴企业所得税为企业带来的真实经营现金流入。",
+    "formula": "每年折旧税盾 = 折旧额 D × 企业所得税率 t",
+    "rule": "在经营期单期（不含垫资与资本支出时），经营现金流体现为 OCF = (S - C)(1-t) + (D + A)·t。",
+    "exam": "加速折旧（如双倍余额递减法）虽不改变折旧总额，但通过『早折旧、早抵税』产生时间价值收益，显著提高项目 NPV。",
+    "group": "cf",
+    "tex": "TS_D = D \\times t",
+    "example": "D=76000、t=25% → 年税盾=19000；加速折旧总额不变但早抵税，NPV更高。",
+    "related": [
+      "利息税盾",
+      "税盾效应",
+      "OCF",
+      "Capex"
+    ]
+  },
+  "利息税盾": {
+    "title": "利息税盾（Interest Tax Shield）",
+    "badge": "负债收益",
+    "en": "Interest Tax Shield",
+    "def": "债务利息在企业所得税前列支扣除，使企业减少所得税支出带来的现金流节约。",
+    "formula": "每年利息税盾 = I × t = r_B · B · t；永续恒定债务下现值 = tB",
+    "rule": "MM 定理（有税）：V_L = V_U + tB，负债带来利息税盾价值。",
+    "exam": "若用 WACC 法估值，利息税盾已在税后债务成本 r_B(1-t) 中体现，严禁在现金流中再次扣除利息。",
+    "group": "cs",
+    "tex": "TS_I = I \\cdot t = r_B B t;\\quad PV_{\\text{永续}} = tB",
+    "example": "B=6000、r_B=4%、t=20% → 年税盾=48，永续PV=48/4%=1200=tB。",
+    "related": [
+      "tB",
+      "折旧税盾",
+      "MM第一定理",
+      "WACC"
+    ]
+  },
+  "自制杠杆": {
+    "title": "自制杠杆（Homemade Leverage）",
+    "badge": "MM第一定理基石",
+    "en": "Homemade Leverage",
+    "def": "个人投资者可以在个人账户中以相同的借贷利率借入负债去买无杠杆公司的股票，精准复制杠杆公司的现金流与收益；反之亦然。",
+    "formula": "无套利均衡迫使：V_L = V_U",
+    "rule": "在无税、无交易成本的完全市场中，资本结构不影响企业总价值与加权资本成本。",
+    "exam": "无税 MM 第一定理的证明核心；说明投资者自己能做的杠杆，公司没必要溢价代劳。",
+    "group": "cs",
+    "tex": "V_L = V_U \\quad (\\text{无税、无套利})",
+    "example": "个人按5%借1000买无杠杆股票，复制杠杆公司收益 → 无套利迫使 V_L=V_U。",
+    "related": [
+      "MM第一定理",
+      "MM第二定理",
+      "资本结构"
+    ]
+  },
+  "权衡理论": {
+    "title": "权衡理论（Trade-off Theory）",
+    "badge": "最优资本结构",
+    "en": "Trade-off Theory",
+    "def": "企业最优资本结构是在负债的利息税盾收益（tB）与负债带来的财务困境成本（破产成本、代理成本）现值之间进行权衡。",
+    "formula": "V_L = V_U + PV(税盾) - PV(财务困境成本)",
+    "rule": "边际税盾收益等于边际困境成本时，企业总价值最大，达到最优负债率。",
+    "exam": "解释了现实中企业为什么不会 100% 负债，证明存在客观的最优资本结构点。",
+    "group": "cs",
+    "tex": "V_L = V_U + PV(\\text{税盾}) - PV(\\text{财务困境成本})",
+    "example": "边际税盾收益=边际困境成本时负债率最优；这就是企业不会100%负债的原因。",
+    "related": [
+      "MM第一定理",
+      "利息税盾",
+      "资本结构",
+      "优序融资"
+    ]
+  },
+  "优序融资": {
+    "title": "优序融资理论（Pecking Order Theory）",
+    "badge": "信息不对称融资",
+    "en": "Pecking Order Theory",
+    "def": "由于信息不对称（管理层比外部投资者更了解企业价值），外部股权融资会被市场解读为股价被高估的信号导致股价下跌（逆向选择）。",
+    "formula": "融资顺序：内部留存收益 → 低风险债权 → 外部股权",
+    "rule": "企业优先使用内部资金，其次发行债务，最后万不得已才发行新股。",
+    "exam": "解释了为什么高盈利企业往往负债率反而较低（内部留存资金充裕，无需外部借贷）。",
+    "group": "cs",
+    "tex": "\\text{内部留存收益} \\to \\text{债权融资} \\to \\text{外部股权融资}",
+    "example": "高盈利企业留存充裕→先内部资金；发新股被市场读作高估信号→股价跌，故排最后。",
+    "related": [
+      "权衡理论",
+      "资本结构"
+    ]
+  },
+  "费雪方程": {
+    "title": "费雪方程（Fisher Equation）",
+    "badge": "通胀与实际利率",
+    "en": "Fisher Equation",
+    "def": "揭示名义利率、实际利率与通货膨胀率之间关系的经典方程。",
+    "formula": "1 + 名义利率 = (1 + 实际利率) × (1 + 通胀率)；近似式：名义利率 ≈ 实际利率 + 通胀率",
+    "rule": "名义现金流必须用名义折现率折现，实际现金流必须用实际折现率折现，二者计算出的 NPV 完全一致。",
+    "exam": "严禁将名义现金流用实际折现率贴现，或将实际现金流用名义折现率贴现，口径错配必然导致答案错误。",
+    "group": "tv",
+    "tex": "1 + r_{\\text{名义}} = (1 + r_{\\text{实际}})(1 + \\pi)",
+    "example": "实际3%、通胀5% → 名义=1.03×1.05−1=8.15%（近似8%）；名义现金流必须配名义折现率。",
+    "related": [
+      "r_f",
+      "MARR",
+      "记号约定",
+      "折现率"
+    ]
+  },
+  "交叉折现率": {
+    "title": "Fisher 交叉折现率（Fisher Intersection Rate）",
+    "badge": "NPV与IRR冲突分界",
+    "en": "Fisher Intersection Rate",
+    "def": "两互斥方案 NPV 曲线在坐标系中的交点对应的折现率 r*，在数值上严格等于两方案差额增量现金流的内部收益率 ΔIRR。",
+    "formula": "NPV_1(r*) = NPV_2(r*)，即 ΔNPV(r*) = 0",
+    "rule": "若市场折现率 r < ΔIRR，NPV 指标与 IRR 指标出现排序冲突；若 r > ΔIRR，两指标结论一致。",
+    "exam": "当发生排序冲突时，无条件以净现值 NPV 较大的方案为最终决策依据。",
+    "group": "dec",
+    "tex": "NPV_1(r^*) = NPV_2(r^*) \\iff \\Delta NPV(r^*) = 0",
+    "example": "例5-16：r<18%（ΔIRR）时 NPV 与 IRR 排序冲突；r>18% 一致；冲突时无条件听NPV。",
+    "related": [
+      "ΔIRR",
+      "指标冲突",
+      "NPV",
+      "IRR"
+    ]
+  },
+  "重置链法": {
+    "title": "重置链法（最小公倍数寿命法）",
+    "badge": "寿命不等比选",
+    "en": "Replacement Chain Method",
+    "def": "取两方案寿命的最小公倍数，假定各方案在到期后按原收益与成本水平不断重复重置，以此统一比选周期比较总 NPV。",
+    "formula": "统一周期 = LCM(n_1, n_2)",
+    "rule": "选择在共同周期内总 NPV 最大的方案。",
+    "exam": "与约当年金法 EAA 结论严格等价，EAA 更加简捷快速。",
+    "group": "dec",
+    "tex": "T_{\\text{共同}} = LCM(n_1, n_2)",
+    "example": "寿命3年与4年 → 共同周期12年，各自复制4次/3次比总NPV；结论与EAA严格等价。",
+    "related": [
+      "EAA",
+      "NAV",
+      "互斥项目"
+    ]
+  },
+  "敏感度系数": {
+    "title": "敏感度系数（SAF / 灵敏度系数）",
+    "badge": "不确定性风险分析",
+    "en": "Sensitivity Coefficient",
+    "def": "评价指标（如 NPV、IRR）变动百分比与不确定因素（如投资、单价、成本）变动百分比的比值。",
+    "formula": "S_AF = (ΔA / A) / (ΔF / F)",
+    "rule": "|S_AF| 越大，说明该不确定因素对指标越敏感，越属于核心风险因子。",
+    "exam": "临界点（极限值）是不确定因素允许变动的最大幅度，超过该点方案转为不可行。",
+    "group": "unc",
+    "tex": "S_{AF} = \\frac{\\Delta A / A}{\\Delta F / F}",
+    "example": "价格涨10%使NPV涨30% → S_AF=3，价格是最敏感因子；再求临界变动幅度。",
+    "related": [
+      "灵敏度分析",
+      "BEP",
+      "VE"
+    ]
+  },
+  "IOCF": {
+    "title": "增量经营现金流量法（IOCF）",
+    "badge": "互斥方案比选",
+    "en": "Incremental Operating Cash Flow Method",
+    "def": "两互斥方案比选时，以投资额大的方案各期现金流减去投资额小的方案现金流，得到增量现金流，检验增量投资是否合算的方法。",
+    "formula": "IOCF = OCF_大 - OCF_小",
+    "rule": "计算增量现金流的 ΔNPV 与 ΔIRR：若 <b class=\"ok\">ΔNPV > 0 或 ΔIRR > i_c，选初始投资额大的方案</b>；<b class=\"no\">反之选小方案</b>。",
+    "exam": "增量的 NPV 恒等于两项目 NPV 之差（ΔNPV = NPV_大 - NPV_小），因此增量分析结论与净现值 NPV 准则恒等价，必然支持 NPV 较大的项目。",
+    "group": "dec",
+    "tex": "IOCF_t = OCF_{t,\\text{大}} - OCF_{t,\\text{小}}",
+    "example": "例5-16：大减小得(-120,100,50)，ΔNPV=5>0、ΔIRR=18%>10% → 选项目1，与NPV准则恒一致。",
+    "related": [
+      "ΔIRR",
+      "NPV",
+      "互斥项目",
+      "指标冲突"
+    ]
+  },
+  "r_S": {
+    "title": "股权资本成本（r_S / Cost of Equity）",
+    "badge": "股东要求回报率",
+    "en": "Cost of Equity",
+    "def": "普通股股东因投资于该企业或项目所要求的最低必要报酬率，取决于无风险利率、系统性经营风险与财务杠杆风险。",
+    "formula": "CAPM估算: r_S = r_f + β_L (r_m - r_f)；DDM模型: r_S = D_1 / P_0 + g",
+    "rule": "配对折现归属于股东的杠杆自由现金流 LCF，直接估算股权价值 S。",
+    "exam": "无税 MM-II 表明随负债率上升，财务杠杆风险导致 r_S 线性上升：r_S = r_0 + (r_0 - r_B)(B/S)。",
+    "group": "cap",
+    "tex": [
+      "r_S = r_f + \\beta_L (r_m - r_f)",
+      "r_S = \\frac{D_1}{P_0} + g \\quad (\\text{DDM})"
+    ],
+    "example": "例8-3：r_U=7%、r_B=5%、B/S=1、t=25% → r_S=7%+1×0.75×2%=8.5%（无税9%）。",
+    "related": [
+      "CAPM",
+      "r_B",
+      "r_U",
+      "WACC",
+      "MM第二定理",
+      "股权资本成本"
+    ]
+  },
+  "r_B": {
+    "title": "税前债务资本成本（r_B / Cost of Debt）",
+    "badge": "债务融资成本",
+    "en": "Cost of Debt",
+    "def": "企业借入新负债所需支付的债权人要求收益率（通常用债券到期收益率 YTM 或银行借款利率测定）。",
+    "formula": "税后债务成本 = r_B × (1 - t)",
+    "rule": "在 WACC 中必须使用税后债务成本 r_B(1-t)，以直接内嵌利息税盾效益。",
+    "exam": "计算 WACC 时切勿直接使用税前 r_B，必须乘以 (1-t) 体现利息在所得税前抵扣的节税利益。",
+    "group": "cap",
+    "tex": "r_{B,\\text{税后}} = r_B (1-t)",
+    "example": "债券YTM=5%、t=25% → WACC中必须用税后 5%×0.75=3.75%，不能用税前5%。",
+    "related": [
+      "r_S",
+      "WACC",
+      "到期收益率",
+      "债权资本成本"
+    ]
+  },
+  "r_U": {
+    "title": "无杠杆资本成本（r_U / r_0 / 纯资产成本）",
+    "badge": "资产纯经营风险",
+    "en": "Unlevered Cost of Capital",
+    "def": "假定企业没有负债（全股权融资）时的资本成本，完全由企业所处行业的纯经营性资产风险决定。",
+    "formula": "r_U = r_f + β_U (r_m - r_f)",
+    "rule": "作为 APV 法中计算全股权基准价值 V_U 的法定折现率。",
+    "exam": "反映企业业务本身的内在风险，不受财务杠杆变动的影响。",
+    "group": "cap",
+    "tex": "r_U = r_f + \\beta_U (r_m - r_f)",
+    "example": "例10-4：r_U=10% 是全股权标尺；V_U=800/10%=8000，与负债多少无关。",
+    "related": [
+      "r_S",
+      "APV",
+      "V_U",
+      "无杠杆股权成本",
+      "MM第二定理"
+    ]
+  },
+  "r_f": {
+    "title": "无风险利率（r_f / Risk-free Rate）",
+    "badge": "时间价值基准",
+    "en": "Risk-free Rate",
+    "def": "在无违约风险与再投资风险的前提下获得的确定性投资回报率，实务中通常选用与项目寿命匹配的中长期国债到期收益率。",
+    "formula": "CAPM: r_S = r_f + β (r_m - r_f)",
+    "rule": "衡量纯粹的货币时间价值，是所有风险资产贴现率构成的基准起点。",
+    "exam": "通常以国债收益率为代理，严格匹配现金流的名义或实际属性。",
+    "group": "cap",
+    "tex": "r_f \\approx \\text{期限匹配国债的到期收益率}",
+    "example": "例8-8取 r_f=4%（中长期国债YTM）；名义现金流配名义利率，实际配实际。",
+    "related": [
+      "CAPM",
+      "风险溢价",
+      "费雪方程"
+    ]
+  },
+  "tB": {
+    "title": "利息税盾现值（tB / PV of Interest Tax Shield）",
+    "badge": "杠杆税收收益",
+    "en": "Present Value of Tax Shield",
+    "def": "在企业所得税环境下，负债利息在税前抵扣所带来的全部税收节约折现到当前的累计价值。",
+    "formula": "永续恒定债务下: PV(税盾) = (t × r_B × B) / r_B = tB",
+    "rule": "有税 MM 第一定理: V_L = V_U + tB。",
+    "exam": "仅当债务为永续且面值恒定保持 B 时现值才等于 tB；若债务按项目进度还本，需按各期实际利息逐期贴现。",
+    "group": "cs",
+    "tex": "PV(\\text{税盾}) = \\frac{t \\cdot r_B \\cdot B}{r_B} = tB",
+    "example": "例10-4：t=20%、B=6000 → tB=1200；若逐年还本，须按各期实际利息逐期贴现。",
+    "related": [
+      "利息税盾",
+      "MM第一定理",
+      "APV",
+      "V_L"
+    ]
+  },
+  "V_L": {
+    "title": "有杠杆企业价值（V_L / Levered Firm Value）",
+    "badge": "公司总价值",
+    "en": "Value of Levered Firm",
+    "def": "包含负债融资的企业总价值，在资本市场上等于股权市值 S 与负债市值 B 之和。",
+    "formula": "无税 MM-I: V_L = V_U；有税 MM-I: V_L = V_U + tB",
+    "rule": "权衡理论下 V_L = V_U + PV(税盾) - PV(破产财务困境成本)。",
+    "exam": "公司估值的核心目标；当边际税盾等于边际破产成本时 V_L 达到最大值。",
+    "group": "cs",
+    "tex": "V_L = S + B;\\quad V_L = V_U + tB",
+    "example": "例10-4：V_L=S+B=3200+6000=9200=V_U+tB=8000+1200。",
+    "related": [
+      "V_U",
+      "tB",
+      "WACC",
+      "MM第一定理"
+    ]
+  },
+  "V_U": {
+    "title": "无杠杆基准价值（V_U / Unlevered Firm Value）",
+    "badge": "全股权基准价值",
+    "en": "Value of Unlevered Firm",
+    "def": "假定企业没有任何负债、完全依靠普通股股权出资时的企业价值。",
+    "formula": "V_U = ∑ [OCF_t / (1 + r_U)^t]",
+    "rule": "APV 调整现值法的第一步：先以无杠杆股权成本 r_U 折现现金流得出 V_U。",
+    "exam": "纯粹反映资产经营所创造的基准价值，不掺杂任何资本结构筹资效益。",
+    "group": "cs",
+    "tex": "V_U = \\sum_t \\frac{OCF_t}{(1+r_U)^t}",
+    "example": "例10-4：OCF=800、r_U=10% → V_U=8000；全股权NPV=8000−9000=−1000 应放弃。",
+    "related": [
+      "V_L",
+      "r_U",
+      "APV"
+    ]
+  },
+  "C_0": {
+    "title": "初始投资额（C_0 / Initial Outlay）",
+    "badge": "期初投资支出",
+    "en": "Initial Capital Outlay",
+    "def": "项目在建设期初（t=0）为购建固定资产、无形资产及垫支初始营运资金所发生的全部现金净流出。",
+    "formula": "NPV = PV(未来现金流) - C_0；PI = PV / C_0",
+    "rule": "作为相关增量现金流在期初全额计入流出。",
+    "exam": "沉没成本（如已发生的前期调研费）严禁计入 C_0；垫支的流动资金计入 C_0 且项目终结时全额回收。",
+    "group": "dec",
+    "tex": "NPV = PV_{\\text{未来}} - C_0;\\quad PI = \\frac{PV}{C_0}",
+    "example": "例10-4：C_0=9000；已发生的前期调研费属沉没成本，不计入C_0（例6-8口径）。",
+    "related": [
+      "NPV",
+      "PI",
+      "沉没成本",
+      "NWC"
+    ]
+  },
+  "单利": {
+    "title": "单利（Simple Interest）",
+    "badge": "计息方式",
+    "en": "Simple Interest",
+    "def": "仅以本金为基数计算利息，前期产生的利息在后续计息周期中不计入本金生息。",
+    "formula": "I = P · i · n；F = P (1 + i · n)",
+    "rule": "工程经济学估值与现值计算默认采用复利，单利在现代估值中不使用。",
+    "exam": "送分辨析点：单利不产生利滚利，只有本金生息；复利利息计入本金继续生息。",
+    "group": "tv",
+    "tex": "F = P(1 + i \\cdot n)",
+    "example": "10000元、5%、3年：F=10000×(1+0.05×3)=11500，利息不再生息。",
+    "related": [
+      "复利",
+      "连续复利",
+      "时间价值"
+    ]
+  },
+  "复利": {
+    "title": "复利（Compound Interest）",
+    "badge": "核心计息法则",
+    "en": "Compound Interest",
+    "def": "在每一个计息周期结束后，将当期利息加入本金再计息，即『利滚利』。",
+    "formula": "F = P (1 + i)^n；P = F (1 + i)^(-n)",
+    "rule": "工程经济学全部时间价值公式（NPV/IRR/年金）均严格基于复利建立。",
+    "exam": "名义利率与有效年利率差异源自一年内多次复利（EAR = (1 + r/m)^m - 1）。",
+    "group": "tv",
+    "tex": "F = P(1+i)^n;\\quad P = F(1+i)^{-n}",
+    "example": "同例：F=10000×1.05³=11576.25，比单利多76.25即利滚利部分。",
+    "related": [
+      "单利",
+      "连续复利",
+      "FVIF",
+      "PVIF",
+      "终值系数"
+    ]
+  },
+  "连续复利": {
+    "title": "连续复利（Continuous Compounding）",
+    "badge": "极限计息",
+    "en": "Continuous Compounding",
+    "def": "计息周期无限缩短（m趋于无穷大）时的复利计息极限形式。",
+    "formula": "F = P · e^(r · n)；P = F · e^(-r · n)",
+    "rule": "广泛用于金融衍生品期权定价（B-S模型）与连续现金流折现。",
+    "exam": "e 为自然对数的底（约2.71828），有效年利率 EAR = e^r - 1。",
+    "group": "tv",
+    "tex": "F = P e^{rn};\\quad EAR = e^r - 1",
+    "example": "同例：F=10000×e^0.15≈11618.34；年利率5%连续复利的EAR=e^0.05−1≈5.13%。",
+    "related": [
+      "复利",
+      "单利"
+    ]
+  },
+  "现值": {
+    "title": "现值（PV / Present Value）",
+    "badge": "时间价值基石",
+    "en": "Present Value",
+    "def": "未来某一时点的一笔或多笔现金流量，按一定折现率折算到当前期初（t=0）的等价价值。",
+    "formula": "PV = ∑ [CF_t / (1 + r)^t]",
+    "rule": "不同时点的资金不能直接加减，必须折算到同一点（通常为现值）方可比较。",
+    "exam": "所有估值模型的核心本质：项目价值等于其未来现金流的现值总和。",
+    "group": "tv",
+    "tex": "PV = \\sum_t \\frac{CF_t}{(1+r)^t}",
+    "example": "r=10%时永续1元/年 → PV=1/0.1=10元：存10元每年利息正好1元（第一公式）。",
+    "related": [
+      "终值",
+      "折现",
+      "PVIF",
+      "NPV",
+      "折现率",
+      "现值系数"
+    ],
+    "block": [
+      "系数"
+    ]
+  },
+  "终值": {
+    "title": "终值（FV / Future Value）",
+    "badge": "时间价值积累",
+    "en": "Future Value",
+    "def": "现在的一笔资金按规定的利率复利滚存到未来某一特定时点的本利和累计价值。",
+    "formula": "FV = P (1 + i)^n",
+    "rule": "与现值互为逆运算，资金随时间推移由于时间价值和再投资而不断增值。",
+    "exam": "年金终值公式用于求解偿债基金与养老金滚存积累。",
+    "group": "tv",
+    "tex": "FV = P(1+i)^n",
+    "example": "10000元按5%复利3年 → 11576.25元；年金终值用于偿债基金与养老金积累。",
+    "related": [
+      "现值",
+      "FVIF",
+      "复利",
+      "终值系数"
+    ],
+    "block": [
+      "系数"
+    ]
+  },
+  "折现": {
+    "title": "折现（贴现 / Discounting）",
+    "badge": "时间价值换算",
+    "en": "Discounting",
+    "def": "将未来发生的现金流按包含时间价值与风险补偿的折现率，反向换算为当前现值的数学过程。",
+    "formula": "PV = CF_t / (1 + r)^t",
+    "rule": "折现率由纯粹时间价值（无风险利率）与系统性风险溢价两部分构成。",
+    "exam": "折现率越高，未来现金流缩水越严重，远期现金流比重大的长周期项目对折现率更敏感。",
+    "group": "tv",
+    "tex": "PV = \\frac{CF_t}{(1+r)^t}",
+    "example": "第5年末100元、r=10% → PV=100/1.1⁵≈62.1元；r越高远期现金流缩水越狠。",
+    "related": [
+      "现值",
+      "PVIF",
+      "时间价值",
+      "风险价值",
+      "折现率",
+      "现值系数"
+    ],
+    "block": [
+      "率",
+      "系数",
+      "因子"
+    ]
+  },
+  "系统性风险": {
+    "title": "系统性风险（市场风险 / 不可分散风险）",
+    "badge": "市场定价风险",
+    "en": "Systematic Risk / Market Risk",
+    "def": "由宏观经济周期、利率变动、通胀、政策变动等波及整个市场的系统因素所引起的投资风险。",
+    "formula": "用贝塔系数 β 衡量: β = Cov(r_i, r_m) / σ_m^2",
+    "rule": "<strong>无法通过资产多元化投资组合消除！</strong>市场只对系统性风险给予风险溢价补偿。",
+    "exam": "CAPM 核心主张：承担系统性风险才能获得期望收益补偿，非系统性风险不予补偿。",
+    "group": "cap",
+    "tex": "\\beta = \\frac{Cov(r_i, r_m)}{\\sigma_m^2}",
+    "example": "加息冲击波及所有股票→无法分散→用β度量并获得补偿；CAPM只对β定价。",
+    "related": [
+      "非系统性风险",
+      "β",
+      "CAPM",
+      "风险溢价"
+    ]
+  },
+  "非系统性风险": {
+    "title": "非系统性风险（特有风险 / 可分散风险）",
+    "badge": "微观分散风险",
+    "en": "Unsystematic Risk / Firm-Specific Risk",
+    "def": "由个别企业或项目独有的微观因素（如研发失败、罢工、诉讼、管理不善）引起的风险。",
+    "formula": "多元化投资可将其趋近于 0",
+    "rule": "投资者可以通过构建充分分散的投资组合免费消除非系统性风险。",
+    "exam": "市场不会为非系统性风险提供风险溢价，因此折现率中不得加入特有风险补偿。",
+    "group": "cap",
+    "tex": "\\text{充分分散} \\Rightarrow \\sigma_{\\text{非系统}} \\to 0",
+    "example": "某厂罢工只影响个股→持有20只以上股票可基本消除→市场不给任何补偿。",
+    "related": [
+      "系统性风险",
+      "β"
+    ]
+  },
+  "风险溢价": {
+    "title": "风险溢价（Risk Premium）",
+    "badge": "风险报酬",
+    "en": "Risk Premium",
+    "def": "投资者因承担不可分散的系统性风险而要求高出无风险利率的那部分超额必要回报率。",
+    "formula": "权益风险溢价 = β (r_m - r_f)；市场风险溢价 ERP = r_m - r_f",
+    "rule": "风险与期望收益对等的基本法则：风险越高，要求的风险溢价越高。",
+    "exam": "ERP（股票市场超额收益）一般取历史长期几何或算术平均值（通常为 5%~7%）。",
+    "group": "cap",
+    "tex": "RP = \\beta (r_m - r_f);\\quad ERP = r_m - r_f",
+    "example": "r_f=4%、ERP=7%、β=1.1538 → 溢价≈8.08%，r_S≈12.08%（例8-8）。",
+    "related": [
+      "CAPM",
+      "r_f",
+      "系统性风险",
+      "风险价值"
+    ]
+  },
+  "税盾效应": {
+    "title": "税盾效应（Tax Shield Effect）",
+    "badge": "税收筹划利益",
+    "en": "Tax Shield Effect",
+    "def": "由于折旧、摊销或负债利息在税前列支，合法降低了应纳税所得额，从而减少所得税现金支出为企业带来的真实增量收益。",
+    "formula": "年折旧税盾 = D · t；年利息税盾 = I · t",
+    "rule": "税盾能直接创造现金流入与企业价值增量。",
+    "exam": "有税 MM 第一定理指出利息税盾使负债公司价值增加 tB。",
+    "group": "cs",
+    "tex": "TS_D = D\\,t;\\quad TS_I = I\\,t",
+    "example": "D=76000、I=24000、t=25% → 折旧税盾19000、利息税盾6000，都是真实现金节约。",
+    "related": [
+      "折旧税盾",
+      "利息税盾",
+      "MM第一定理"
+    ]
+  },
+  "资本结构": {
+    "title": "资本结构（Capital Structure）",
+    "badge": "负债与股权比例",
+    "en": "Capital Structure",
+    "def": "企业各项长期资金来源（股权资本与债务资本）的构成及其在总资本中所占的市场价值比例。",
+    "formula": "资产负债率 = B / (S + B)；产权比率 = B / S",
+    "rule": "权衡理论认为在利息税盾收益与财务困境成本之间权衡存在最优资本结构。",
+    "exam": "无税 MM 定理证明资本结构无关；有税 MM 定理表明负债增加提升价值。",
+    "group": "cs",
+    "tex": "\\text{资产负债率} = \\frac{B}{S+B};\\quad \\text{产权比率} = \\frac{B}{S}",
+    "example": "例10-4：B=6000、S=3200 → B/S=15/8，资产负债率=6000/9200≈65.2%（市值口径）。",
+    "related": [
+      "MM第一定理",
+      "MM第二定理",
+      "权衡理论",
+      "WACC"
+    ]
+  },
+  "MM第一定理": {
+    "title": "MM 第一定理（资本结构无关论 / 价值创造定理）",
+    "badge": "现代金融基石",
+    "en": "Modigliani-Miller Theorem I",
+    "def": "【无税】在无税完全市场中，企业总价值仅取决于其底层资产的盈利能力，与资本结构无关（V_L = V_U）。<br>【有税】引入企业所得税后，负债利息税盾增加企业价值：V_L = V_U + tB。",
+    "formula": "无税: V_L = V_U；有税: V_L = V_U + tB",
+    "rule": "无税时自制杠杆迫使两公司价值相等；有税时负债带来税盾价值红利。",
+    "exam": "期末必考核心论断与推导前提（无破产成本、信息对称、无套利均衡）。",
+    "group": "cs",
+    "tex": "\\text{无税: } V_L = V_U;\\quad \\text{有税: } V_L = V_U + tB",
+    "example": "例10-4：无税V_L=V_U=8000；有税V_L=8000+1200=9200，负债创造1200税盾价值。",
+    "related": [
+      "MM第二定理",
+      "自制杠杆",
+      "tB",
+      "V_L",
+      "权衡理论"
+    ]
+  },
+  "MM第二定理": {
+    "title": "MM 第二定理（杠杆推高权益成本定理）",
+    "badge": "权益成本与杠杆",
+    "en": "Modigliani-Miller Theorem II",
+    "def": "【无税】随着负债比例上升，普通股股东承担的财务风险增大，股权资本成本 r_S 随负债权益比 B/S 线性上升：r_S = r_0 + (r_0 - r_B)(B/S)。<br>【有税】考虑利息税盾后：r_S = r_0 + (r_0 - r_B)(1 - t)(B/S)。",
+    "formula": "r_S = r_0 + (r_0 - r_B)(1 - t) (B / S)",
+    "rule": "【无税时】便宜的负债资本并不能降低综合资本成本，因为股东要求的风险溢价上升完全抵消了低利率债务的好处；【有税时】因利息税盾效应，综合资本成本 WACC 随负债增加而持续下降。",
+    "exam": "解释了为什么 WACC 在无税时恒等于 r_0，资本结构变动无法压低 WACC。",
+    "group": "cs",
+    "tex": [
+      "\\text{无税: } r_S = r_0 + (r_0 - r_B)\\frac{B}{S}",
+      "\\text{有税: } r_S = r_0 + (r_0 - r_B)(1-t)\\frac{B}{S}"
+    ],
+    "example": "例8-3：r_U=7%、r_B=5%、B/S=1 → 无税r_S=9%；t=25%时r_S=8.5%，税盾分担了风险。",
+    "related": [
+      "MM第一定理",
+      "r_S",
+      "r_U",
+      "WACC"
+    ]
+  },
+  "股权资本成本": {
+    "title": "股权资本成本（r_S）",
+    "badge": "股东必要报酬",
+    "en": "Cost of Equity",
+    "def": "企业通过发行普通股或使用留存收益融资时，股东所要求的最低必要报酬率。",
+    "formula": "r_S = r_f + β_L (r_m - r_f)",
+    "rule": "用于对股东现金流（LCF / FTE）贴现求股权价值 S。",
+    "exam": "受业务经营风险与负债财务风险共同推高；未上市项目需通过 Hamada 方程卸载与加载杠杆估算。",
+    "group": "cap",
+    "tex": "r_S = r_f + \\beta_L (r_m - r_f)",
+    "example": "例8-2 DDM：Div_1/P_0=1/20、g=10% → r_S=15%；它不可观测，只能测算。",
+    "related": [
+      "r_S",
+      "CAPM",
+      "Hamada",
+      "到期收益率"
+    ]
+  },
+  "债权资本成本": {
+    "title": "债权资本成本（r_B）",
+    "badge": "借入资金成本",
+    "en": "Cost of Debt",
+    "def": "企业借入债务资金所承担的实际资本成本，税后实际成本为 r_B(1-t)。",
+    "formula": "税后成本 = r_B × (1 - t)",
+    "rule": "作为债务资金在 WACC 中的配对要素成本。",
+    "exam": "企业破产风险增加时，债权人会要求更高的违约风险溢价，推高 r_B。",
+    "group": "cap",
+    "tex": "r_{B,\\text{税后}} = r_B (1-t)",
+    "example": "新债YTM=5%即税前r_B；WACC用税后3.75%（t=25%）。破产风险上升→债权人加价。",
+    "related": [
+      "r_B",
+      "到期收益率",
+      "WACC"
+    ]
+  },
+  "无杠杆股权成本": {
+    "title": "无杠杆股权成本（r_U / r_0）",
+    "badge": "全股权纯资产成本",
+    "en": "Unlevered Cost of Equity",
+    "def": "假定企业没有负债（全股权融资）时的资本成本，完全由企业所处行业的纯经营性资产风险决定。",
+    "formula": "r_U = r_f + β_U (r_m - r_f)",
+    "rule": "作为 APV 法中计算全股权基准价值 V_U 的折现率。",
+    "exam": "反映企业业务本身的内在风险，不受财务杠杆变动的影响。",
+    "group": "cap",
+    "tex": "r_U = r_f + \\beta_U (r_m - r_f)",
+    "example": "r_U是一把标尺：例10-4取10%；任何B/S下的r_S都由它经MM第二定理推出。",
+    "related": [
+      "r_U",
+      "APV",
+      "MM第二定理"
+    ]
+  },
+  "到期收益率": {
+    "title": "到期收益率（YTM / 内部收益率）",
+    "badge": "债券内在回报",
+    "en": "Yield to Maturity",
+    "def": "使债券未来全部息票利息与本金兑付现值之和恰好等于当前债券市价的贴现率，本质上就是债券投资的 IRR。",
+    "formula": "P_0 = ∑ [C / (1 + YTM)^t] + M / (1 + YTM)^n",
+    "rule": "是测算公司现有存续负债真实市场资本成本 r_B 的首选标准。",
+    "exam": "手算反解 YTM 与反解 IRR 完全相同，必须采用试错线性插值法逼近求解。",
+    "group": "cap",
+    "tex": "P_0 = \\sum_{t=1}^{n} \\frac{C}{(1+YTM)^t} + \\frac{M}{(1+YTM)^n}",
+    "example": "面值100、票息5%、现价95、1年期 → 95=(5+100)/(1+YTM) → YTM≈10.5%。",
+    "related": [
+      "r_B",
+      "IRR",
+      "债权资本成本"
+    ]
+  },
+  "投融资分离定理": {
+    "title": "投融资分离定理（费雪分离定理 / 分离原则）",
+    "badge": "项目评估核心前提",
+    "en": "Fisher Separation Theorem",
+    "def": "在完备有效的资本市场中，企业投资决策（选什么项目、投多少钱）与融资决策（从哪里拿钱、负债还是股权）完全独立分离。",
+    "formula": "项目价值由经营现金流与业务风险决定，不受融资方式偏好干扰",
+    "rule": "先按纯业务风险评估项目能不能投（分子的 OCF 不扣利息），再在分母折现率中统一考虑资本结构融资成本。",
+    "exam": "是工程经济学将项目评估划分为『管分子（经营现金流）』与『管分母（资本成本与结构）』的根本理论基石。",
+    "group": "cs",
+    "tex": "\\text{投资决策}(CF) \\;\\text{独立于}\\; \\text{融资决策}(r)",
+    "example": "先问项目好不好（分子OCF），再问钱从哪来（分母r）；例10-4先估值后反推WACC即此顺序。",
+    "related": [
+      "投资决策",
+      "融资决策",
+      "OCF",
+      "WACC"
+    ]
+  },
+  "投资决策": {
+    "title": "投资决策（Investment Decision）",
+    "badge": "业务端决策",
+    "en": "Investment Decision",
+    "def": "确定项目资金投放的方向与规模，评估底层资产创造未来现金流的能力，核心回答“要不要投、投哪个方案”。",
+    "formula": "判别准则: NPV ≥ 0 或 IRR ≥ i_c",
+    "rule": "投资决策假定折现率已知，重点研究分子（经营现金流 OCF），以净现值最大化作为衡量准则。",
+    "exam": "按投融资分离原则，投资决策独立于筹资方式，不受投资者个人消费偏好或公司融资结构直接干扰。",
+    "group": "cs",
+    "tex": "NPV \\geq 0 \\;\\text{或}\\; IRR \\geq i_c",
+    "example": "例10-4全股权：NPV=−1000<0 → 单看投资决策应放弃；融资税盾另算。",
+    "related": [
+      "融资决策",
+      "投融资分离定理",
+      "NPV",
+      "OCF"
+    ]
+  },
+  "融资决策": {
+    "title": "融资决策（Financing Decision）",
+    "badge": "筹资端决策",
+    "en": "Financing Decision",
+    "def": "为项目投资筹措所需资金的来源结构安排（自有股权与借入债权比例），核心回答“从哪里拿钱、怎样组合成本最低”。",
+    "formula": "核心目标: 使综合加权平均资本成本 WACC 最小化，或企业总价值 V_L 最大化",
+    "rule": "融资决策假定项目现金流已知，重点研究分母（资本成本与结构），通过权衡税盾与困境成本确定最优负债率。",
+    "exam": "无税时 MM-I 表明融资决策不创造企业价值；有税时合理增加负债可享受利息税盾红利。",
+    "group": "cs",
+    "tex": "\\min WACC \\iff \\max V_L",
+    "example": "例10-4借6000后NPV=+200：融资通过税盾改变可行性，但不改变OCF本身。",
+    "related": [
+      "投资决策",
+      "投融资分离定理",
+      "资本结构",
+      "WACC"
+    ]
+  },
+  "指标冲突": {
+    "title": "指标冲突裁决（NPV vs IRR vs PI）",
+    "badge": "比选最高准则",
+    "en": "Ranking Conflicts & Resolution",
+    "def": "互斥方案比选中，NPV（绝对值）与 IRR、PI（相对值）可能给出相反排序。冲突根源有三：① 投资规模差异；② 现金流时间分布差异；③ 寿命期差异。",
+    "tex": [
+      "NPV_A(r^*) = NPV_B(r^*) \\iff r^* = \\Delta IRR",
+      "r < \\Delta IRR \\Rightarrow \\text{排序冲突，以 NPV 为准}"
+    ],
+    "formula": "NPV_A(r*) = NPV_B(r*) ⇔ r* = ΔIRR；r < ΔIRR 时排序冲突，以 NPV 为准",
+    "rule": "<b class=\"ok\">无条件以 NPV 最大者为最终决策</b>——NPV 直接度量股东财富增量。规模/时序冲突用增量现金流 ΔIRR 复核；寿命不等先用 EAA 或重置链统一口径；<b class=\"no\">严禁直接比较 IRR 或 PI 的绝对大小</b>。",
+    "example": "例5-16：IRR_2=27% > IRR_1=24%，但 NPV_1=31 > NPV_2=26 → 无条件选NPV大的项目1。",
+    "exam": "简答模板：① 指出冲突类型（规模/时序/寿命）；② NPV 曲线交点即交叉折现率 ΔIRR；③ r<ΔIRR 冲突、r>ΔIRR 一致；④ 结论一律服从 NPV。例5-16 是标准算例。",
+    "group": "dec",
+    "related": [
+      "NPV",
+      "IRR",
+      "PI",
+      "ΔIRR",
+      "交叉折现率",
+      "IOCF",
+      "EAA"
+    ]
+  },
+  "记号约定": {
+    "title": "记号约定（r / i / i_c / MARR 等价）",
+    "badge": "读题先对符号",
+    "en": "Notation Conventions",
+    "def": "正文与原书用 r 表示折现率；国内习题常用 i、i_c（基准收益率）或 MARR（最低可接受收益率）充当同一数值角色——做题时把 i_c 当 r 代入折现即可。概念上折现率是通用的时间换算比率，i_c/MARR 是投资者要求的最低回报（决策门槛），二者数值相等、含义各有侧重。t 一律指企业所得税率；B、S 为债务与股权的市场价值，V=S+B；D 折旧、A 摊销。",
+    "tex": "r \\equiv i \\equiv i_c \\equiv MARR;\\quad V = S + B",
+    "formula": "r ≡ i ≡ i_c ≡ MARR；V = S + B",
+    "rule": "做题第一步统一口径：名义现金流配名义折现率、实际配实际（费雪方程）；全投资 OCF 配 WACC、股权 LCF 配 r_S，<b class=\"no\">严禁交叉配对</b>。",
+    "example": "正文 r=10% 即卡片 i_c=10%（基准收益率/MARR）；t 一律指企业所得税率。",
+    "exam": "符号陷阱：β_U（资产/无杠杆）vs β_L（权益/有杠杆）；r_U vs r_S；ΔNWC 是增量不是存量；C_0 含垫支营运资金但不含沉没成本。",
+    "group": "bas",
+    "related": [
+      "MARR",
+      "r_S",
+      "r_B",
+      "OCF",
+      "费雪方程",
+      "折现率"
+    ]
+  },
+  "时间价值": {
+    "title": "时间价值（货币的时间价值）",
+    "badge": "折现率的第一半",
+    "en": "Time Value of Money",
+    "def": "今天到手的钱可以立即生息，因此今天的1元比未来同等金额的1元更值钱。放弃当前消费所要求的最低补偿即纯粹时间价值，由无风险利率度量。",
+    "tex": "FV = PV(1+r)^n",
+    "formula": "FV = PV(1+r)^n",
+    "rule": "不同时点的资金不能直接加减，必须折到同一时点；折现率 = 时间价值（r_f）+ 风险价值（风险溢价）。",
+    "example": "今天10000元按5%复利3年→11576.25元：这就是放弃当前消费应得的补偿。",
+    "exam": "第3章原书两种价值之一（另一种是风险价值）；单利不产生利滚利，本书默认复利；永续情形 PV=CF/r 是时间价值的极限形式。",
+    "group": "tv",
+    "related": [
+      "风险价值",
+      "现值",
+      "终值",
+      "折现",
+      "r_f",
+      "折现率"
+    ]
+  },
+  "风险价值": {
+    "title": "风险价值（风险报酬）",
+    "badge": "折现率的第二半",
+    "en": "Risk Value / Risk Premium",
+    "def": "承担风险所要求的额外回报。高风险高收益有两层意思：追求高收益就得承担高风险，承担了高风险就会要求高收益。市场只补偿不可分散的系统性风险。",
+    "tex": "r = r_f + \\underbrace{\\beta(r_m - r_f)}_{\\text{风险溢价}}",
+    "formula": "r = r_f + β(r_m − r_f)（后项即风险溢价）",
+    "rule": "风险越大补偿越多，补偿是线性的（CAPM）；非系统性风险可分散，市场不予补偿，折现率中不得加入特有风险补偿。",
+    "example": "β=1.2、ERP=7% → 风险溢价8.4%：只有承担系统性风险才有的额外补偿。",
+    "exam": "与时间价值合成折现率（第3章mark）；β=0 不等于无风险；奈特区分风险（可度量）与不确定性（不可度量），本书统称风险。",
+    "group": "cap",
+    "related": [
+      "时间价值",
+      "系统性风险",
+      "风险溢价",
+      "CAPM",
+      "折现率"
+    ]
+  },
+  "互斥项目": {
+    "title": "互斥项目（Mutually Exclusive Projects）",
+    "badge": "比选前提",
+    "en": "Mutually Exclusive Projects",
+    "def": "选了一个、另一个就自动放弃的项目组合。比选必须先统一口径：寿命相同用增量现金流法 IOCF，寿命不同用约当年金 EAA 或重置链法。",
+    "tex": "\\text{同寿命} \\to IOCF;\\quad \\text{异寿命} \\to EAA",
+    "formula": "同寿命 → IOCF；异寿命 → EAA / 重置链",
+    "rule": "<b class=\"ok\">增量分析必然支持 NPV 较高的方案</b>；<b class=\"no\">严禁直接按 IRR 或 PI 排序选互斥项目</b>，相对指标与 NPV 冲突时以 NPV 为准。",
+    "example": "例5-16两项目只能选一个：同寿命用IOCF；若寿命3年vs4年则改用EAA（例5-18）。",
+    "exam": "与独立方案区分：独立方案看自身可行性（NPV≥0），互斥方案看相对优劣；资本受限下的独立项目组合才用 PI 排序。",
+    "group": "dec",
+    "related": [
+      "IOCF",
+      "EAA",
+      "重置链法",
+      "指标冲突"
+    ]
+  },
+  "灵敏度分析": {
+    "title": "灵敏度分析（Sensitivity Analysis）",
+    "badge": "不确定性三步法",
+    "en": "Sensitivity Analysis",
+    "def": "回答两个问题：某个参数变化会让决策怎样变；要让决策不变，参数可以在多大范围内变动。原书三步：①确定参数概率分布；②建立参数与指标的函数关系；③由参数分布推出指标分布。",
+    "tex": "S_{AF} = \\frac{\\Delta A / A}{\\Delta F / F}",
+    "formula": "S_AF = (ΔA/A) / (ΔF/F)",
+    "rule": "为简化通常假设参数相互独立、取离散值；参数多且关联时解析式难求，改用数值模拟（蒙特卡洛）。|S_AF| 越大越敏感，临界点之外方案转为不可行。",
+    "example": "例6-4影视项目：销售费用1000万/3000万 × 收入3亿/2亿/0.8亿离散组合；例6-6让价格与销量相关模拟500次得双峰NPV分布。",
+    "exam": "与盈亏平衡联用：先找敏感因子（S_AF），再求其临界变动幅度；决策树则处理多阶段序贯决策（例6-7/6-8逆推）。",
+    "group": "unc",
+    "related": [
+      "敏感度系数",
+      "BEP",
+      "期权估值法"
+    ]
+  },
+  "无杠杆现金流": {
+    "title": "无杠杆现金流（UCF / 全投资现金流）",
+    "badge": "分子的标准口径",
+    "en": "Unlevered Cash Flow",
+    "def": "不扣利息、归股东与债权人共有的项目自由现金流，本书即 OCF。它是投资决策（分子）的标准口径，融资影响全部放进折现率（分母）。",
+    "tex": "UCF = EBIT(1-t) + D + A - \\Delta NWC - Capex",
+    "formula": "UCF = EBIT(1-t) + D + A - ΔNWC - Capex",
+    "rule": "配 WACC（或 r_U）折现得项目总价值 V_L；<b class=\"no\">严禁扣利息后再用 WACC 折现</b>，否则债务成本被算两次。",
+    "example": "第4章例：UCF=OCF=642500 元，归全体出资人共有；扣利息就与WACC中的税盾重复。",
+    "exam": "投融资分离定理的分子端；与 LCF（扣本息、配 r_S）严格区分，两种口径折出的价值一致（例10-4验算）。",
+    "group": "cf",
+    "related": [
+      "OCF",
+      "r_U",
+      "WACC",
+      "LCF"
+    ]
+  },
+  "WACC法": {
+    "title": "WACC 法（加权平均资本成本法）",
+    "badge": "合流估值·式10.1",
+    "en": "WACC Valuation Method",
+    "def": "把负债的影响放进折现率：用 OCF 按 WACC 折现直接得到项目总价值 V_L。适用于维持恒定目标资本结构（B/S 比例恒定）的项目。",
+    "tex": "V_L = \\sum_i \\frac{OCF_i}{(1+WACC)^i};\\quad \\text{永续: } V_L = \\frac{OCF}{WACC}",
+    "formula": "V_L = ∑ OCF_i/(1+WACC)^i；永续 V_L = OCF/WACC",
+    "rule": "三步：预测 OCF → 测 WACC → 折现；NPV = V_L − C_0。<b class=\"ok\">与 MM 第一定理法恒等价</b>（WACC×V_L = r_U×V_U = OCF）；但存在循环逻辑：算WACC需先知道V_L。",
+    "example": "例10-4验算：WACC≈8.70%，V_L=800/8.70%=9200，与MM第一定理法同值——项目价值唯一。",
+    "exam": "适用前提是 B/S 恒定（负债随价值同比波动）；负债金额固定时改用 APV/MM第一定理法更简便，无循环论证。",
+    "group": "cs",
+    "related": [
+      "WACC",
+      "MM第一定理法",
+      "APV",
+      "V_L",
+      "FTE"
+    ]
+  },
+  "MM第一定理法": {
+    "title": "MM 第一定理法（即调整现值法 APV）",
+    "badge": "合流估值·式10.2",
+    "en": "MM-I / APV Valuation Method",
+    "def": "把税盾单独算：先以 r_U 折现 OCF 得全股权基准价值 V_U，再加上按 r_B 贴现的利息税盾 tB。原书口径：负债 B 不变、税盾按 r_B 折现（按 r_U 折现是其他学术流派，本书不采用）。",
+    "tex": "V_L = \\frac{OCF}{r_U} + tB",
+    "formula": "V_L = OCF/r_U + tB",
+    "rule": "适用于负债绝对金额固定或有明确还本付息时间表的项目；<b class=\"ok\">无需循环论证</b>，体现无套利思想（整体=部分之和）。",
+    "example": "例10-4：V_L=800/10%+20%×6000=8000+1200=9200；NPV=9200−9000=+200，融资使项目由拒转收。",
+    "exam": "与 WACC 法等价的推导：WACC×V_L = r_U×V_U = OCF；例10-4五步全链条是标准大题模板。",
+    "group": "cs",
+    "related": [
+      "APV",
+      "WACC法",
+      "MM第一定理",
+      "tB",
+      "V_L"
+    ]
+  },
+  "相对估值法": {
+    "title": "相对估值法（倍数法 / 可比公司法）",
+    "badge": "估值第三路",
+    "en": "Relative Valuation / Multiples",
+    "def": "依据一价定律：理性投资者为资产愿付的价格约等于市场上性能相同替代品的价格。若目标与可比项目风险相近、现金流成比例，价值之比等于关键指标 a 之比。",
+    "tex": "V_{\\text{目标}} = \\text{可比倍数} \\times a_{\\text{目标}}",
+    "formula": "V_目标 = 可比倍数 × a_目标（a 如 EBITDA、净利润）",
+    "rule": "常用 P/E、EV/EBITDA：后者剔除会计政策与发展阶段差异，适合重资产高折旧项目，但不反映资本支出需求。前提是市场有效、可比公司真可比。",
+    "example": "例10-5：W公司 EV=129.61亿元 = EBITDA × 可比 EV/EBITDA 倍数。",
+    "exam": "与绝对估值法（DCF/WACC/APV）对照：绝对法只需项目自身现金流与折现率；相对法快但依赖市场定价正确，泡沫期系统性偏高。",
+    "group": "cs",
+    "related": [
+      "EBITDA",
+      "WACC法",
+      "期权估值法"
+    ]
+  },
+  "期权估值法": {
+    "title": "期权估值法（实物期权 / 决策树）",
+    "badge": "灵活性的价值",
+    "en": "Real Options / Decision Trees",
+    "def": "传统 NPV 低估管理灵活性：扩张、延迟、收缩、放弃的选择权本身有价值。项目价值 = 静态 NPV + 期权价值；多阶段序贯决策用决策树逆推（期望值法）。",
+    "tex": "V_{\\text{项目}} = NPV_{\\text{静态}} + V_{\\text{期权}}",
+    "formula": "V_项目 = NPV_静态 + V_期权",
+    "rule": "决策树从末端分支逆推期望 NPV，坏分支可终止时期权价值为正；连续定价用 B-S 模型（连续复利背景）。",
+    "example": "例6-8：静态E(NPV)=−333.3万，加上第1年亏损可无成本终止的收缩期权 → E(NPV)=246.4万，接受。",
+    "exam": "例6-7奶茶店扩张：E(NPV)≈116.7万>0，被拒项目复活；财务顾问费20万属沉没成本不计入投资。",
+    "group": "cs",
+    "related": [
+      "灵敏度分析",
+      "NPV",
+      "相对估值法"
+    ]
+  },
+  "折现率": {
+    "title": "折现率（Discount Rate / r）",
+    "badge": "分母的核心",
+    "en": "Discount Rate",
+    "def": "把未来现金流折算为现值所用的比率，即母公式 PV=CF/r 中的 r。它同时补偿两样东西：货币时间价值（无风险利率 r_f）与承担系统性风险的风险溢价 β(r_m−r_f)。",
+    "tex": "r = r_f + \\beta (r_m - r_f)",
+    "formula": "r = r_f + β(r_m − r_f)",
+    "rule": "名义现金流配名义折现率、实际现金流配实际折现率（费雪方程）；全投资 OCF 配 WACC、股权 LCF 配 r_S，<b class=\"no\">严禁口径交叉</b>。决策门槛是基准收益率 i_c/MARR：习题中直接当 r 代入折现，概念上它是最低回报要求，与通用换算比率 r 各有侧重（见记号约定）。",
+    "example": "例8-8：r_f=4%、β_目标≈1.1538、ERP=7% → 该项目股权现金流适用折现率 r_S≈12.08%。",
+    "exam": "r 越高远期现金流缩水越狠（长周期项目更敏感）；永续增长公式要求 r>g 才收敛；习题记号 r/i/i_c 常混用（见记号约定），但概念上折现率≠决策门槛。",
+    "group": "tv",
+    "related": [
+      "折现",
+      "现值",
+      "时间价值",
+      "风险价值",
+      "MARR",
+      "记号约定",
+      "费雪方程"
+    ]
+  },
+  "现值系数": {
+    "title": "现值系数（PVIF / PVIFA 族）",
+    "badge": "折现乘数族",
+    "en": "Present Value Interest Factors",
+    "def": "把未来金额换算为现值的乘数族：复利现值系数 (P/F,i,n) 针对单笔金额；年金现值系数 (P/A,i,n) 针对等额系列。二者不可混用。",
+    "tex": [
+      "(P/F, i, n) = (1+i)^{-n}",
+      "(P/A, i, n) = \\frac{1-(1+i)^{-n}}{i}"
+    ],
+    "formula": "(P/F,i,n)=(1+i)^-n；(P/A,i,n)=[1-(1+i)^-n]/i",
+    "rule": "单笔折现用 PVIF、年金折现用 PVIFA；倒数配对：(P/F)↔(F/P)、(P/A)↔(A/P) 资本回收系数、(F/A)↔(A/F) 偿债基金系数。",
+    "example": "i=10%、n=5：PVIF≈0.621（5年后1元今天值0.62元）；PVIFA≈3.791（5年每年1元今天值3.79元）；例6-3取3.8算EAA。",
+    "exam": "填空常考倒数配对与系数符号 (P/F,i,n) 的读法；EAA=NPV/PVIFA，偿债基金用 FVIFA 的倒数，别记混。",
+    "group": "tv",
+    "related": [
+      "PVIF",
+      "PVIFA",
+      "现值",
+      "折现",
+      "终值系数",
+      "EAA"
+    ]
+  },
+  "终值系数": {
+    "title": "终值系数（FVIF / FVIFA 族）",
+    "badge": "滚存乘数族",
+    "en": "Future Value Interest Factors",
+    "def": "把当前金额换算为未来终值的乘数族：复利终值系数 (F/P,i,n) 针对单笔滚存；年金终值系数 (F/A,i,n) 针对等额系列累计。",
+    "tex": [
+      "(F/P, i, n) = (1+i)^{n}",
+      "(F/A, i, n) = \\frac{(1+i)^{n}-1}{i}"
+    ],
+    "formula": "(F/P,i,n)=(1+i)^n；(F/A,i,n)=[(1+i)^n-1]/i",
+    "rule": "偿债基金系数 (A/F) 是 FVIFA 的倒数；资本回收系数 (A/P) 是 PVIFA 的倒数；(F/P) 与 (P/F) 互为倒数。",
+    "example": "i=5%、n=3：FVIF=1.157625 → 10000元滚存为11576.25元；i=10%、n=5：FVIFA≈6.105（每年存1万五年后≈6.1万）。",
+    "exam": "年金终值用于偿债基金与养老金积累；与现值系数族的倒数配对是系数表题眼。",
+    "group": "tv",
+    "related": [
+      "FVIF",
+      "FVIFA",
+      "终值",
+      "现值系数",
+      "复利"
+    ]
+  }
+};
+  const ALIAS_MAP = {
+  "内部收益率": "IRR",
+  "差额内部收益率": "ΔIRR",
+  "增量内部收益率": "ΔIRR",
+  "净现值": "NPV",
+  "净年值": "NAV",
+  "盈利倍数": "PI",
+  "现值指数": "PI",
+  "静态投资回收期": "PP",
+  "投资回收期": "PP",
+  "动态投资回收期": "DPP",
+  "修正内部收益率": "MIRR",
+  "约当年金": "EAA",
+  "约当成本": "EAA",
+  "加权平均资本成本": "WACC",
+  "经营现金流量": "OCF",
+  "经营现金流": "OCF",
+  "杠杆现金流": "LCF",
+  "息税前利润": "EBIT",
+  "折旧摊销及息税前利润": "EBITDA",
+  "税后经营净利润": "NOPAT",
+  "营运资本增加": "NWC",
+  "净营运资本": "NWC",
+  "资本支出": "Capex",
+  "资本性支出": "Capex",
+  "资本资产定价模型": "CAPM",
+  "贝塔系数": "β",
+  "贝塔": "β",
+  "哈马达方程": "Hamada",
+  "哈马达": "Hamada",
+  "调整现值法": "APV",
+  "股权现金流法": "FTE",
+  "偿债备付率": "DSCR",
+  "利息保障倍数": "ICR",
+  "盈亏平衡点": "BEP",
+  "年金现值系数": "PVIFA",
+  "年金终值系数": "FVIFA",
+  "复利现值系数": "PVIF",
+  "复利终值系数": "FVIF",
+  "基准折现率": "MARR",
+  "基准收益率": "MARR",
+  "最低可接受收益率": "MARR",
+  "价值工程": "VE",
+  "UCF": "OCF",
+  "EAC": "EAA",
+  "IOCF": "IOCF",
+  "\\Delta IRR": "ΔIRR",
+  "Delta IRR": "ΔIRR",
+  "回收期": "PP",
+  "增量经营现金流量法": "IOCF",
+  "增量现金流法": "IOCF",
+  "增量现金流": "IOCF",
+  "beta": "β",
+  "\\beta": "β",
+  "beta_U": "Hamada",
+  "beta_L": "Hamada",
+  "\\beta_U": "Hamada",
+  "\\beta_L": "Hamada",
+  "\\Delta NWC": "NWC",
+  "ΔNWC": "NWC",
+  "r_S": "r_S",
+  "r_B": "r_B",
+  "r_U": "r_U",
+  "r_0": "r_U",
+  "r_f": "r_f",
+  "tB": "tB",
+  "V_L": "V_L",
+  "V_U": "V_U",
+  "C_0": "C_0",
+  "YTM": "到期收益率",
+  "MM 第一定理": "MM第一定理",
+  "MM 第一定理法": "MM第一定理法",
+  "WACC 法": "WACC法",
+  "指标冲突裁决": "指标冲突",
+  "NPV与IRR冲突": "指标冲突",
+  "排序冲突": "指标冲突",
+  "记号": "记号约定",
+  "符号约定": "记号约定",
+  "货币时间价值": "时间价值",
+  "风险报酬": "风险价值",
+  "互斥方案": "互斥项目",
+  "敏感性分析": "灵敏度分析",
+  "全投资现金流": "无杠杆现金流",
+  "相对估值": "相对估值法",
+  "倍数法": "相对估值法",
+  "实物期权": "期权估值法",
+  "期权估值": "期权估值法",
+  "决策树法": "期权估值法",
+  "税盾效应法": "税盾效应",
+  "到期收益率法": "到期收益率",
+  "现值法": "现值",
+  "折现法": "折现",
+  "约当年金法": "EAA",
+  "加权平均资本成本法": "WACC法",
+  "经营现金流量法": "OCF",
+  "贴现": "折现",
+  "贴现率": "折现率",
+  "折现因子": "PVIF"
+};
+
+  function cleanTermKey(key) {
+    return key.trim().replace(/^[\\${]+/, '').replace(/[\\$}+]+$/, '').trim();
+  }
+
+  function getTermData(key) {
+    if (!key) return null;
+    const cleanKey = cleanTermKey(key);
+    if (GLOSSARY_DB[cleanKey]) return GLOSSARY_DB[cleanKey];
+    const primary = ALIAS_MAP[cleanKey] || ALIAS_MAP[key];
+    if (primary && GLOSSARY_DB[primary]) return GLOSSARY_DB[primary];
+    return null;
+  }
+
+  function primaryKey(key) {
+    if (!key) return null;
+    const cleanKey = cleanTermKey(key);
+    if (GLOSSARY_DB[cleanKey]) return cleanKey;
+    const primary = ALIAS_MAP[cleanKey] || ALIAS_MAP[key];
+    return (primary && GLOSSARY_DB[primary]) ? primary : null;
+  }
+
+  // 词条 → 正文锚点定向跳转：教材外补充考点统一落到补充小节，BEP 落到第6章盈亏平衡分析
+  const TERM_ANCHOR = {
+    MARR: 'supp-marr',
+    NAV: 'supp-nav',
+    VE: 'supp-ve',
+    BEP: 'c6-bep'
+  };
+
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function renderTexInto(el, tex) {
+    if (window.katex) {
+      try {
+        window.katex.render(tex, el, { throwOnError: false, displayMode: false });
+        return;
+      } catch (err) { /* 回退纯文本 */ }
+    }
+    el.textContent = tex;
+  }
+
+  function shortLabel(key) {
+    const d = GLOSSARY_DB[key];
+    if (!d) return key;
+    if (/^[A-Za-z0-9_\\Δβ]+$/.test(key)) return key;
+    return d.title.split(/[（(]/)[0];
+  }
+
+  // 2. 正文阅读宽度调节器 (标准 760px / 较宽 1160px / 全宽 95%)
+  function initWidthController() {
+    const widthBtns = document.querySelectorAll('.width-btn');
+    if (!widthBtns.length) return;
+
+    const savedWidth = localStorage.getItem('readingWidthPreference') || 'normal';
+
+    function setWidth(mode) {
+      document.body.classList.remove('width-normal', 'width-wide', 'width-full');
+      document.body.classList.add('width-' + mode);
+      widthBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-width') === mode);
+      });
+      localStorage.setItem('readingWidthPreference', mode);
+    }
+
+    setWidth(savedWidth);
+
+    widthBtns.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        setWidth(this.getAttribute('data-width'));
+      });
+    });
+  }
+
+  // 3. 术语/符号智能挂载与 Tooltip 交互引擎
+  function initGlossaryEngine() {
+    const article = document.querySelector('article');
+    const tooltip = document.getElementById('term-tooltip');
+    if (!article || !tooltip) return;
+
+    const ttBadge = tooltip.querySelector('.tt-badge');
+    const ttSupp = tooltip.querySelector('.tt-supp');
+    const ttTitle = tooltip.querySelector('.tt-title');
+    const ttClose = tooltip.querySelector('.tt-close');
+    const ttEn = tooltip.querySelector('.tt-en');
+    const ttDef = tooltip.querySelector('.tt-def');
+    const ttFormulaBox = tooltip.querySelector('.tt-formula');
+    const ttTex = tooltip.querySelector('.tt-tex');
+    const ttRuleBox = tooltip.querySelector('.tt-rule');
+    const ttRuleBody = tooltip.querySelector('.tt-rule-body');
+    const ttExampleBox = tooltip.querySelector('.tt-example');
+    const ttExampleBody = tooltip.querySelector('.tt-example-body');
+    const ttExamBox = tooltip.querySelector('.tt-exam');
+    const ttExamBody = tooltip.querySelector('.tt-exam-body');
+    const ttRelated = tooltip.querySelector('.tt-related');
+
+    let isTouch = false;
+    let hideTimer = null;
+    let activeTrigger = null;
+    let mouseInTooltip = false;
+    let awaitingMoveCheck = false;
+    let moveCheckHandler = null;
+
+    // 表格包进横向滚动容器，杜绝宽表撑破移动端布局视口
+    article.querySelectorAll('table').forEach(tb => {
+      const parent = tb.parentElement;
+      if (parent && parent.classList.contains('table-scroll')) return;
+      const sc = document.createElement('div');
+      sc.className = 'table-scroll';
+      parent.insertBefore(sc, tb);
+      sc.appendChild(tb);
+    });
+
+    function markInteractive(el, label) {
+      el.setAttribute('tabindex', '0');
+      el.setAttribute('role', 'button');
+      el.setAttribute('aria-label', label + '：查看释义');
+    }
+
+    // A. 纯文本节点分词包裹 (排除公式内部，避免破坏 KaTeX 结构)
+    const allKeys = Object.keys(GLOSSARY_DB).concat(Object.keys(ALIAS_MAP));
+    allKeys.sort((a, b) => b.length - a.length);
+
+    const asciiKeys = allKeys.filter(k => /^[A-Za-z0-9_\-]+$/.test(k));
+    const nonAsciiKeys = allKeys.filter(k => !/^[A-Za-z0-9_\-]+$/.test(k));
+
+    // 防截胡：键后接 block 后缀时是另一概念（折现率/现值系数…），跳过短键匹配；
+    // 已收录的更长整词（含别名）因长度降序仍优先整词命中
+    const escRe = k => k.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    const blockOf = k => {
+      const d = GLOSSARY_DB[k] || GLOSSARY_DB[ALIAS_MAP[k]];
+      return d && d.block ? '(?!' + d.block.map(escRe).join('|') + ')' : '';
+    };
+
+    const patternParts = [];
+    if (asciiKeys.length) {
+      patternParts.push('\\b(' + asciiKeys.map(k => escRe(k) + blockOf(k)).join('|') + ')\\b');
+    }
+    if (nonAsciiKeys.length) {
+      patternParts.push('(' + nonAsciiKeys.map(k => escRe(k) + blockOf(k)).join('|') + ')');
+    }
+    const regexPattern = new RegExp(patternParts.join('|'), 'g');
+
+    function wrapTextNode(node) {
+      if (node.nodeType === 3) {
+        const val = node.nodeValue;
+        if (!val || !val.trim()) return;
+        regexPattern.lastIndex = 0;
+        let lastIndex = 0;
+        let match;
+        let frag = null;
+
+        while ((match = regexPattern.exec(val)) !== null) {
+          const matchedWord = match[0];
+          const data = getTermData(matchedWord);
+          if (data) {
+            if (!frag) frag = document.createDocumentFragment();
+            if (match.index > lastIndex) {
+              frag.appendChild(document.createTextNode(val.substring(lastIndex, match.index)));
+            }
+            const span = document.createElement('span');
+            span.className = 'glossary-term';
+            span.setAttribute('data-term-key', matchedWord);
+            span.appendChild(document.createTextNode(matchedWord));
+            markInteractive(span, matchedWord);
+            frag.appendChild(span);
+            lastIndex = regexPattern.lastIndex;
+          }
+        }
+
+        if (frag) {
+          if (lastIndex < val.length) {
+            frag.appendChild(document.createTextNode(val.substring(lastIndex)));
+          }
+          node.parentNode.replaceChild(frag, node);
+        }
+      } else if (node.nodeType === 1) {
+        const tag = node.tagName.toLowerCase();
+        if (['script', 'style', 'pre', 'code', 'button', 'a'].includes(tag) ||
+            node.classList.contains('katex') ||
+            node.classList.contains('term') ||
+            node.classList.contains('glossary-term') ||
+            node.closest('.mermaid') ||
+            node.closest('.katex')) {
+          return;
+        }
+        Array.from(node.childNodes).forEach(wrapTextNode);
+      }
+    }
+
+    article.querySelectorAll('p, li, td, th, h3, h4, span.mark').forEach(el => {
+      if (!el.closest('nav') && !el.closest('.katex') && !el.closest('pre')) {
+        Array.from(el.childNodes).forEach(wrapTextNode);
+      }
+    });
+
+    // B. 已有 <span class="term"> 节点强化挂载 (兜底提取 small 注释，绝不留死暗示)
+    article.querySelectorAll('span.term').forEach(st => {
+      const rawText = st.childNodes[0] ? st.childNodes[0].textContent.trim() : '';
+      const data = getTermData(rawText);
+      if (data) {
+        st.setAttribute('data-term-key', rawText);
+        markInteractive(st, rawText);
+      } else {
+        const small = st.querySelector('small');
+        if (small) {
+          const tip = small.textContent.replace(/^[（(]/, '').replace(/[）)]$/, '').trim();
+          if (tip) {
+            st.setAttribute('data-term-key', rawText || '专业考点');
+            st.setAttribute('data-custom-def', tip);
+            markInteractive(st, rawText || '专业考点');
+          }
+        }
+      }
+    });
+
+    // C. KaTeX 数学公式内部符号挂载 (仅基于 annotation tex 归一化)
+    function attachKatexFormulas() {
+      const katexNodes = article.querySelectorAll('.katex');
+      katexNodes.forEach(kn => {
+        if (kn.classList.contains('katex-term')) return;
+
+        const anno = kn.querySelector('annotation');
+        let tex = anno ? anno.textContent.trim() : '';
+        if (!tex) return;
+        // 块级公式是完整等式而非符号；表格内仅放行短单 token 符号，避免宽等式撑破窄屏排版
+        if (kn.closest('.katex-display')) return;
+        if (kn.closest('td, th') && (tex.length > 10 || tex.includes('='))) return;
+
+        let matchedKey = null;
+        let cleanTex = tex.trim();
+        if (cleanTex.startsWith('{') && cleanTex.endsWith('}')) {
+          cleanTex = cleanTex.slice(1, -1).trim();
+        }
+        cleanTex = cleanTex.replace(/^\\+/, '');
+        cleanTex = cleanTex.replace(/^beta(?=[^a-zA-Z]|$)/, 'β').replace(/^Delta(?=[^a-zA-Z]|$)/, 'Δ');
+        const lhs = cleanTex.split('=')[0].trim();
+        const baseTex = lhs.replace(/_(\{.*\}|[^{}\s]+)$/, '').trim();
+
+        const candidates = [
+          cleanTex,
+          lhs,
+          baseTex,
+          tex,
+          '\\' + cleanTex,
+          cleanTex.replace(/^β/, 'beta'),
+          baseTex.replace(/^β/, 'beta')
+        ];
+
+        for (const cand of candidates) {
+          if (getTermData(cand)) {
+            matchedKey = cand;
+            break;
+          }
+        }
+
+        if (matchedKey) {
+          kn.classList.add('katex-term', 'glossary-term');
+          kn.setAttribute('data-term-key', matchedKey);
+          markInteractive(kn, matchedKey);
+        }
+      });
+    }
+
+    attachKatexFormulas();
+    setTimeout(attachKatexFormulas, 300);
+    setTimeout(attachKatexFormulas, 800);
+
+    // 超宽行内公式包进横向滚动容器，避免撑破窄屏布局视口
+    function guardWideMath() {
+      const limit = article.clientWidth;
+      article.querySelectorAll('.katex').forEach(kn => {
+        if (kn.closest('.katex-display') || kn.closest('.math-scroll')) return;
+        if (kn.offsetWidth > limit) {
+          const w = document.createElement('span');
+          w.className = 'math-scroll';
+          kn.parentNode.insertBefore(w, kn);
+          w.appendChild(kn);
+        }
+      });
+    }
+    guardWideMath();
+    setTimeout(guardWideMath, 300);
+    setTimeout(guardWideMath, 800);
+    let resizeTimer = null;
+    window.addEventListener('resize', function() {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(guardWideMath, 200);
+    });
+
+    // D. Tooltip 渲染与定位
+    function clearActiveTrigger() {
+      if (activeTrigger) {
+        activeTrigger.classList.remove('term-open');
+        activeTrigger = null;
+      }
+    }
+
+    function hideTooltip() {
+      if (hideTimer) {
+        clearTimeout(hideTimer);
+        hideTimer = null;
+      }
+      tooltip.classList.remove('show');
+      tooltip.setAttribute('aria-hidden', 'true');
+      mouseInTooltip = false;
+      disarmMoveCheck();
+      clearActiveTrigger();
+    }
+
+    function renderCard(data) {
+      ttBadge.textContent = data.badge || '专业考点';
+      ttSupp.hidden = !data.external;
+      ttTitle.textContent = data.title || '';
+
+      if (data.en) {
+        ttEn.textContent = data.en;
+        ttEn.style.display = 'block';
+      } else {
+        ttEn.style.display = 'none';
+      }
+
+      ttDef.innerHTML = data.def || '';
+
+      // 公式：优先 KaTeX 渲染 tex，离线回退纯文本
+      ttTex.textContent = '';
+      const texLines = data.tex ? (Array.isArray(data.tex) ? data.tex : [data.tex]) : null;
+      if (texLines && window.katex) {
+        texLines.forEach(line => {
+          const div = document.createElement('div');
+          div.className = 'tt-tex-line';
+          renderTexInto(div, line);
+          ttTex.appendChild(div);
+        });
+        ttFormulaBox.style.display = 'flex';
+      } else if (data.formula) {
+        data.formula.split(/<br\s*\/?>/).forEach(line => {
+          const div = document.createElement('div');
+          div.className = 'tt-tex-line tt-tex-fallback';
+          div.textContent = line;
+          ttTex.appendChild(div);
+        });
+        ttFormulaBox.style.display = 'flex';
+      } else {
+        ttFormulaBox.style.display = 'none';
+      }
+
+      if (data.rule) {
+        ttRuleBody.innerHTML = data.rule;
+        ttRuleBox.style.display = 'flex';
+      } else {
+        ttRuleBox.style.display = 'none';
+      }
+
+      if (data.example) {
+        ttExampleBody.textContent = data.example;
+        ttExampleBox.style.display = 'flex';
+      } else {
+        ttExampleBox.style.display = 'none';
+      }
+
+      if (data.exam) {
+        ttExamBody.innerHTML = data.exam;
+        ttExamBox.style.display = 'flex';
+      } else {
+        ttExamBox.style.display = 'none';
+      }
+
+      // 关联考点 chips：原地换卡
+      ttRelated.textContent = '';
+      const related = (data.related || []).filter(k => GLOSSARY_DB[k]);
+      if (related.length) {
+        const lbl = document.createElement('span');
+        lbl.className = 'tt-related-lbl';
+        lbl.textContent = '关联';
+        ttRelated.appendChild(lbl);
+        related.forEach(k => {
+          const chip = document.createElement('button');
+          chip.type = 'button';
+          chip.className = 'tt-chip';
+          chip.textContent = shortLabel(k);
+          chip.setAttribute('aria-label', '查看关联考点：' + GLOSSARY_DB[k].title);
+          chip.addEventListener('click', function(e) {
+            e.stopPropagation();
+            renderCard(GLOSSARY_DB[k]);
+            if (activeTrigger) positionTooltip(activeTrigger);
+            armMoveCheck();
+          });
+          ttRelated.appendChild(chip);
+        });
+        ttRelated.style.display = 'flex';
+      } else {
+        ttRelated.style.display = 'none';
+      }
+    }
+
+    function positionTooltip(targetEl) {
+      if (window.innerWidth <= 768) return; // 移动端固定底部
+
+      const rect = targetEl.getBoundingClientRect();
+      const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+      const ttWidth = tooltip.offsetWidth || 380;
+      const ttHeight = tooltip.offsetHeight || 220;
+
+      let left = rect.left + scrollX + (rect.width / 2) - (ttWidth / 2);
+      let top = rect.top + scrollY - ttHeight - 12;
+
+      if (left < scrollX + 12) left = scrollX + 12;
+      if (left + ttWidth > scrollX + window.innerWidth - 16) {
+        left = scrollX + window.innerWidth - ttWidth - 16;
+      }
+      if (top < scrollY + 12) {
+        top = rect.bottom + scrollY + 10;
+      }
+
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
+    }
+
+    function showTooltipFor(targetEl) {
+      if (!document.body.classList.contains('terms-active')) return;
+      if (hideTimer) {
+        clearTimeout(hideTimer);
+        hideTimer = null;
+      }
+
+      const key = targetEl.getAttribute('data-term-key') || targetEl.textContent.trim();
+      let data = getTermData(key);
+      if (!data && targetEl.hasAttribute('data-custom-def')) {
+        data = {
+          title: key,
+          badge: '讲义原注',
+          def: targetEl.getAttribute('data-custom-def')
+        };
+      }
+      if (!data) return;
+
+      renderCard(data);
+      clearActiveTrigger();
+      mouseInTooltip = false;
+      activeTrigger = targetEl;
+      targetEl.classList.add('term-open');
+      tooltip.classList.add('show');
+      tooltip.setAttribute('aria-hidden', 'false');
+      positionTooltip(targetEl);
+    }
+
+    function scheduleHideTooltip() {
+      if (hideTimer) clearTimeout(hideTimer);
+      hideTimer = setTimeout(hideTooltip, 220);
+    }
+
+    // chip 换卡后卡片尺寸/位置突变，光标可能落在新卡之外：
+    // 冻结 hover 语义，等第一次真实 mousemove 按几何关系决定 保持/换卡/隐藏，
+    // 避免残留边界事件把刚换出的卡片误关或误换。
+    function armMoveCheck() {
+      awaitingMoveCheck = true;
+      mouseInTooltip = false;
+      if (moveCheckHandler) return;
+      moveCheckHandler = function(e) {
+        document.removeEventListener('mousemove', moveCheckHandler);
+        moveCheckHandler = null;
+        awaitingMoveCheck = false;
+        const r = tooltip.getBoundingClientRect();
+        if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
+          mouseInTooltip = true;
+          return;
+        }
+        const t = e.target.closest && e.target.closest(TERM_SELECTOR);
+        if (t && t.hasAttribute('data-term-key')) {
+          showTooltipFor(t);
+          return;
+        }
+        if (activeTrigger) {
+          const tr = activeTrigger.getBoundingClientRect();
+          if (e.clientX >= tr.left && e.clientX <= tr.right && e.clientY >= tr.top && e.clientY <= tr.bottom) return;
+        }
+        scheduleHideTooltip();
+      };
+      document.addEventListener('mousemove', moveCheckHandler);
+    }
+
+    function disarmMoveCheck() {
+      awaitingMoveCheck = false;
+      if (moveCheckHandler) {
+        document.removeEventListener('mousemove', moveCheckHandler);
+        moveCheckHandler = null;
+      }
+    }
+
+    // E. 事件委托绑定
+    const TERM_SELECTOR = '.glossary-term, span.term, .katex-term';
+
+    document.addEventListener('mouseover', function(e) {
+      if (isTouch || awaitingMoveCheck) return;
+      const target = e.target.closest(TERM_SELECTOR);
+      if (target && target.hasAttribute('data-term-key')) {
+        showTooltipFor(target);
+      } else if (e.target.closest('#term-tooltip')) {
+        mouseInTooltip = true;
+        if (hideTimer) {
+          clearTimeout(hideTimer);
+          hideTimer = null;
+        }
+      }
+    });
+
+    document.addEventListener('mouseout', function(e) {
+      if (isTouch || awaitingMoveCheck) return;
+      const fromTerm = e.target.closest(TERM_SELECTOR);
+      const fromTooltip = e.target.closest('#term-tooltip');
+      const rt = e.relatedTarget;
+      const toTooltip = rt && rt.closest && rt.closest('#term-tooltip');
+      const toTerm = rt && rt.closest && rt.closest(TERM_SELECTOR);
+      if (toTooltip) {
+        mouseInTooltip = true;
+        if (hideTimer) {
+          clearTimeout(hideTimer);
+          hideTimer = null;
+        }
+        return;
+      }
+      if (fromTooltip) {
+        // 卡片重定位后残留的旧边界事件：光标从未进入当前卡片，忽略
+        if (!mouseInTooltip) return;
+        mouseInTooltip = false;
+        scheduleHideTooltip();
+        return;
+      }
+      // 只响应当前激活触发词的离开，避免键盘开卡后被无关 mouseout 误关
+      if (fromTerm && fromTerm === activeTrigger) {
+        if (toTerm && toTerm.hasAttribute('data-term-key')) return;
+        scheduleHideTooltip();
+      }
+    });
+
+    document.addEventListener('touchstart', function() {
+      isTouch = true;
+    }, { passive: true });
+
+    document.addEventListener('click', function(e) {
+      const target = e.target.closest(TERM_SELECTOR);
+      if (target && target.hasAttribute('data-term-key')) {
+        if (e.target.tagName.toLowerCase() === 'a') return;
+        showTooltipFor(target);
+      } else if (!e.target.closest('#term-tooltip')) {
+        hideTooltip();
+      }
+    });
+
+    if (ttClose) {
+      ttClose.addEventListener('click', hideTooltip);
+    }
+
+    // F. 开关控制与样式隔离
+    const toggleBtn = document.getElementById('term-toggle-btn');
+    const statusSpan = toggleBtn.querySelector('.status');
+    const savedState = localStorage.getItem('termTipsEnabled');
+    let isEnabled = (savedState === null || savedState === 'true');
+
+    function applyState(enabled) {
+      if (enabled) {
+        document.body.classList.add('terms-active');
+        toggleBtn.classList.add('active');
+        statusSpan.textContent = '开';
+      } else {
+        document.body.classList.remove('terms-active');
+        toggleBtn.classList.remove('active');
+        statusSpan.textContent = '关';
+        hideTooltip();
+      }
+      localStorage.setItem('termTipsEnabled', enabled);
+    }
+
+    applyState(isEnabled);
+
+    toggleBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      isEnabled = !isEnabled;
+      applyState(isEnabled);
+    });
+
+    // 供速查面板调用
+    return { showTooltipFor, hideTooltip, article };
+  }
+
+  // 4. 术语速查面板 (Ctrl+K / 按钮打开，分组索引 + 过滤 + 定位闪烁)
+  function initSearchPanel(engine) {
+    const root = document.getElementById('term-search');
+    const openBtn = document.getElementById('term-search-btn');
+    if (!root || !openBtn || !engine) return;
+
+    const backdrop = root.querySelector('.ts-backdrop');
+    const panel = root.querySelector('.ts-panel');
+    const closeBtn = root.querySelector('.ts-close');
+    const input = root.querySelector('.ts-input');
+    const list = root.querySelector('.ts-list');
+    const count = root.querySelector('.ts-count');
+    let built = false;
+
+    function build() {
+      if (built) return;
+      built = true;
+      GROUPS.forEach(g => {
+        const keys = Object.keys(GLOSSARY_DB).filter(k => GLOSSARY_DB[k].group === g.key);
+        if (!keys.length) return;
+        const groupEl = document.createElement('div');
+        groupEl.className = 'ts-group';
+        groupEl.setAttribute('data-group', g.key);
+        const label = document.createElement('div');
+        label.className = 'ts-group-label';
+        label.textContent = g.label;
+        groupEl.appendChild(label);
+        keys.forEach(k => {
+          const d = GLOSSARY_DB[k];
+          const item = document.createElement('button');
+          item.type = 'button';
+          item.className = 'ts-item';
+          item.setAttribute('data-key', k);
+          const title = document.createElement('span');
+          title.className = 'ts-item-title';
+          title.textContent = d.title;
+          const badge = document.createElement('span');
+          badge.className = 'ts-item-badge' + (d.external ? ' supp' : '');
+          badge.textContent = d.external ? '教材外补充' : (d.badge || '');
+          item.appendChild(title);
+          item.appendChild(badge);
+          item.addEventListener('click', function() {
+            close();
+            jumpToTerm(k);
+          });
+          groupEl.appendChild(item);
+        });
+        list.appendChild(groupEl);
+      });
+      count.textContent = Object.keys(GLOSSARY_DB).length + ' 词条';
+    }
+
+    function filter(q) {
+      const query = q.trim().toLowerCase();
+      let visible = 0;
+      list.querySelectorAll('.ts-group').forEach(groupEl => {
+        let groupVisible = 0;
+        groupEl.querySelectorAll('.ts-item').forEach(item => {
+          const k = item.getAttribute('data-key');
+          const d = GLOSSARY_DB[k];
+          const haystack = [k, d.title, d.en || '', d.badge || '', d.external ? '教材外补充' : ''].join(' ').toLowerCase();
+          const aliasHit = Object.keys(ALIAS_MAP).some(a => ALIAS_MAP[a] === k && a.toLowerCase().includes(query));
+          const show = !query || haystack.includes(query) || (query && aliasHit);
+          item.style.display = show ? '' : 'none';
+          if (show) groupVisible++;
+        });
+        groupEl.style.display = groupVisible ? '' : 'none';
+        visible += groupVisible;
+      });
+      count.textContent = query ? visible + ' / ' + Object.keys(GLOSSARY_DB).length + ' 词条' : Object.keys(GLOSSARY_DB).length + ' 词条';
+    }
+
+    function open() {
+      build();
+      root.classList.add('open');
+      root.setAttribute('aria-hidden', 'false');
+      input.value = '';
+      filter('');
+      setTimeout(() => input.focus(), 60);
+    }
+
+    function close() {
+      root.classList.remove('open');
+      root.setAttribute('aria-hidden', 'true');
+      openBtn.focus();
+    }
+
+    function jumpToTerm(key) {
+      const primary = primaryKey(key);
+      const anchorId = primary && TERM_ANCHOR[primary];
+      if (anchorId) {
+        const sec = document.getElementById(anchorId);
+        if (sec) {
+          sec.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+          sec.classList.add('term-flash');
+          setTimeout(() => sec.classList.remove('term-flash'), 1900);
+          return;
+        }
+      }
+      const article = engine.article;
+      let target = null;
+      const mounted = article.querySelectorAll('[data-term-key]');
+      for (const el of mounted) {
+        if (primaryKey(el.getAttribute('data-term-key')) === primary) { target = el; break; }
+      }
+      if (!target) {
+        const d = GLOSSARY_DB[primary];
+        const needles = [key];
+        if (d) needles.push(d.title.split(/[（(]/)[0].trim());
+        const walker = document.createTreeWalker(article, NodeFilter.SHOW_TEXT);
+        let n;
+        while ((n = walker.nextNode())) {
+          const parent = n.parentElement;
+          if (!parent || parent.closest('nav, script, style, .katex, pre')) continue;
+          for (const needle of needles) {
+            if (needle && n.nodeValue.includes(needle)) { target = parent; break; }
+          }
+          if (target) break;
+        }
+      }
+      if (!target) return;
+      target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+      target.classList.add('term-flash');
+      setTimeout(() => target.classList.remove('term-flash'), 1900);
+      if (target.hasAttribute('data-term-key')) {
+        setTimeout(() => engine.showTooltipFor(target), reduceMotion ? 80 : 450);
+      }
+    }
+
+    openBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      root.classList.contains('open') ? close() : open();
+    });
+    closeBtn.addEventListener('click', close);
+    backdrop.addEventListener('click', close);
+    input.addEventListener('input', function() { filter(this.value); });
+
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        root.classList.contains('open') ? close() : open();
+      } else if (e.key === 'Escape' && root.classList.contains('open')) {
+        close();
+      }
+    });
+  }
+
+  // 5. 公式速查表 (按组渲染全部公式，可单独打印)
+  function initFormulaSheet() {
+    const root = document.getElementById('formula-sheet');
+    const openBtn = document.getElementById('formula-sheet-btn');
+    if (!root || !openBtn) return;
+
+    const body = root.querySelector('.fs-body');
+    const closeBtn = root.querySelector('.fs-close');
+    const printBtn = root.querySelector('.fs-print');
+    let built = false;
+
+    function build() {
+      if (built) return;
+      built = true;
+      GROUPS.forEach(g => {
+        const keys = Object.keys(GLOSSARY_DB).filter(k => GLOSSARY_DB[k].group === g.key);
+        if (!keys.length) return;
+        const section = document.createElement('section');
+        section.className = 'fs-group';
+        const h = document.createElement('h2');
+        h.className = 'fs-group-title';
+        h.textContent = g.label;
+        section.appendChild(h);
+        const grid = document.createElement('div');
+        grid.className = 'fs-grid';
+        keys.forEach(k => {
+          const d = GLOSSARY_DB[k];
+          const card = document.createElement('div');
+          card.className = 'fs-card';
+          const head = document.createElement('div');
+          head.className = 'fs-card-head';
+          const name = document.createElement('span');
+          name.className = 'fs-name';
+          name.textContent = d.title;
+          head.appendChild(name);
+          if (d.external) {
+            const supp = document.createElement('span');
+            supp.className = 'fs-supp';
+            supp.textContent = '教材外补充';
+            head.appendChild(supp);
+          }
+          card.appendChild(head);
+          const texBox = document.createElement('div');
+          texBox.className = 'fs-tex';
+          const texLines = d.tex ? (Array.isArray(d.tex) ? d.tex : [d.tex]) : null;
+          if (texLines && window.katex) {
+            texLines.forEach(line => {
+              const div = document.createElement('div');
+              div.className = 'fs-tex-line';
+              renderTexInto(div, line);
+              texBox.appendChild(div);
+            });
+          } else if (d.formula) {
+            d.formula.split(/<br\s*\/?>/).forEach(line => {
+              const div = document.createElement('div');
+              div.className = 'fs-tex-line';
+              div.textContent = line;
+              texBox.appendChild(div);
+            });
+          }
+          card.appendChild(texBox);
+          if (d.example) {
+            const ex = document.createElement('div');
+            ex.className = 'fs-example';
+            ex.textContent = d.example;
+            card.appendChild(ex);
+          }
+          grid.appendChild(card);
+        });
+        section.appendChild(grid);
+        body.appendChild(section);
+      });
+    }
+
+    function open() {
+      build();
+      document.body.classList.add('fs-open');
+      root.setAttribute('aria-hidden', 'false');
+      closeBtn.focus();
+    }
+
+    function close() {
+      document.body.classList.remove('fs-open');
+      root.setAttribute('aria-hidden', 'true');
+      openBtn.focus();
+    }
+
+    openBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.body.classList.contains('fs-open') ? close() : open();
+    });
+    closeBtn.addEventListener('click', close);
+    printBtn.addEventListener('click', function() { window.print(); });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && document.body.classList.contains('fs-open')) close();
+    });
+  }
+
+  // 6. 全局键盘：Esc 关卡片，Enter/Space 触发术语
+  function initKeyboard(engine) {
+    if (!engine) return;
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        engine.hideTooltip();
+        return;
+      }
+      if (e.key === 'Enter' || e.key === ' ') {
+        const target = e.target.closest && e.target.closest('.glossary-term, span.term[data-term-key], .katex-term');
+        if (target && target.hasAttribute('data-term-key')) {
+          e.preventDefault();
+          engine.showTooltipFor(target);
+        }
+      }
+    });
+  }
+
+  // 7. 初始化入口
+  function initAll() {
+    initWidthController();
+    const engine = initGlossaryEngine();
+    initSearchPanel(engine);
+    initFormulaSheet();
+    initKeyboard(engine);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
+    initAll();
+  }
+})();
+</script>
+
+</body>
+</html>

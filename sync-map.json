@@ -86,6 +86,24 @@
       "title": "资金的时间价值：四个系数、增长年金与两个生活案例",
       "source": "工程经济学/20261107-工程经济学-交互式讲义.html",
       "target": "courses/engineering-economics/lecture-time-value-of-money.html"
+    },
+    {
+      "course": "工程经济学",
+      "title": "《工程经济学》核心速览 · All-in-One",
+      "source": "工程经济学/工程经济学讲义/工程经济学讲义_核心速览_All-in-One.html",
+      "target": "courses/engineering-economics/summary-all-in-one.html"
+    },
+    {
+      "course": "工程经济学",
+      "title": "Kramer 样式资产",
+      "source": "工程经济学/工程经济学讲义/assets/kramer.css",
+      "target": "courses/engineering-economics/assets/kramer.css"
+    },
+    {
+      "course": "工程经济学",
+      "title": "Kramer 脚本资产",
+      "source": "工程经济学/工程经济学讲义/assets/kramer.js",
+      "target": "courses/engineering-economics/assets/kramer.js"
     }
   ]
 }
