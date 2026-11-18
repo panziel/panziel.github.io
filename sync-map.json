@@ -76,6 +76,12 @@
       "target": "courses/quantitative-analysis/lecture6-integer-programming.html"
     },
     {
+      "course": "定量分析",
+      "title": "第七讲 · 非线性规划：边际递减、可分离逼近与演化算法",
+      "source": "定量分析/第七节/第七节课-交互式讲义.html",
+      "target": "courses/quantitative-analysis/lecture7-nonlinear-programming.html"
+    },
+    {
       "course": "工程经济学",
       "title": "估值的逻辑起点与经营现金流",
       "source": "工程经济学/20261024-工程经济学-交互式讲义.html",
@@ -86,6 +92,12 @@
       "title": "资金的时间价值：四个系数、增长年金与两个生活案例",
       "source": "工程经济学/20261107-工程经济学-交互式讲义.html",
       "target": "courses/engineering-economics/lecture-time-value-of-money.html"
+    },
+    {
+      "course": "工程经济学",
+      "title": "现金流预测与项目决策：无杠杆原则、两阶段估值与 NPV/IRR 决策体系",
+      "source": "工程经济学/20261114-工程经济学-交互式讲义.html",
+      "target": "courses/engineering-economics/lecture-cashflow-and-project-decisions.html"
     },
     {
       "course": "工程经济学",
