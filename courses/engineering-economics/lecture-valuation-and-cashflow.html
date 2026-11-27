@@ -327,6 +327,9 @@ a.cm-step:hover{color:var(--red);border-color:var(--red)}
 [data-src].hl-done-res{background:#fef2f2;color:#94070A;font-weight:650}
 [data-src].cell-pop{animation:walkCellPop .52s cubic-bezier(.22,1,.36,1)}
 @keyframes walkCellPop{0%{transform:scale(.95)}45%{transform:scale(1.06)}100%{transform:scale(1)}}
+[data-src].src-cue,.src-cue{position:relative;z-index:2;animation:walkSrcCue .56s cubic-bezier(.22,1,.36,1)}
+@keyframes walkSrcCue{0%{transform:scale(1);box-shadow:inset 0 0 0 2px currentColor,0 0 0 0 rgba(148,7,10,.32)}38%{transform:scale(1.06);box-shadow:inset 0 0 0 2px currentColor,0 0 0 7px rgba(148,7,10,.16)}100%{transform:scale(1);box-shadow:inset 0 0 0 2px currentColor,0 0 0 0 rgba(148,7,10,0)}}
+@media (prefers-reduced-motion:reduce){.src-cue{animation:none}}
 .walk-tbl td,.walk-tbl th{transition:background-color .38s cubic-bezier(.22,1,.36,1),color .32s ease,box-shadow .38s cubic-bezier(.22,1,.36,1)}
 .walk-tbl th.row-pick{cursor:pointer}
 .walk-tbl th.row-pick:hover{background:#f1efe9}
@@ -2341,7 +2344,7 @@ a.cm-step:hover{color:var(--red);border-color:var(--red)}
   /* ---------- 通用分步推演与飞入追踪引擎（与 skill lecture.js 对齐，含双向点击溯源） ---------- */
   function createWalkthrough(root, opts) {
     opts = opts || {};
-    var speed = opts.speed || 1, runId = 0, timers = [], lockedEl = null, savedNote = null;
+    var speed = opts.speed || 1, runId = 0, timers = [], lockedEl = null, savedNote = null, cuedUntil = new Map();
     var titleEl = opts.titleEl || root.querySelector('.walk-stage-title');
     var eqEl = opts.eqEl || root.querySelector('.walk-eq');
     var noteEl = opts.noteEl || root.querySelector('.walk-note');
@@ -2358,8 +2361,9 @@ a.cm-step:hover{color:var(--red);border-color:var(--red)}
     };
     var clearHL = function () {
       clearTrace();
-      root.querySelectorAll('[data-src]').forEach(function (el) {
-        el.classList.remove('hl-a', 'hl-w', 'hl-res', 'hl-ok', 'hl-done-a', 'hl-done-w', 'hl-done-res', 'cell-pop');
+      cuedUntil.clear();
+      root.querySelectorAll('[data-src], .src-cue').forEach(function (el) {
+        el.classList.remove('hl-a', 'hl-w', 'hl-res', 'hl-ok', 'hl-done-a', 'hl-done-w', 'hl-done-res', 'cell-pop', 'src-cue');
       });
     };
     var appendFrom = function (dstEl, srcs) {
@@ -2415,6 +2419,8 @@ a.cm-step:hover{color:var(--red);border-color:var(--red)}
       runId++;
       timers.forEach(function (t) { clearTimeout(t); });
       timers = [];
+      cuedUntil.clear();
+      root.querySelectorAll('.src-cue').forEach(function (el) { el.classList.remove('src-cue'); });
       clearPills();
       clearTrace();
     };
@@ -2426,6 +2432,14 @@ a.cm-step:hover{color:var(--red);border-color:var(--red)}
         timers.push(t);
       });
     };
+    var waitRaw = function (rawMs, id) {
+      if (id === undefined) id = runId;
+      return new Promise(function (resolve) {
+        if (id !== runId || rawMs <= 0) return resolve(id === runId);
+        var t = setTimeout(function () { resolve(id === runId); }, Math.round(rawMs));
+        timers.push(t);
+      });
+    };
     var setActive = function (step) {
       root.querySelectorAll('button[data-walk-step]').forEach(function (b) { b.classList.toggle('on', +b.dataset.walkStep === step); });
       root.querySelectorAll('.walk-step').forEach(function (li) { li.classList.toggle('active', +li.dataset.walkItem === step); });
@@ -2433,10 +2447,42 @@ a.cm-step:hover{color:var(--red);border-color:var(--red)}
     var roleCls = function (role) { return role.indexOf('is-') === 0 ? role : 'is-' + role; };
     var hlCls = function (role) { return 'hl-' + role.replace(/^is-/, ''); };
 
+    async function cueSource(srcEl, role, ms, id) {
+      var isSlot = srcEl.classList.contains('w-slot');
+      if (!isSlot) {
+        srcEl.classList.remove('hl-a', 'hl-w', 'hl-res', 'hl-ok');
+        srcEl.classList.add(hlCls(role));
+      }
+      var pulse = function () {
+        srcEl.classList.remove('src-cue');
+        void srcEl.offsetWidth;
+        srcEl.classList.add('src-cue');
+      };
+      if (isSlot) {
+        pulse();
+        await sleep(220, id);
+      } else {
+        var now = performance.now();
+        if (!cuedUntil.has(srcEl)) {
+          pulse();
+          var cueMs = Math.min(620, Math.max(220, Math.round(ms * 1.2)));
+          cuedUntil.set(srcEl, now + dur(cueMs));
+          await sleep(cueMs, id);
+        } else {
+          var rem = cuedUntil.get(srcEl) - now;
+          if (rem > 0) await waitRaw(rem, id);
+          else { pulse(); await sleep(Math.min(120, Math.round(ms * 0.25)), id); }
+        }
+      }
+      srcEl.classList.remove('src-cue');
+      return id === runId;
+    }
+
     async function fly(srcRef, dstRef, label, role, ms, id) {
       role = role || 'a'; ms = ms || 720; if (id === undefined) id = runId;
       var srcEl = resolveEl(srcRef), dstEl = resolveEl(dstRef);
       if (id !== runId || !srcEl || !dstEl) return id === runId;
+      if (!await cueSource(srcEl, role, ms, id)) return false;
       var sr = srcEl.getBoundingClientRect(), dr = dstEl.getBoundingClientRect();
       var pill = document.createElement('div');
       pill.className = 'fly-pill ' + roleCls(role);
@@ -2457,7 +2503,7 @@ a.cm-step:hover{color:var(--red);border-color:var(--red)}
           { transform: 'translate(' + mx + 'px,' + my + 'px) scale(1.14)', opacity: 1, offset: 0.54 },
           { transform: 'translate(' + x3 + 'px,' + y3 + 'px) scale(1.04)', opacity: 1, offset: 0.84 },
           { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(1)', opacity: 1, offset: 1 }
-        ], { duration: duration, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
+        ], { duration: duration, easing: 'cubic-bezier(0.32, 0, 0.2, 1)', fill: 'forwards' });
         await new Promise(function (resolve) {
           var done = false;
           var finish = function () { if (!done) { done = true; resolve(); } };
@@ -2477,8 +2523,12 @@ a.cm-step:hover{color:var(--red);border-color:var(--red)}
         void dstEl.offsetWidth;
         dstEl.classList.add(hlCls(role), 'cell-pop');
       }
-      var srcKey = srcEl.dataset.src || (typeof srcRef === 'string' ? srcRef : '');
-      if (srcKey) appendFrom(dstEl, srcKey);
+      // .walk-eq 里的临时计算结果回飞到左侧常驻表时只继承其真实数据源，避免切步重绘后留下悬空 ID
+      var ephemeral = !srcEl.dataset.src && eqEl && eqEl.contains(srcEl);
+      if (!ephemeral) {
+        var srcKey = srcEl.dataset.src || (typeof srcRef === 'string' ? srcRef.replace(/^#/, '') : '');
+        if (srcKey) appendFrom(dstEl, srcKey);
+      }
       if (srcEl.dataset.from) appendFrom(dstEl, srcEl.dataset.from);
       return true;
     }

@@ -319,6 +319,9 @@ a.back::before{content:"↩ "}
 [data-src].hl-ok,.walk-tbl td.hl-ok{background:#dcfce7!important;color:#15803d!important;box-shadow:inset 0 0 0 2px #15803d;font-weight:700}
 [data-src].cell-pop,.walk-tbl td.cell-pop{animation:walkCellPop .52s cubic-bezier(.22,1,.36,1)}
 @keyframes walkCellPop{0%{transform:scale(.95)}45%{transform:scale(1.06)}100%{transform:scale(1)}}
+[data-src].src-cue,.walk-tbl td.src-cue,.walk-tbl th.src-cue,.src-cue{position:relative;z-index:2;animation:walkSrcCue .56s cubic-bezier(.22,1,.36,1)}
+@keyframes walkSrcCue{0%{transform:scale(1);box-shadow:inset 0 0 0 2px currentColor,0 0 0 0 rgba(148,7,10,.32)}38%{transform:scale(1.06);box-shadow:inset 0 0 0 2px currentColor,0 0 0 7px rgba(148,7,10,.16)}100%{transform:scale(1);box-shadow:inset 0 0 0 2px currentColor,0 0 0 0 rgba(148,7,10,0)}}
+@media (prefers-reduced-motion:reduce){.src-cue{animation:none}}
 [data-src].hl-done-a,.walk-tbl td.hl-done-a{background:#eff6ff}
 [data-src].hl-done-w,.walk-tbl td.hl-done-w{background:#fffbeb}
 [data-src].hl-done-res,.walk-tbl td.hl-done-res{background:#fef2f2;color:#94070A;font-weight:600}
@@ -2555,6 +2558,7 @@ function createWalkthrough(root, opts = {}) {
   let lockedEl = null;
   let savedNote = null;
   const timers = new Set();
+  const cuedUntil = new Map();
   const titleEl = opts.titleEl || $(".walk-stage-title", root);
   const eqEl = opts.eqEl || $(".walk-eq", root);
   const noteEl = opts.noteEl || $(".walk-note", root);
@@ -2570,8 +2574,9 @@ function createWalkthrough(root, opts = {}) {
   };
   const clearHL = () => {
     clearTrace();
-    $$("[data-src]", root).forEach(el =>
-      el.classList.remove("hl-a", "hl-w", "hl-res", "hl-ok", "hl-done-a", "hl-done-w", "hl-done-res", "cell-pop")
+    cuedUntil.clear();
+    $$("[data-src], .src-cue", root).forEach(el =>
+      el.classList.remove("hl-a", "hl-w", "hl-res", "hl-ok", "hl-done-a", "hl-done-w", "hl-done-res", "cell-pop", "src-cue")
     );
   };
   const appendFrom = (dstEl, srcs) => {
@@ -2627,12 +2632,19 @@ function createWalkthrough(root, opts = {}) {
     runId++;
     timers.forEach(t => clearTimeout(t));
     timers.clear();
+    cuedUntil.clear();
+    $$(".src-cue", root).forEach(el => el.classList.remove("src-cue"));
     clearPills();
     clearTrace();
   };
   const sleep = (ms, id = runId) => new Promise(resolve => {
     if (id !== runId) return resolve(false);
     const t = setTimeout(() => { timers.delete(t); resolve(id === runId); }, dur(ms));
+    timers.add(t);
+  });
+  const waitRaw = (rawMs, id = runId) => new Promise(resolve => {
+    if (id !== runId || rawMs <= 0) return resolve(id === runId);
+    const t = setTimeout(() => { timers.delete(t); resolve(id === runId); }, Math.round(rawMs));
     timers.add(t);
   });
   const setActive = step => {
@@ -2642,9 +2654,41 @@ function createWalkthrough(root, opts = {}) {
   const roleCls = role => role.startsWith("is-") ? role : `is-${role}`;
   const hlCls = role => `hl-${role.replace(/^is-/, "")}`;
 
+  async function cueSource(srcEl, role, ms, id) {
+    const isSlot = srcEl.classList.contains("w-slot");
+    if (!isSlot) {
+      srcEl.classList.remove("hl-a", "hl-w", "hl-res", "hl-ok");
+      srcEl.classList.add(hlCls(role));
+    }
+    const pulse = () => {
+      srcEl.classList.remove("src-cue");
+      void srcEl.offsetWidth;
+      srcEl.classList.add("src-cue");
+    };
+    if (isSlot) {
+      pulse();
+      await sleep(220, id);
+    } else {
+      const now = performance.now();
+      if (!cuedUntil.has(srcEl)) {
+        pulse();
+        const cueMs = Math.min(620, Math.max(220, Math.round(ms * 1.2)));
+        cuedUntil.set(srcEl, now + dur(cueMs));
+        await sleep(cueMs, id);
+      } else {
+        const rem = cuedUntil.get(srcEl) - now;
+        if (rem > 0) await waitRaw(rem, id);
+        else { pulse(); await sleep(Math.min(120, Math.round(ms * 0.25)), id); }
+      }
+    }
+    srcEl.classList.remove("src-cue");
+    return id === runId;
+  }
+
   async function fly(srcRef, dstRef, label, role = "a", ms = 720, id = runId) {
     const srcEl = resolveEl(srcRef), dstEl = resolveEl(dstRef);
     if (id !== runId || !srcEl || !dstEl) return id === runId;
+    if (!await cueSource(srcEl, role, ms, id)) return false;
     const sr = srcEl.getBoundingClientRect(), dr = dstEl.getBoundingClientRect();
     const pill = document.createElement("div");
     pill.className = `fly-pill ${roleCls(role)}`;
@@ -2665,7 +2709,7 @@ function createWalkthrough(root, opts = {}) {
         { transform: `translate(${mx}px, ${my}px) scale(1.14)`, opacity: 1, offset: 0.54 },
         { transform: `translate(${x3}px, ${y3}px) scale(1.04)`, opacity: 1, offset: 0.84 },
         { transform: `translate(${dx}px, ${dy}px) scale(1)`, opacity: 1, offset: 1 }
-      ], { duration, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "forwards" });
+      ], { duration, easing: "cubic-bezier(0.32, 0, 0.2, 1)", fill: "forwards" });
       await new Promise(resolve => {
         let done = false;
         const finish = () => { if (!done) { done = true; resolve(); } };
@@ -2687,8 +2731,12 @@ function createWalkthrough(root, opts = {}) {
       void dstEl.offsetWidth;
       dstEl.classList.add(hlCls(role), "cell-pop");
     }
-    const srcKey = srcEl.dataset.src || (typeof srcRef === "string" ? srcRef : "");
-    if (srcKey) appendFrom(dstEl, srcKey);
+    // .walk-eq 里的临时计算结果回飞到左侧常驻表时只继承其真实数据源，避免切步重绘后留下悬空 ID
+    const ephemeral = !srcEl.dataset.src && eqEl && eqEl.contains(srcEl);
+    if (!ephemeral) {
+      const srcKey = srcEl.dataset.src || (typeof srcRef === "string" ? srcRef.replace(/^#/, "") : "");
+      if (srcKey) appendFrom(dstEl, srcKey);
+    }
     if (srcEl.dataset.from) appendFrom(dstEl, srcEl.dataset.from);
     return true;
   }
@@ -3886,14 +3934,24 @@ defineModule("ahp-walkthrough", () => {
     });
   }
 
+  const cuedUntil = new Map();
+  function waitRaw(rawMs, id) {
+    return new Promise(resolve => {
+      if (id !== runId || rawMs <= 0) return resolve(id === runId);
+      const t = setTimeout(() => { timers.delete(t); resolve(id === runId); }, Math.round(rawMs));
+      timers.add(t);
+    });
+  }
+
   function clearPills() {
     $$(".fly-pill").forEach(p => p.remove());
   }
 
   function clearTableHL() {
     clearTrace();
-    $$("td,th", tbl).forEach(el => {
-      el.classList.remove("hl-a", "hl-w", "hl-res", "hl-done-a", "hl-done-w", "hl-done-res", "cell-pop");
+    cuedUntil.clear();
+    $$("td,th,.src-cue", tbl).forEach(el => {
+      el.classList.remove("hl-a", "hl-w", "hl-res", "hl-ok", "hl-done-a", "hl-done-w", "hl-done-res", "cell-pop", "src-cue");
     });
   }
 
@@ -3913,13 +3971,47 @@ defineModule("ahp-walkthrough", () => {
     runId++;
     timers.forEach(t => clearTimeout(t));
     timers.clear();
+    cuedUntil.clear();
+    $$(".src-cue", root).forEach(el => el.classList.remove("src-cue"));
     clearPills();
     clearTrace();
+  }
+
+  async function cueSource(srcEl, role, ms, id) {
+    const isSlot = srcEl.classList.contains("w-slot");
+    if (!isSlot) {
+      srcEl.classList.remove("hl-a", "hl-w", "hl-res", "hl-ok");
+      srcEl.classList.add(role === "is-w" ? "hl-w" : role === "is-res" ? "hl-res" : role === "is-ok" ? "hl-ok" : "hl-a");
+    }
+    const pulse = () => {
+      srcEl.classList.remove("src-cue");
+      void srcEl.offsetWidth;
+      srcEl.classList.add("src-cue");
+    };
+    if (isSlot) {
+      pulse();
+      await sleep(220, id);
+    } else {
+      const now = performance.now();
+      if (!cuedUntil.has(srcEl)) {
+        pulse();
+        const cueMs = Math.min(620, Math.max(220, Math.round(ms * 1.2)));
+        cuedUntil.set(srcEl, now + dur(cueMs));
+        await sleep(cueMs, id);
+      } else {
+        const rem = cuedUntil.get(srcEl) - now;
+        if (rem > 0) await waitRaw(rem, id);
+        else { pulse(); await sleep(Math.min(120, Math.round(ms * 0.25)), id); }
+      }
+    }
+    srcEl.classList.remove("src-cue");
+    return id === runId;
   }
 
   // 把数字徽章从 srcEl 沿弧线柔和飞入 dstEl（或从算式飞回表格格子），并在落位时高亮
   async function fly(srcEl, dstEl, label, role, id, ms = 720) {
     if (id !== runId || !srcEl || !dstEl) return id === runId;
+    if (!await cueSource(srcEl, role, ms, id)) return false;
     const sr = srcEl.getBoundingClientRect();
     const dr = dstEl.getBoundingClientRect();
     const pill = document.createElement("div");
@@ -3946,7 +4038,7 @@ defineModule("ahp-walkthrough", () => {
         { transform: `translate(${mx}px, ${my}px) scale(1.14)`, opacity: 1, offset: 0.54 },
         { transform: `translate(${x3}px, ${y3}px) scale(1.04)`, opacity: 1, offset: 0.84 },
         { transform: `translate(${dx}px, ${dy}px) scale(1)`, opacity: 1, offset: 1 }
-      ], { duration, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "forwards" });
+      ], { duration, easing: "cubic-bezier(0.32, 0, 0.2, 1)", fill: "forwards" });
       await new Promise(resolve => {
         let done = false;
         const finish = () => { if (!done) { done = true; resolve(); } };
@@ -4811,7 +4903,11 @@ defineModule("topsis-walkthrough", () => {
       ]);
       if (!ok.every(Boolean)) return;
       const sub = $(`#tp2-sub${j}`, root);
-      if (sub) { sub.textContent = `= ${rTxt}`; sub.classList.add("show"); }
+      if (sub) {
+        sub.textContent = `= ${rTxt}`;
+        sub.classList.add("show");
+        wt.link(sub, [xKey, `norm-${j}`]);
+      }
       if (!(await wt.fly(`tp2-sub${j}`, `r-${rowIdx}-${j}`, rTxt, "res", 560, id))) return;
       wt.note(`${CRITS[j]}：${xTxt} ÷ ${nTxt} = ${rTxt}，已填入规范化矩阵 R。`);
       if (!(await wt.sleep(320, id))) return;
@@ -4845,7 +4941,11 @@ defineModule("topsis-walkthrough", () => {
       ]);
       if (!ok.every(Boolean)) return;
       const sub = $(`#tp3-sub${j}`, root);
-      if (sub) { sub.textContent = `= ${zTxt}`; sub.classList.add("show"); }
+      if (sub) {
+        sub.textContent = `= ${zTxt}`;
+        sub.classList.add("show");
+        wt.link(sub, [`tw-${j}`, `r-${rowIdx}-${j}`]);
+      }
       if (!(await wt.fly(`tp3-sub${j}`, `z-${rowIdx}-${j}`, zTxt, "res", 580, id))) return;
       wt.note(`${CRITS[j]}赋权：${wTxt} × ${rTxt} = ${zTxt}，已填入表 Z。`);
       if (!(await wt.sleep(320, id))) return;
