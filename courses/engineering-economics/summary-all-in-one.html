@@ -5,7 +5,165 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>《工程经济学》核心速览 All-in-One</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/kramer.css">
+<style>
+/* ============================================================================
+ * kramer.css —— Read 讲义统一样式（母版）
+ *
+ * 这是全套讲义共用的唯一样式表。每套讲义在根目录下有一份 assets/kramer.css 的
+ * 拷贝，所有页面通过 <link rel="stylesheet" href="{data-root}assets/kramer.css">
+ * 引入它。改样式只改这一个文件，全套讲义一次生效——不必逐个 HTML 修改。
+ *
+ * 长文阅读优化：正文限宽、行距宽松、层级清晰。零外部依赖（KaTeX 的 CSS 另行由
+ * 页面在 <head> 里引 CDN）。
+ * ========================================================================== */
+
+:root { --ink:#1a1a1a; --sub:#555; --line:#e2e2e2; --accent:#2b6cb0; --bg:#fbfbf9; --code-bg:#f4f4f2;
+        --side-bg:#f4f5f3; --side-w:280px; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink);
+       font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+       line-height:1.85; font-size:17px; }
+
+/* 全书目录侧边栏：桌面固定在左，正文右移让位 */
+#toc { position:fixed; top:0; left:0; width:var(--side-w); height:100vh; overflow-y:auto;
+       background:var(--side-bg); border-right:1px solid var(--line); padding:20px 0 40px;
+       font-size:.92em; z-index:20; transition:transform .25s ease; }
+#toc .toc-title { font-weight:700; padding:0 20px 12px; margin:0 0 8px; border-bottom:1px solid var(--line);
+                  font-size:1.02em; }
+#toc ul { list-style:none; margin:0; padding:0; }
+/* 无章分组（总论、术语表）直接平铺 */
+#toc .toc-flat a { display:block; padding:.4em 20px; color:var(--ink); text-decoration:none; line-height:1.5; font-weight:600; }
+#toc .toc-flat a.current { background:#e2ecf7; color:var(--accent); border-left:3px solid var(--accent); padding-left:17px; }
+/* 章分组：<details> 可收起；<summary> 是章标题行，本身为跳转大章总结的链接 */
+#toc details.toc-chapter { border-top:1px solid var(--line); }
+#toc details.toc-chapter > summary { list-style:none; display:flex; align-items:center; gap:.4em;
+      padding:.55em 20px; font-weight:700; cursor:pointer; color:var(--ink); }
+#toc details.toc-chapter > summary::-webkit-details-marker { display:none; }
+#toc details.toc-chapter > summary::before { content:"▸"; color:var(--sub); font-size:.8em; transition:transform .15s; flex:none; }
+#toc details.toc-chapter[open] > summary::before { transform:rotate(90deg); }
+#toc details.toc-chapter > summary a.chapter-link { color:inherit; text-decoration:none; flex:1; }
+#toc details.toc-chapter > summary a.chapter-link:hover { color:var(--accent); }
+#toc details.toc-chapter > summary.current a.chapter-link { color:var(--accent); }  /* 当前篇是本章大章总结 */
+#toc .toc-sections a { display:block; padding:.34em 20px .34em 40px; color:var(--sub); text-decoration:none;
+      line-height:1.5; font-size:.96em; }
+#toc a:hover { background:#e7ebe5; }
+#toc .toc-sections a.current { background:#e2ecf7; color:var(--accent); font-weight:600;
+                 border-left:3px solid var(--accent); padding-left:37px; }
+#toc-toggle { display:none; }               /* 桌面隐藏移动端汉堡按钮 */
+#toc-backdrop { display:none; }
+/* 桌面端「收起侧栏」按钮：常驻在侧栏标题行右上，收起后变为贴左侧边缘的展开把手 */
+#toc-collapse { position:absolute; top:16px; right:12px; width:28px; height:28px; border:1px solid var(--line);
+                background:#fff; color:var(--sub); border-radius:6px; cursor:pointer; font-size:1em; line-height:1;
+                display:flex; align-items:center; justify-content:center; padding:0; z-index:21; }
+#toc-collapse:hover { color:var(--accent); border-color:var(--accent); }
+.wrap { margin-left:var(--side-w); transition:margin-left .25s ease; }
+/* 收起态：侧栏整体左移隐藏，正文占满；展开把手固定在屏幕左缘 */
+body.toc-collapsed #toc { transform:translateX(calc(-1 * var(--side-w))); }
+body.toc-collapsed .wrap { margin-left:0; }
+#toc-expand { display:none; }
+body.toc-collapsed #toc-expand { display:flex; position:fixed; top:14px; left:14px; z-index:30; width:40px; height:40px;
+                align-items:center; justify-content:center; background:var(--accent); color:#fff; border:none;
+                border-radius:8px; font-size:1.2em; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.2); }
+
+article { max-width:760px; margin:0 auto; padding:48px 24px 96px; }
+h1 { font-size:1.9em; line-height:1.3; margin:0 0 .2em; }
+h2 { font-size:1.4em; margin:2em 0 .6em; padding-bottom:.3em; border-bottom:2px solid var(--line); }
+h3 { font-size:1.15em; margin:1.6em 0 .5em; color:var(--accent); }
+p { margin:0 0 1.1em; }
+.lead { color:var(--sub); font-size:1.05em; margin-bottom:2em; }
+.prereq { background:#fff8e6; border-left:4px solid #e0b400; padding:.6em 1em; margin:0 0 1.6em; font-size:.95em; }
+.key { background:#eef5ff; border-left:4px solid var(--accent); padding:.7em 1em; margin:1.4em 0; font-weight:600; }
+strong { font-weight:600; }
+em { font-style:normal; color:var(--accent); }
+.term { font-weight:600; border-bottom:1px dashed var(--accent); }
+/* 重点笔记式高亮：像荧光笔划重点。<mark> 荧光底标关键结论；.mark 标核心概念（加粗+主题色+浅底）。易错点另用 .pitfall。 */
+mark { background:#fff3a3; padding:.05em .28em; border-radius:3px; color:inherit; }
+.mark { font-weight:700; color:var(--accent); background:#eaf2fb; padding:.05em .3em; border-radius:3px; }
+/* 带走这一点：每篇（含分节精讲）收尾用的核心要点绿框 */
+.takeaway { background:#f0f7f0; border:1px solid #cfe3cf; border-radius:8px; padding:.8em 1.2em; margin:1.6em 0; }
+.takeaway .t-h { font-weight:700; color:#2f7a2f; margin-bottom:.3em; }
+/* 易错点/雷区：警示红色系，与蓝/黄的"重点"区分开——重点是"记住它"，雷区是"别错在这"。 */
+.pitfall { background:#fdecec; border-left:4px solid #d64545; padding:.7em 1em; margin:1.4em 0; }
+.pitfall::before { content:"⚠ 易错"; display:inline-block; font-weight:700; color:#c0392b; margin-right:.5em; }
+/* 符号速查卡（按需，仅数学符号较多的书）：可 hover 的符号，虚线下框，浮层显示释义 */
+.sym { border-bottom:1px dotted var(--sub); cursor:help; }
+.term small { font-weight:400; color:var(--sub); }
+/* 公式符号释义块：块级公式后的「符号或组合项 → 含义、作用、取值来源」两列 */
+.symbols { display:grid; grid-template-columns:max-content 1fr; gap:.35em 1em; margin:-.4em 0 1.4em;
+           padding:.8em 1.1em; background:#f7f9fc; border:1px solid var(--line); border-radius:8px; font-size:.95em; }
+.symbols dt { white-space:nowrap; font-weight:600; }
+.symbols dd { margin:0; }
+/* 带标题的说明框：标题按内容自拟（如「前置假设」「适用场景」「概念关联」），不按语义分配颜色 */
+.box { background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #8aa4c8; border-radius:6px;
+       padding:.7em 1.1em; margin:1.4em 0; }
+.box .b-h { font-weight:700; color:#3d5a80; margin-bottom:.3em; }
+.box > :last-child, .pitfall > :last-child, .takeaway > :last-child { margin-bottom:0; }
+/* 章节定位标签：标题旁的小字，写本章地位与难度 */
+.role { display:inline-block; font-size:.62em; font-weight:500; color:var(--sub); background:#eef1f5;
+        border-radius:4px; padding:.1em .5em; margin-left:.6em; vertical-align:middle; }
+/* 单文件模式（核心速览）：每章一节显示为卡片 */
+body[data-mode="single"] article > section[id^="c"] { border:1px solid var(--line); border-radius:10px;
+       background:#fff; padding:.4em 1.5em 1em; margin:2em 0; }
+body[data-mode="single"] article > section[id^="c"] > h2 { margin-top:.8em; }
+nav.pager { display:flex; justify-content:space-between; gap:1em; margin:2.4em 0;
+            padding-top:1.2em; border-top:1px solid var(--line); font-size:.95em; }
+nav.pager a { color:var(--accent); text-decoration:none; }
+nav.pager a.disabled { color:#bbb; pointer-events:none; }
+code { background:var(--code-bg); padding:.1em .35em; border-radius:4px; font-size:.9em;
+       font-family:"SFMono-Regular",Consolas,monospace; }
+.formula { background:var(--code-bg); border-radius:8px; padding:1em 1.2em; margin:1.4em 0; overflow-x:auto; }  /* 可选：给 KaTeX 块级公式套底色块/横向滚动容器，非公式本体 */
+figure { margin:1.8em 0; }
+figure .mermaid { background:#fff; border:1px solid var(--line); border-radius:8px; padding:1.2em; text-align:center; }
+figure figcaption { color:var(--sub); font-size:.92em; margin-top:.6em; text-align:center; }
+table { border-collapse:collapse; width:100%; margin:1.6em 0; font-size:.95em; }
+th,td { border:1px solid var(--line); padding:.6em .8em; text-align:left; vertical-align:top; }
+thead th { background:#eef2f7; }
+tbody tr:nth-child(even) { background:#f7f7f5; }
+blockquote { margin:1.4em 0; padding:.4em 1.2em; border-left:4px solid var(--accent);
+             background:#f0f5fb; color:var(--sub); }
+.quiz { background:#f0f7f0; border:1px solid #cfe3cf; border-radius:8px; padding:1em 1.4em; margin:2em 0; }
+.quiz summary { cursor:pointer; font-weight:600; }
+.faq { margin:1.6em 0; }
+.faq details { border:1px solid var(--line); border-radius:8px; margin:.6em 0; padding:.2em 1.1em; background:#fff; }
+.faq summary { cursor:pointer; font-weight:600; padding:.7em 0; }
+.faq details[open] summary { border-bottom:1px solid var(--line); margin-bottom:.7em; }
+hr { border:none; border-top:1px solid var(--line); margin:2.4em 0; }
+/* 公式：块级公式居中留白、可横向滚动；KaTeX 渲染出的数学字体比正文略大以便辨认 */
+.katex-display { margin:1.4em 0; overflow-x:auto; overflow-y:hidden; padding:.2em 0; }
+.katex { font-size:1.05em; }
+
+/* 移动端：侧栏变为抽屉，汉堡按钮唤出；桌面端的收起/展开按钮在此隐藏 */
+@media (max-width:1024px) {
+  .wrap { margin-left:0; }
+  #toc-collapse, #toc-expand { display:none!important; }
+  body.toc-collapsed #toc { transform:translateX(-100%); }  /* 收起态在移动端等同抽屉关闭，交给汉堡逻辑 */
+  body.toc-collapsed .wrap { margin-left:0; }
+  #toc { transform:translateX(-100%); transition:transform .25s ease; box-shadow:2px 0 12px rgba(0,0,0,.12); }
+  body.toc-open #toc { transform:translateX(0); }
+  #toc-toggle { display:flex; position:fixed; top:14px; left:14px; z-index:30; width:44px; height:44px;
+                align-items:center; justify-content:center; background:var(--accent); color:#fff;
+                border:none; border-radius:8px; font-size:1.3em; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.2); }
+  body.toc-open #toc-backdrop { display:block; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:15; }
+  article { padding-top:72px; }
+}
+
+/* ============================================================================
+ * 打印 / PDF：屏幕专用元素隐藏，正文居中铺满。
+ * 供「可选：带索引的整书 PDF」逐篇打印时使用——过去靠临时注入，现在内置于母版，
+ * 打印时无需再注入这段 CSS（展开 <details>、等图与公式就绪仍由构建脚本负责）。
+ * ========================================================================== */
+@media print {
+  * { -webkit-print-color-adjust:exact!important; print-color-adjust:exact!important; }
+  #toc, #toc-toggle, #toc-expand, #toc-collapse, #toc-backdrop { display:none!important; }
+  .wrap { margin-left:0!important; }
+  article { max-width:900px!important; margin:0 auto!important; padding:0!important; }
+  nav.pager { display:none!important; }
+  figure, .quiz, .faq details, .symbols, .box { break-inside:avoid; }
+  details > summary { list-style:none; }
+  details > summary::-webkit-details-marker { display:none; }
+  @page { margin:14mm 12mm; }
+}
+</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.9/dist/contrib/auto-render.min.js"></script>
@@ -227,7 +385,12 @@ body {
   border-color: var(--cc-amber);
   color: var(--cc-amber);
 }
-.term-toggle-btn.active {
+.term-toggle-btn.mode-first {
+  background: var(--cc-amber-wash);
+  border-color: var(--cc-amber);
+  color: var(--cc-amber);
+}
+.term-toggle-btn.mode-all {
   background: var(--cc-amber);
   border-color: var(--cc-amber);
   color: #fff;
@@ -239,7 +402,11 @@ body {
   padding: 1px 6px;
   border-radius: 10px;
 }
-.term-toggle-btn.active span.status {
+.term-toggle-btn.mode-first span.status {
+  background: rgba(183, 121, 31, 0.16);
+  color: var(--cc-amber);
+}
+.term-toggle-btn.mode-all span.status {
   background: rgba(255, 255, 255, 0.25);
   color: #fff;
 }
@@ -282,53 +449,52 @@ body.width-full article dd {
 }
 
 /* =======================================================
- * 术语/符号样式：开启与关闭的严格隔离
- * 关了之后，所有下划线、虚线、悬停背景、暗示手型彻底消失！
+ * 术语/符号样式：三模式严格隔离（不显示 / 每节首次 / 始终显示）
  * ======================================================= */
-body:not(.terms-active) .term,
-body:not(.terms-active) .glossary-term,
-body:not(.terms-active) .katex-term {
+body.terms-mode-off .term,
+body.terms-mode-off .glossary-term,
+body.terms-mode-off .katex-term,
+body.terms-mode-first .term:not([data-term-first="1"]),
+body.terms-mode-first .glossary-term:not([data-term-first="1"]),
+body.terms-mode-first .katex-term:not([data-term-first="1"]),
+body.terms-mode-all span.term:not([data-term-key]) {
   border-bottom: none !important;
   cursor: inherit !important;
   background: transparent !important;
 }
 
-/* 仅对真正挂载了术语数据的元素显示虚线下划线与手型，杜绝无数据死暗示 */
-body.terms-active .glossary-term,
-body.terms-active span.term[data-term-key],
-body.terms-active .katex-term {
+/* 仅对当前模式下激活的术语节点显示虚线下划线与手型 */
+body.terms-mode-all .glossary-term[data-term-key],
+body.terms-mode-all span.term[data-term-key],
+body.terms-mode-all .katex-term[data-term-key],
+body.terms-mode-first .glossary-term[data-term-first="1"],
+body.terms-mode-first span.term[data-term-first="1"],
+body.terms-mode-first .katex-term[data-term-first="1"] {
   border-bottom: 1.5px dashed var(--cc-amber) !important;
   cursor: pointer !important;
   position: relative;
   transition: background 0.15s, border-color 0.15s;
 }
-body.terms-active span.term:not([data-term-key]) {
-  border-bottom: none !important;
-  cursor: inherit !important;
-}
-body.terms-active .katex-term {
+body.terms-mode-all .katex-term[data-term-key],
+body.terms-mode-first .katex-term[data-term-first="1"] {
   display: inline-block;
   padding: 0 1px;
   border-bottom: 1.5px dashed var(--cc-amber) !important;
 }
-body.terms-active .glossary-term:hover,
-body.terms-active span.term[data-term-key]:hover,
-body.terms-active .katex-term:hover {
+body.terms-mode-all .glossary-term[data-term-key]:hover,
+body.terms-mode-all span.term[data-term-key]:hover,
+body.terms-mode-all .katex-term[data-term-key]:hover,
+body.terms-mode-first .glossary-term[data-term-first="1"]:hover,
+body.terms-mode-first span.term[data-term-first="1"]:hover,
+body.terms-mode-first .katex-term[data-term-first="1"]:hover {
   background: rgba(217, 154, 43, 0.12) !important;
   border-radius: 2px;
 }
 /* 卡片打开时触发词的激活态 */
-body.terms-active .term-open {
-  border-bottom-style: solid !important;
-  border-bottom-color: var(--cc-amber) !important;
+.term-open {
+  border-bottom: 1.5px solid var(--cc-amber) !important;
   background: rgba(217, 154, 43, 0.16) !important;
   border-radius: 2px;
-}
-body.terms-active .glossary-term:focus-visible,
-body.terms-active span.term[data-term-key]:focus-visible,
-body.terms-active .katex-term:focus-visible {
-  outline: 2px solid var(--cc-amber-bright);
-  outline-offset: 2px;
 }
 
 /* 速查定位闪烁（用户主动搜索的反馈，与术语开关无关） */
@@ -336,9 +502,11 @@ body.terms-active .katex-term:focus-visible {
   animation: term-flash 1.8s ease;
   border-radius: 3px;
 }
-/* 锚点定向跳转的落点留出顶部余量：固定控制栏底边约 54px（桌面）/43px（移动），
-   取 64px 确保落点标题首行完全落在控制栏垂直带之外 */
-#c6-bep, #supplement, #supplement h3 {
+/* 锚点定向跳转统一留出顶部余量，避免被固定控制栏遮挡 */
+article section[id],
+article h2[id],
+article h3[id],
+article h4[id] {
   scroll-margin-top: 64px;
 }
 @keyframes term-flash {
@@ -592,6 +760,106 @@ body.terms-active .katex-term:focus-visible {
 #term-tooltip .tt-exam .tt-lbl {
   background: rgba(217, 154, 43, 0.2);
   color: #8a5a12;
+}
+#term-tooltip .tt-disambig {
+  background: rgba(28, 43, 58, 0.045);
+  border-left: 3px solid var(--cc-ink-soft);
+  color: var(--cc-ink-soft);
+}
+#term-tooltip .tt-disambig .tt-lbl {
+  background: rgba(28, 43, 58, 0.12);
+  color: var(--cc-ink);
+}
+#term-tooltip .tt-disambig-body {
+  flex: 1;
+  min-width: 0;
+}
+#term-tooltip .tt-ctx-now {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--cc-ink);
+  font-weight: 600;
+}
+/* 块级公式级符号速查栏（按需展开，避免裸单字母直接挂独立浮窗引发歧义） */
+.formula-wrap {
+  position: relative;
+  margin: 1.4em 0;
+}
+.formula-wrap > .katex-display {
+  margin: 0;
+  padding-right: 48px;
+}
+.formula-sym-btn {
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  border: 1px solid var(--cc-line);
+  background: rgba(253, 251, 246, 0.9);
+  color: var(--cc-ink-faint);
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--cc-sans);
+  padding: 2px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  z-index: 2;
+}
+.formula-wrap:hover .formula-sym-btn,
+.formula-sym-btn:focus-visible,
+.formula-sym-btn[aria-expanded="true"] {
+  opacity: 1;
+}
+.formula-sym-btn:hover,
+.formula-sym-btn[aria-expanded="true"] {
+  color: var(--cc-amber);
+  border-color: var(--cc-amber);
+  background: var(--cc-amber-wash);
+}
+.formula-sym-panel {
+  margin-top: 6px;
+  padding: 8px 12px;
+  background: var(--cc-paper);
+  border: 1px solid var(--cc-line);
+  border-left: 3px solid var(--cc-amber);
+  border-radius: 6px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  font-family: var(--cc-sans);
+  color: var(--cc-ink-soft);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 5px 14px;
+}
+.formula-sym-panel[hidden] {
+  display: none;
+}
+.formula-sym-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.formula-sym-tag {
+  font-family: Consolas, Monaco, "Courier New", monospace;
+  font-weight: 700;
+  font-size: 11.5px;
+  color: var(--cc-amber);
+  background: var(--cc-amber-wash);
+  border: 1px solid rgba(183, 121, 31, 0.28);
+  border-radius: 3px;
+  padding: 0 5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.formula-sym-tag.is-link {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: rgba(183, 121, 31, 0.5);
+}
+.formula-sym-tag.is-link:hover {
+  background: var(--cc-amber);
+  color: #fff;
 }
 #term-tooltip .tt-related {
   display: flex;
@@ -1378,7 +1646,9 @@ body.fc-open #flashcard-modal {
   .reader-control-bar,
   #term-tooltip,
   #term-search,
-  #flashcard-modal {
+  #flashcard-modal,
+  .formula-sym-btn,
+  .formula-sym-panel {
     display: none !important;
   }
   body.fs-open .wrap,
@@ -1511,8 +1781,8 @@ body.fc-open #flashcard-modal {
     <button id="term-search-btn" class="bar-btn" title="术语速查：分组索引 + 搜索定位 (Ctrl+K)" aria-label="打开术语速查面板">速查</button>
     <button id="formula-sheet-btn" class="bar-btn" title="公式速查表：全部公式按考点分组，可打印" aria-label="打开公式速查表">公式表</button>
     <button id="flashcard-btn" class="bar-btn" title="考点抽认卡：主动回忆自测模式 (支持键盘翻转/掌握度打分/错题筛选)" aria-label="打开考点抽认卡">抽认卡</button>
-    <button id="term-toggle-btn" class="term-toggle-btn active" title="点击切换正文专业术语与公式符号释义浮动提示">
-      💡 术语提示 <span class="status">开</span>
+    <button id="term-toggle-btn" class="term-toggle-btn mode-first" title="点击切换术语提示模式：每节首次 / 始终显示 / 不显示">
+      💡 术语 <span class="status">每节首次</span>
     </button>
   </div>
   <button id="reader-bar-toggle" class="rc-toggle-btn" title="收起控制栏" aria-label="收起控制栏" aria-expanded="true">
@@ -1541,6 +1811,7 @@ body.fc-open #flashcard-modal {
   <div class="tt-block tt-rule"><span class="tt-lbl">准则</span><div class="tt-rule-body"></div></div>
   <div class="tt-block tt-example"><span class="tt-lbl">例</span><div class="tt-example-body"></div></div>
   <div class="tt-block tt-exam"><span class="tt-lbl">考点</span><div class="tt-exam-body"></div></div>
+  <div class="tt-block tt-disambig"><span class="tt-lbl">易混</span><div class="tt-disambig-body"></div></div>
   <div class="tt-related"></div>
 </div>
 
@@ -1571,7 +1842,7 @@ body.fc-open #flashcard-modal {
 </div>
 
 <!-- 考点抽认卡模态窗 -->
-<div id="flashcard-modal" role="dialog" aria-modal="true" aria-hidden="true">
+<div id="flashcard-modal" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
   <div class="fc-bar">
     <div class="fc-bar-left">
       <span class="fc-title">考点抽认卡</span>
@@ -1934,7 +2205,7 @@ $$r_i=r_f+\beta_i(r_m-r_f)$$
     </tr>
   </tbody>
 </table>
-<p class="pitfall">⚠️ <strong>期末易错陷阱</strong>：在计算年金现值或终值时，折现率 $r$ 的周期必须与现金流发生周期<strong>严格同步</strong>。若每年计息 4 次、现金流每季度发生一次，必须使用季度利率 $r/4$；若现金流每年发生一次但每季计息，则必须先将报价名义利率折算为有效年利率 $EAR$，再代入年金公式！</p>
+<p class="pitfall"><strong>期末易错陷阱</strong>：在计算年金现值或终值时，折现率 $r$ 的周期必须与现金流发生周期<strong>严格同步</strong>。若每年计息 4 次、现金流每季度发生一次，必须使用季度利率 $r/4$；若现金流每年发生一次但每季计息，则必须先将报价名义利率折算为有效年利率 $EAR$，再代入年金公式！</p>
 
 <p><span class="term">现值</span>与<span class="term">终值</span>互逆：把终值公式反过来解出 $PV$，就是<span class="term">折现</span>。</p>
 
@@ -2054,7 +2325,7 @@ $$r_i=r_f+\beta_i(r_m-r_f)$$
 </table>
 
 <div class="box">
-  <div class="b-h">做题避坑：选系数的两问法则与转换纽带（录音 42:20）</div>
+  <div class="b-h">做题避坑：选系数的两问法则与转换纽带</div>
   <p>考试时题目经常把现值系数与终值系数混在一起作为干扰项，做题只需问自己两个问题：</p>
   <ul>
     <li><strong>是一笔钱，还是一连串等额的钱？</strong>只有 1 笔用 $PVIF$ / $FVIF$；一串等额现金流用带 $A$ 的 $PVIFA$ / $FVIFA$。</li>
@@ -2378,19 +2649,14 @@ $$EAA=\frac{380000}{3.8}=100{,}000,\qquad Q_{NPV}=\frac{100000+0.75\times30000-0
 
 <h3>灵敏度分析</h3>
 <p><span class="term">灵敏度分析</span>回答两个问题：某个参数变化会让决策怎样变；要让决策不变，参数可以在多大范围内变动。分析三步法：①确定参数的概率分布；②建立参数与决策指标的函数关系；③由参数分布推出指标的分布。为简化，通常假设参数相互独立、取离散值（例 6-4 影视项目：销售费用 1000 万或 3000 万，收入 3 亿、2 亿或 0.8 亿）。参数多、相互关联时解析式难求，可用<strong>数值模拟</strong>：例 6-6 手机生产线让价格与销量相关，模拟 500 次，得到双峰分布的 $NPV$。</p>
-<p>单因素敏感性分析的核心指标是<strong>敏感度系数（Sensitivity Coefficient）</strong>：</p>
-$$S_{Ai} = \frac{\Delta A / A}{\Delta F_i / F_i}$$
-<p>其中 $A$ 为评价指标（如 NPV），$F_i$ 为不确定因素（如单价、投资额、经营成本）。$|S_{Ai}|$ 的绝对值越大，说明该不确定因素的波动对项目经济效果的影响越剧烈，该因素即为关键敏感因素。</p>
+<p>单因素敏感性分析围绕两个核心指标展开：</p>
+<ul>
+  <li><strong>敏感度系数（Sensitivity Coefficient）</strong>：衡量评价指标对不确定因素变动的敏锐程度：
+  $$S_{Ai} = \frac{\Delta A / A}{\Delta F_i / F_i}$$
+  其中 $A$ 为评价指标（如 $NPV$），$F_i$ 为不确定因素（如单价、投资额、经营成本）。$|S_{Ai}|$ 的绝对值越大，说明该因素波动对项目经济效果的影响越剧烈，即为项目的<strong>最敏感主导因素</strong>。</li>
+  <li><strong>临界点（极限允许变动率）</strong>：在其他参数不变时，使方案净现值恰好降为零（$NPV=0$，等价于 $IRR=i_c$）时，该不确定因素允许恶化的临界百分比。临界点绝对值越小，说明该因素抗风险容限越窄。</li>
+</ul>
 <div class="box"><div class="b-h">它有什么用</div><p>管理者对参数的判断来自经验和调研，难免不准。灵敏度分析衡量"判断偏了会怎样"，是描述项目风险的一种手段。</p></div>
-
-
-<div class="card" style="margin-top:12px;background:#f8fafc;border-left:4px solid #10b981;padding:10px 14px;font-size:0.9em;">
-  <strong>💡 敏感度系数与临界点标准测算方法</strong>：<br>
-  ① <strong>敏感度系数（$S_{Ai}$）</strong>：衡量评价指标对不确定因素变动的敏锐程度：
-  $$S_{Ai} = \frac{\Delta A / A}{\Delta F / F}$$
-  （式中 $\Delta F/F$ 为不确定因素变动率，$\Delta A/A$ 为净现值相应变动率；$|S_{Ai}|$ 绝对值越大的因素，即为项目的<strong>最敏感主导因素</strong>）。<br>
-  ② <strong>临界点（极限允许变动率）</strong>：当其他参数不变时，使方案净现值恰好降为零（$NPV=0$，等价于 $IRR=i_c$）时，该不确定因素允许恶化的临界百分比。临界值绝对值越小，说明该因素抗风险容限越窄。
-</div>
 <h3 id="c6-decision-tree">决策树分析</h3>
 <p>很多项目分阶段进行，前一阶段的结果出来后还能再决定。决策树把"等信息出来再决定"这一选择权算进价值，用逆向归纳从末端往回推：每个决策点取最大值，每个机会点取期望。</p>
 <p><strong>例 6-7（奶茶店扩张）</strong>：开一家店投入 500 万，之后每年永续现金流 60 万或 120 万，各 50%；$r=20\%$。</p>
@@ -2682,7 +2948,7 @@ $$\text{目标项目价值}=\text{目标项目指标 }a\times\frac{\text{可比�
 <ul>
   <li><strong>偿债备付率（DSCR, Debt Service Coverage Ratio）</strong>：衡量项目在特定年份产生的现金流覆盖当期应还本付息额的安全裕度：
   $$DSCR_t = \frac{\text{可用于还本付息的资金}_t}{\text{当期应还本付息总额}_t} = \frac{OCF_t}{\text{当期还本额}_t + \text{当期付息额}_t}$$
-  （分子为当期未扣还本付息的现金流 $EBIT(1-t) + D + A - \Delta NWC_t$；工程实务通常要求 $DSCR \ge 1.2 \sim 1.3$ 作为安全线）。</li>
+  （分子为当期未扣还本付息的现金流 $EBIT(1-t) + D + A - \Delta NWC_t$，即经营期无新增资本支出 $Capex$ 时的 $OCF_t$；工程实务通常要求 $DSCR \ge 1.2 \sim 1.3$ 作为安全线）。</li>
   <li><strong>利息保障倍数（ICR, Interest Coverage Ratio）</strong>：衡量企业经营利润覆盖利息支出的倍数：$ICR = \dfrac{EBIT}{I}$。</li>
 </ul>
 
@@ -2820,11 +3086,11 @@ flowchart TB
 <p class="prereq">说明：本节三个考点（MARR 基准收益率、NAV 净年值、价值工程）为工程经济学高频核心考点；BEP 盈亏平衡点已在第6章展开，点击该词条会跳转到第6章。</p>
 
 <h3 id="supp-marr">MARR：基准收益率（最低可接受收益率 $i_c$）</h3>
-<p><span class="term">基准收益率</span>是投资者对投资项目要求的<strong>最低财务盈利率</strong>，是判别项目可行性的底线。它与本书折现率 $r$ 的关系见「记号约定」：习题中直接把 $i_c$ 当 $r$ 代入折现，数值同一角色，概念上 $i_c$ 是决策门槛。</p>
+<p><span class="term">基准收益率</span>是投资者对投资项目要求的<strong>最低财务盈利率</strong>，是判别项目可行性的底线。按常见记号约定（参见「符号总表」），习题中常直接把 $i_c$ 当 $r$ 代入折现，二者计算位置相同，但概念上 $i_c$ 是决策门槛。</p>
 <table>
   <thead><tr><th>维度</th><th>要点</th></tr></thead>
   <tbody>
-    <tr><td>测定构成</td><td>$i_c \approx WACC + \text{机会成本} + \text{风险溢价} + \text{通胀率}$：以加权资本成本为基础，叠加放弃其他投资的代价、项目风险补偿与通胀补偿</td></tr>
+    <tr><td>测定构成</td><td>以<strong>资金成本（如名义 $WACC$）与资金机会成本的较大者</strong>为底线，再对超出企业平均风险的<strong>项目特有风险</strong>做调整（若从无风险实际利率出发，则逐层叠加通胀补偿与风险溢价，注意名义 $WACC$ 已含系统性风险与通胀预期，不可重复叠加）</td></tr>
     <tr><td>判定准则</td><td>独立方案：$NPV(i_c)\ge 0$ 或 $IRR\ge i_c$ 可行；互斥方案：增量 $\Delta IRR\ge i_c$ 选投资大的方案</td></tr>
     <tr><td>影响因素</td><td>资金供求、资本成本、通货膨胀、项目风险大小共同决定，<mark>不是一成不变</mark>；风险不同的项目应取不同的 $i_c$</td></tr>
     <tr><td>口径匹配</td><td>名义现金流配名义 $i_c$、实际现金流配实际 $i_c$（费雪方程），与第9章口径一致</td></tr>
@@ -2861,7 +3127,7 @@ flowchart TB
 <p class="pitfall">$V_i&gt;1$ 不一定「好」：可能是功能过剩或成本分配不足，需结合功能重要性具体分析，不能只看比值大小。</p>
 
 <details class="quiz"><summary>回想题</summary>
-<p><strong>1. 基准收益率 $i_c$ 由哪些部分构成？判定准则是什么？</strong>约等于 WACC + 机会成本 + 风险溢价 + 通胀率；独立方案 $NPV(i_c)\ge 0$ 或 $IRR\ge i_c$ 可行，互斥方案 $\Delta IRR\ge i_c$ 选大方案。</p>
+<p><strong>1. 基准收益率 $i_c$ 如何测定？判定准则是什么？</strong>以资金成本（如名义 WACC）与资金机会成本的较大者为底线，再按项目特有风险调整（注意名义 WACC 已含通胀与系统性风险，不可重复叠加）；独立方案 $NPV(i_c)\ge 0$ 或 $IRR\ge i_c$ 可行，互斥方案 $\Delta IRR\ge i_c$ 选大方案。</p>
 <p><strong>2. NAV 与本书的 EAA 是什么关系？适用什么场景？</strong>同一工具的两个名字（$NAV=NPV/PVIFA$）；用于寿命不等的互斥方案比选，隐含无限重置假设，与重置链法等价。</p>
 <p><strong>3. 价值工程提升价值的五条途径？$V_i&lt;1$ 说明什么？</strong>①F↑C↓ ②F↑↑C↑ ③F→C↓ ④F↑C→ ⑤F↓C↓↓；$V_i&lt;1$ 表示成本偏高，应列为重点改进对象。</p>
 </details>
@@ -2870,7 +3136,295 @@ flowchart TB
 
 </article>
 </div>
-<script src="assets/kramer.js"></script>
+<script>
+/* ============================================================================
+ * kramer.js —— Read 讲义统一运行时（母版）
+ *
+ * 全套讲义共用的唯一脚本。每套讲义根目录下有一份 assets/kramer.js 的拷贝，所有
+ * 页面在 </body> 前用普通 <script src> 引入它（在引入 toc.js 之后）：
+ *
+ *     <script src="{data-root}toc.js"><\/script>
+ *     <script src="{data-root}assets/kramer.js"><\/script>
+ *
+ * 改行为只改这一个文件，全套讲义一次生效——不必逐个 HTML 修改。
+ *
+ * 职责：侧栏目录与书名、篇内上一篇/下一篇/返回上级导航（均由 toc.js 自动生成）、
+ * 桌面收起与移动抽屉、单文件锚点导航、KaTeX、Mermaid 串行渲染、打印展开与 data-ready。
+ *
+ * 为什么不是 ES module：读者以 file:// 双击打开页面，<script type="module">
+ * 会被浏览器的 CORS 策略拦截（本地模块导入受限）。因此本文件与 toc.js 一样用传统
+ * <script src> + 全局变量的写法；连 Mermaid 也改用 UMD 全局版（window.mermaid），
+ * 由本文件动态注入 CDN <script> 后初始化，全程不使用 import。
+ *
+ * 依赖：
+ *   - window.TOC_DATA           由同目录 toc.js 提供（全书目录数据，唯一事实来源）
+ *   - <body data-current data-root>  当前篇路径与回到根目录的相对前缀
+ *   - KaTeX（katex.min.js / auto-render.min.js） 由页面在 <head> 引 CDN
+ *   - Mermaid（UMD）             由本文件按需从 CDN 注入
+ * ========================================================================== */
+(function () {
+  "use strict";
+
+  var body = document.body;
+  var root = body.dataset.root || "";      // 根目录篇为 ""，章目录篇为 "../"
+  var current = body.dataset.current || ""; // 须与 toc.js 里该篇 href 逐字一致
+
+  /* ------------------------------------------------------------------ *
+   * 1. 全书目录侧边栏
+   *    用 TOC_DATA 渲染：章标题即大章总结链接、章可收起、高亮并展开当前篇所在章。
+   *    - 无章分组（总论/术语表）：{ chapter:null, items:[{title, href}] } → 平铺
+   *    - 章分组：{ chapter, href(大章总结), items:[{title, href}(分节精讲)] } → 可折叠
+   * ------------------------------------------------------------------ */
+  function renderToc() {
+    var nav = document.getElementById("toc");
+    if (!nav) return;
+
+    // 单文件模式（核心速览 All-in-One）：侧栏里是手写的页内锚点，不读 TOC_DATA
+    if (body.dataset.mode !== "single") (window.TOC_DATA || []).forEach(function (group) {
+      if (!group.chapter) {                                   // 无章分组：平铺，不可折叠
+        var flat = document.createElement("div");
+        flat.className = "toc-flat";
+        group.items.forEach(function (it) {
+          var a = document.createElement("a");
+          a.href = root + it.href;
+          a.textContent = it.title;
+          if (it.href === current) a.classList.add("current");
+          flat.appendChild(a);
+        });
+        nav.appendChild(flat);
+        return;
+      }
+
+      // 章分组渲染成 <details><summary>章标题(链接)</summary> 各节 </details>
+      var det = document.createElement("details");
+      det.className = "toc-chapter";
+      var sum = document.createElement("summary");
+      var link = document.createElement("a");
+      link.className = "chapter-link";
+      link.href = root + group.href;         // 点章标题进大章总结
+      link.textContent = group.chapter;
+      // 点链接只跳转、不触发 <summary> 的展开切换
+      link.addEventListener("click", function (e) { e.stopPropagation(); });
+      sum.appendChild(link);
+      det.appendChild(sum);
+
+      var box = document.createElement("div");
+      box.className = "toc-sections";
+      group.items.forEach(function (it) {
+        var a = document.createElement("a");
+        a.href = root + it.href;
+        a.textContent = it.title;
+        if (it.href === current) a.classList.add("current");
+        box.appendChild(a);
+      });
+      det.appendChild(box);
+
+      // 当前篇属于本章（是本章大章总结、或本章某一节）则默认展开并高亮章标题
+      var inChapter = group.href === current ||
+        group.items.some(function (it) { return it.href === current; });
+      if (inChapter) {
+        det.open = true;
+        if (group.href === current) sum.classList.add("current");
+      }
+      nav.appendChild(det);
+    });
+
+    // 移动端抽屉：汉堡开合 + 点遮罩关闭
+    var toggle = document.getElementById("toc-toggle");
+    var backdrop = document.getElementById("toc-backdrop");
+    function closeDrawer() { body.classList.remove("toc-open"); }
+    if (toggle) toggle.addEventListener("click", function () { body.classList.toggle("toc-open"); });
+    if (backdrop) backdrop.addEventListener("click", closeDrawer);
+
+    // 桌面端整体收起/展开侧栏，状态存 localStorage，跨篇与刷新后保持一致
+    var collapse = document.getElementById("toc-collapse");
+    var expand = document.getElementById("toc-expand");
+    try { if (localStorage.getItem("tocCollapsed") === "1") body.classList.add("toc-collapsed"); } catch (e) {}
+    function setCollapsed(on) {
+      body.classList.toggle("toc-collapsed", on);
+      try { localStorage.setItem("tocCollapsed", on ? "1" : "0"); } catch (e) {}
+    }
+    if (collapse) collapse.addEventListener("click", function () { setCollapsed(true); });
+    if (expand) expand.addEventListener("click", function () { setCollapsed(false); });
+
+    var cur = nav.querySelector(".current");
+    if (cur) cur.scrollIntoView({ block: "center" });
+
+    if (body.dataset.mode === "single") initAnchorNav(nav, closeDrawer);
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 1b. 单文件锚点导航（data-mode="single"）
+   *     侧栏内 <a href="#cN"> 手写；滚动时高亮当前所在 section，点锚点后关闭移动端抽屉。
+   * ------------------------------------------------------------------ */
+  function initAnchorNav(nav, closeDrawer) {
+    var links = [].slice.call(nav.querySelectorAll('a[href^="#"]'));
+    var pairs = links.map(function (a) {
+      return { a: a, sec: document.getElementById(a.getAttribute("href").slice(1)) };
+    }).filter(function (p) { return p.sec; });
+    links.forEach(function (a) { a.addEventListener("click", closeDrawer); });
+    function onScroll() {
+      var active = pairs[0];
+      pairs.forEach(function (p) { if (p.sec.getBoundingClientRect().top <= 80) active = p; });
+      pairs.forEach(function (p) { p.a.classList.toggle("current", p === active); });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 1c. 侧栏书名：取 toc.js 的 TOC_BOOK 填进 .toc-title（页面里留空）。
+   *     单文件模式不引 toc.js，页面里手写的书名保留不动。
+   * ------------------------------------------------------------------ */
+  function renderTitle() {
+    var t = document.querySelector("#toc .toc-title");
+    if (t && !t.textContent.trim() && window.TOC_BOOK) t.textContent = window.TOC_BOOK + " · 全书目录";
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 1d. 篇内顺序导航 nav.pager：按 TOC_DATA 的阅读顺序自动生成，页面里只留空的
+   *     <nav class="pager"></nav>。新增篇目后，相邻篇的「上一篇/下一篇」自动更新。
+   *     阅读顺序 = 各分组依次展开：无章分组的 items；章分组先章 href（大章总结）再 items。
+   *     返回上级：分节 → 本章大章总结；大章总结与其他根目录篇 → 总论；总论本身无上级。
+   * ------------------------------------------------------------------ */
+  function renderPager() {
+    var pager = document.querySelector("nav.pager");
+    if (!pager || pager.children.length || body.dataset.mode === "single") return;
+    var seq = [], home = null;                // seq: [{title, href, parent}]
+    (window.TOC_DATA || []).forEach(function (g) {
+      if (!g.chapter) {
+        g.items.forEach(function (it) {
+          if (!home) home = it;               // 第一个无章条目即总论
+          seq.push({ title: it.title, href: it.href, parent: it === home ? null : home });
+        });
+      } else {
+        var ch = { title: g.chapter, href: g.href };
+        seq.push({ title: g.chapter, href: g.href, parent: home });
+        g.items.forEach(function (it) { seq.push({ title: it.title, href: it.href, parent: ch }); });
+      }
+    });
+    var i = -1;
+    seq.forEach(function (p, k) { if (p.href === current) i = k; });
+    if (i < 0) return;                        // 本篇未登记进 toc.js：不生成（check.py 会报错）
+    function link(p, text, dis) {
+      var a = document.createElement("a");
+      if (p) { a.href = root + p.href; a.textContent = text + p.title; }
+      else { a.className = "disabled"; a.textContent = dis; }
+      pager.appendChild(a);
+    }
+    var cur = seq[i];
+    link(seq[i - 1], "← 上一篇：", "← 已是第一篇");
+    link(cur.parent, "↑ 返回上级：", "↑ 已是顶层");
+    link(seq[i + 1], "下一篇：", "已是最后一篇");
+    var last = pager.lastChild;
+    if (!last.classList.contains("disabled")) last.textContent += " →";
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 2. Mermaid（UMD 全局版，串行渲染）
+   *    动态注入 CDN 的 mermaid.min.js（非 module），加载后关掉自动渲染、逐张
+   *    await mermaid.render 串行画。串行是硬要求：同页多图并发渲染时各图内部
+   *    自动生成的元素 ID 会互相干扰、布局错位、图文重叠糊成一团。逐张渲染规避之。
+   * ------------------------------------------------------------------ */
+  function renderMermaid(done) {
+    var blocks = [].slice.call(document.querySelectorAll("pre.mermaid"));
+    if (!blocks.length) return done();
+
+    var s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/mermaid@11.17.2/dist/mermaid.min.js";
+    s.onload = function () {
+      if (!window.mermaid) return done();
+      // 默认间距下宽图会被等比缩到正文宽度，字号随之变小；收紧间距让缩放比例更接近 1
+      window.mermaid.initialize({ startOnLoad: false, theme: "neutral",
+        flowchart: { nodeSpacing: 28, rankSpacing: 36, diagramPadding: 6 } });
+      (function drawAll() {
+        var i = 0;
+        function next() {
+          if (i >= blocks.length) return done();
+          var el = blocks[i];
+          var id = "mmd-" + i;
+          i++;
+          try {
+            var ret = window.mermaid.render(id, el.textContent.trim());
+            // mermaid@11 的 render 返回 Promise<{svg}>
+            Promise.resolve(ret).then(function (out) {
+              el.innerHTML = out && out.svg ? out.svg : out;
+              next();
+            }).catch(function (err) {
+              el.innerHTML = "<pre style='color:#b00'>图渲染失败：" + err.message + "</pre>";
+              next();
+            });
+          } catch (err) {
+            el.innerHTML = "<pre style='color:#b00'>图渲染失败：" + err.message + "</pre>";
+            next();
+          }
+        }
+        next();
+      })();
+    };
+    s.onerror = function () {
+      blocks.forEach(function (el) {
+        el.innerHTML = "<pre style='color:#b00'>Mermaid 加载失败（需要联网加载 CDN）</pre>";
+      });
+      done();
+    };
+    document.head.appendChild(s);
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 3. KaTeX 公式渲染
+   *    扫描正文里的 $...$（行内）与 $$...$$、\[...\]（块级）分隔符就地渲染。
+   *    KaTeX 的 katex.min.js / auto-render.min.js 由页面在 <head> 以 defer 引入，
+   *    此处在 DOMContentLoaded 后调用 renderMathInElement 时已就绪。
+   * ------------------------------------------------------------------ */
+  function renderKatex() {
+    if (!window.renderMathInElement) return;
+    if (window.__katexRendered) return;
+    window.__katexRendered = true;
+    window.renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "\\[", right: "\\]", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+      ],
+      ignoredTags: ["annotation", "math", "script", "noscript", "style", "textarea", "pre", "code", "option"],
+      ignoredClasses: ["katex", "katex-mathml", "katex-html"],
+      throwOnError: false,   // 单条公式语法错误只就地标红，不中断整页其余公式
+    });
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 4. 打印支持
+   *    - URL 带 ?print（整书 PDF 构建用）或用户按 Ctrl/Cmd+P 时，展开全部 <details>，
+   *      避免自测题、常见疑问的答案在 PDF 里被折叠丢失。打印样式在 kramer.css 的 @media print。
+   *    - Mermaid 与 KaTeX 全部渲染完成后设 <body data-ready="1">，供构建脚本等待。
+   * ------------------------------------------------------------------ */
+  function openAllDetails() {
+    [].forEach.call(document.querySelectorAll("details"), function (d) { d.open = true; });
+  }
+  window.addEventListener("beforeprint", openAllDetails);
+
+  /* ------------------------------------------------------------------ *
+   * 启动
+   * ------------------------------------------------------------------ */
+  function init() {
+    renderToc();
+    renderTitle();
+    renderPager();
+    if (/[?&]print\b/.test(location.search)) openAllDetails();
+    // KaTeX 由 <head> 里的 defer 脚本加载；本文件在 body 末尾同步执行，可能早于它们，
+    // 故等 DOMContentLoaded（defer 脚本此时已执行完）再渲染公式。
+    function afterDom() {
+      renderKatex();
+      renderMermaid(function () { body.dataset.ready = "1"; });
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", afterDom);
+    else afterDom();
+  }
+  init();
+})();
+</script>
 
 <!-- 术语/符号全能词典与阅读控制引擎 (包含 KaTeX 符号挂载、富文本考点卡片与宽度切换) -->
 <script>
@@ -3415,7 +3969,7 @@ flowchart TB
     "exam": "① 区分波动率与贝塔：高波动率股票若与市场相关系数低，对组合贝塔贡献依然较小；② 组合期望收益率计算：既可先算各资产期望收益率再按权重加权，也可先算组合贝塔代入 CAPM，两法在代数上完全等价。",
     "example": "投资者配置股票甲（权重25%、σ=20%、ρ=0.5）、乙（权重25%、σ=20%、ρ=1.0）、丙（权重50%、σ=10%、ρ=0.5）。市场σ_m=10%、r_m=12%、r_f=4%。各资产β：甲=0.5*(20/10)=1.0，乙=1.0*(20/10)=2.0，丙=0.5*(10/10)=0.5。组合β = 0.25*1.0 + 0.25*2.0 + 0.50*0.5 = 1.0。组合期望收益率 = 4% + 1.0*(12% - 4%) = 12%。",
     "group": "cap",
-    "related": ["β", "CAPM", "不可分散风险", "系统性风险", "投资组合理论"]
+    "related": ["β", "CAPM", "系统性风险", "非系统性风险"]
   },
   "β_U": {
     "title": "无杠杆贝塔（β_U / 资产贝塔）",
@@ -3759,12 +4313,12 @@ flowchart TB
     "external": true,
     "en": "Minimum Acceptable Rate of Return",
     "def": "投资决策者对投资项目所要求的最低财务盈利率。是项目是否可行（NPV≥0, IRR≥MARR）的判别底线。",
-    "formula": "测定基准：以企业加权资本成本 WACC（或资金机会成本）为底线，叠加项目特有风险溢价与通胀补偿",
+    "formula": "以资金成本（如名义 WACC）与资金机会成本的较大者为底线，再对超出平均水平的项目特有风险做调整（避免重复叠加通胀与系统性风险）",
     "rule": "项目实际收益率必须超过 MARR，方案才具备财务可行性。",
-    "exam": "基准收益率不是一成不变的，受资金供求、资本成本、通货膨胀和项目风险大小共同决定。",
+    "exam": "基准收益率不是一成不变的，受资金供求、资本成本、通货膨胀和项目风险大小共同决定；名义 WACC 已包含通胀预期与企业系统性风险，测算时不可重复加总。",
     "group": "dec",
-    "tex": "i_c \\ge WACC + \\text{项目特有风险溢价}",
-    "example": "WACC=8%、风险溢价2%、通胀2% → i_c≈12%；IRR=10% < 12% 则不可行。",
+    "tex": "i_c \\ge \\max(WACC, \\text{机会成本}) + \\text{项目特有风险调整}",
+    "example": "企业名义 WACC=8%，新项目特有风险调整 +2% → i_c=10%；若项目 IRR=9% < 10% 则不可行。",
     "related": [
       "NPV",
       "IRR",
@@ -6961,6 +7515,8 @@ flowchart TB
     const ttExampleBody = tooltip.querySelector('.tt-example-body');
     const ttExamBox = tooltip.querySelector('.tt-exam');
     const ttExamBody = tooltip.querySelector('.tt-exam-body');
+    const ttDisambigBox = tooltip.querySelector('.tt-disambig');
+    const ttDisambigBody = tooltip.querySelector('.tt-disambig-body');
     const ttRelated = tooltip.querySelector('.tt-related');
 
     let isTouch = false;
@@ -6980,9 +7536,8 @@ flowchart TB
       sc.appendChild(tb);
     });
 
+    // 不设置 tabindex="0"，避免 2000+ 内联词条阻断整页键盘 Tab 顺序；键盘查词通过 Ctrl+K 完成
     function markInteractive(el, label) {
-      el.setAttribute('tabindex', '0');
-      el.setAttribute('role', 'button');
       el.setAttribute('aria-haspopup', 'dialog');
       el.setAttribute('aria-expanded', 'false');
       el.setAttribute('aria-label', label + '：查看释义');
@@ -7325,9 +7880,268 @@ flowchart TB
       });
     }
 
-    attachKatexFormulas();
-    setTimeout(attachKatexFormulas, 300);
-    setTimeout(attachKatexFormulas, 800);
+    // 标记每个章节（<section>）内各术语/符号的首次出现，供「每节首次」模式使用
+    function markFirstInSection() {
+      const seenByScope = new Map();
+      article.querySelectorAll('[data-term-key]').forEach(el => {
+        const sec = el.closest('section');
+        const scope = sec || article;
+        let seen = seenByScope.get(scope);
+        if (!seen) {
+          seen = new Set();
+          seenByScope.set(scope, seen);
+        }
+        const rawKey = el.getAttribute('data-term-key') || '';
+        const canon = primaryKey(rawKey) || rawKey;
+        if (!seen.has(canon)) {
+          seen.add(canon);
+          el.setAttribute('data-term-first', '1');
+        } else {
+          el.removeAttribute('data-term-first');
+        }
+      });
+    }
+
+    // 跨章同符异义对照表：浮窗底部附简明辨析，将字母撞车转化为防踩坑提示
+    const HOMONYM_NOTES = {
+      'P_0': {
+        ctx: { c8: '本章语境（股利折现模型）：指当前股票市场价格', c9: '本章语境（债券到期收益率）：指债券当前市场价格' },
+        note: '第 8 章 DDM 中 P_0 指当前股价；第 9 章债券定价中 P_0 指债券现价，计算逻辑都是未来现金流现值。'
+      },
+      '折现率': {
+        ctx: { c9: '注意：第 9 章费雪方程 1+i=(1+r)(1+π) 中的 r 指实际利率，不是一般折现率' },
+        note: '全书多数章节的 r 指折现率（第 3 章复利换算中亦作报价年利率）；第 9 章费雪方程中的 r 特指实际利率。'
+      },
+      '实际利率': {
+        note: '第 9 章费雪方程里的 r 指剔除通胀后的实际利率；全书其余章节的 r 通常指折现率。'
+      },
+      '名义利率': {
+        note: '第 9 章的 i 指名义利率；第 3 章换算系数 (P/F, i, n) 里的 i 指每期利率；求和式 Σ_{i=1}^T 里的 i 仅是期数序号。'
+      },
+      '费雪方程': {
+        note: '本式中 i 为名义利率、r 为实际利率，与全书常规期数序号 i、折现率 r 口径不同。'
+      },
+      '折旧': {
+        note: '第 4、6 章的 A 是无形资产摊销；第 3 章资金等值换算中的 A 是等额年金额（如房贷月供）；第 6 章敏感度系数中的 A 是评价指标。'
+      },
+      '摊销': {
+        note: '第 4、6 章的 A 指无形资产摊销；第 3 章资金等值换算的 A 指等额年金额；第 6 章敏感度系数的 A 指评价指标。'
+      },
+      '普通年金': {
+        note: '第 3 章的 A 是等额年金额（第 4 章中 A 指摊销）；C 是每期现金流（第 6 章小写 c 是平均可变成本，价值工程 C 是全寿命成本）。'
+      },
+      '利息': {
+        ctx: { c4: '本章语境：指企业当期借款利息费用', c9: '本章语境：指债券第 k 期票息 I_k', c11: '本章语境：指当期应支付的借款利息' },
+        note: '第 4、11 章的 I 是企业借款利息费用；第 9 章债券定价公式中的 I_k / I_i 是债券各期票息。'
+      },
+      'EAA': {
+        ctx: { c5: '本章语境（寿命不等互斥方案比选）：分摊项目净现值 NPV', c6: '本章语境（净现值盈亏平衡）：分摊初始投资 C_0' },
+        note: '公式同为现值除以 PVIFA，但第 5 章摊的是 NPV，第 6 章摊的是初始投资 C_0。'
+      },
+      'VE': {
+        note: '价值工程中 V=价值系数、F=功能、C=全寿命成本；其余章节 V 多指项目总价值、F 指终值（或 APT 风险因子/敏感因素）、C 指每期现金流。'
+      },
+      '敏感度系数': {
+        note: '本式中 A 指评价指标（如 NPV）、F_i 指不确定因素；第 3 章中 A 是等额年金、F 是终值，第 4 章中 A 是摊销。'
+      },
+      '现金流': {
+        note: '第 3 章 C / C_1 指每期或首期现金流；第 6 章小写 c 是平均可变成本；价值工程中 C 是全寿命成本。'
+      },
+      '资本结构': {
+        note: '第 7–10 章的 B（债权）与 S（股权）均为市场价值而非账面价值；第 6 章敏感度系数以 S_{Ai} 开头，与股权价值 S 无关。'
+      }
+    };
+
+    // 块级公式级符号解析器：结合所在章节与公式特征，零歧义提取该条公式的单字母与核心变量释义
+    function resolveFormulaSymbols(tex, sectionId) {
+      // 跳过纯中文流程式与纯数值算例代入式
+      if (!tex || tex.includes('\\longrightarrow') || tex.includes('\\text{瓶}') || tex.includes('\\text{万元}') || /=\s*\d[\d,.]*\s*\\times/.test(tex) || /=\s*\\frac\{\d/.test(tex) || /\\approx\s*0\.7385/.test(tex) || /100\{,\}000/.test(tex)) {
+        return [];
+      }
+      const items = [];
+      const seen = new Set();
+      function add(sym, desc, linkKey) {
+        if (seen.has(sym)) return;
+        seen.add(sym);
+        items.push({ sym, desc, linkKey: linkKey || null });
+      }
+      const has = re => re.test(tex);
+
+      // 按章节 + 公式指纹精确映射，不给歧义单字母留猜测空间
+      if (sectionId === 'c3') {
+        if (has(/\bEAR\b/)) {
+          add('EAR', '有效年利率（按年复利折算的实际年化回报/成本）', '有效年利率');
+          if (has(/(?<![A-Za-z])r(?![A-Za-z_])/)) add('r', '报价名义年利率（合同标明的年利率）', '名义利率');
+          if (has(/(?<![A-Za-z])m(?![A-Za-z_])/)) add('m', '一年内的计息频次（如按季 m=4、按月 m=12）');
+          if (has(/(?<![A-Za-z])e\^/)) add('e', '自然常数（约 2.7183，连续复利极限底数）');
+        } else {
+          if (has(/\bPV\b/)) add('PV', '现值（未来现金流折算到今天的价值）', '现值');
+          if (has(/\bFV\b/)) add('FV', '终值（各期现金流复利滚存到期末的总额）', '终值');
+          if (has(/\bPVIFA\b/)) add('PVIFA', '年金现值系数，每期 1 元共 T 期的现值', 'PVIFA');
+          if (has(/\bFVIFA\b/)) add('FVIFA', '年金终值系数，每期存 1 元到第 T 期末的终值', 'FVIFA');
+          if (has(/C_1/)) add('C_1', '第 1 期期末发生的初始现金流', '现金流');
+          else if (has(/(?<![A-Za-z])C(?![A-Za-z_])/)) add('C', '每期期末发生的等额现金流（年金）', '普通年金');
+          if (has(/(?<![A-Za-z])r(?![A-Za-z_])/)) add('r', '每期折现率（与现金流周期匹配）', '折现率');
+          if (has(/(?<![A-Za-z])T(?![A-Za-z_])/)) add('T', '总期数（年金持续期数）');
+          if (has(/(?<![A-Za-z])g(?![A-Za-z_])/)) add('g', '每期固定增长率（永续增长要求 r > g）');
+          if (has(/a_1/)) add('a_1', '等比数列首项');
+          if (has(/(?<![A-Za-z])q(?![A-Za-z_])/)) add('q', '等比数列公比（现值求和时 q = 1/(1+r)）');
+        }
+      } else if (sectionId === 'c4') {
+        if (has(/\bEBITDA\b/)) add('EBITDA', '折旧、摊销及息税前利润', 'EBITDA');
+        if (has(/\bEBIT\b/)) add('EBIT', '息税前利润（EBITDA 扣除折旧与摊销）', 'EBIT');
+        if (has(/\bNOPAT\b/)) add('NOPAT', '税后经营净利润（假定无负债的税后利润）', 'NOPAT');
+        if (has(/\bNI\b/)) add('NI', '净利润（扣利息与所得税后归股东的账面利润）', '净利润');
+        if (has(/\bOCF\b/)) add('OCF', '经营现金流量（不扣利息，归股东与债权人共有）', 'OCF');
+        if (has(/(?<![A-Za-z])D(?![A-Za-z_])/)) add('D', '固定资产折旧（非付现费用，有税盾效应）', '折旧');
+        if (has(/(?<![A-Za-z])A(?![A-Za-z_])/)) add('A', '无形资产摊销（非付现费用，有税盾效应）', '摊销');
+        if (has(/(?<![A-Za-z])t(?![A-Za-z_])/)) add('t', '企业所得税税率');
+        if (has(/(?<![A-Za-z])I(?![A-Za-z_])/)) add('I', '借款利息费用（不进 OCF，体现在折现率中）', '利息');
+        if (has(/\\Delta\s*NWC/)) add('ΔNWC', '经营营运资本增加额（被存货/应收占用的现金）', 'NWC');
+        if (has(/\bCapex\b/)) add('Capex', '资本支出（购置固定资产/无形资产的现金流出）', 'Capex');
+        if (has(/\bSal\b/)) add('Sal', '固定资产处置时的实际变现收入', '税后残值');
+        if (has(/\bBV\b/)) add('BV', '固定资产处置时的税法账面净值（原值减累计折旧）', '残值');
+      } else if (sectionId === 'c5') {
+        if (has(/NPV_1/) && has(/r_1/)) {
+          add('r', '内插逼近得到的内部收益率 IRR（或债券到期收益率）', 'IRR');
+          add('r_1, r_2', '试算出的两个相邻利率，要求步长宜在 2%~5% 内');
+          add('NPV_1', '较低利率 r_1 对应的正净现值（NPV_1 > 0）', 'NPV');
+          add('NPV_2', '较高利率 r_2 对应的负净现值（NPV_2 < 0）', 'NPV');
+        }
+      } else if (sectionId === 'c6') {
+        if (has(/S_\{Ai\}/)) {
+          add('S_Ai', '敏感度系数，绝对值越大说明该因素越敏感', '敏感度系数');
+          add('A', '项目评价指标（如净现值 NPV）');
+          add('F_i', '第 i 个不确定因素（如单价、投资额、成本）');
+        } else if (has(/Q_\{\\text\{cash\}\}/)) {
+          add('Q_cash', '现金盈亏平衡销量（仅保当期现金流不亏）', 'BEP');
+          add('Q_NI', '会计盈亏平衡销量（净利润恰好为 0）', 'BEP');
+          add('Q_NPV', '净现值盈亏平衡销量（NPV = 0，门槛最高）', 'BEP');
+        }
+      } else if (sectionId === 'c7') {
+        if (has(/V_L/)) add('V_L', '有杠杆（带负债）项目的总市场价值', 'V_L');
+        if (has(/V_U/)) add('V_U', '无杠杆（全股权）项目的总市场价值', 'V_U');
+        if (has(/(?<![A-Za-z])B(?![A-Za-z_])/)) add('B', '债权市场价值', '资本结构');
+        if (has(/(?<![A-Za-z])S(?![A-Za-z_])/)) add('S', '股权市场价值', '资本结构');
+        if (has(/(?<![A-Za-z])t(?![A-Za-z_])|tB|t\\,/)) add('t', '企业所得税税率（tB 为永续利息税盾现值）', 'tB');
+        if (has(/\bEBIT\b/)) add('EBIT', '息税前利润', 'EBIT');
+        if (has(/r_U/)) add('r_U', '无杠杆股权资本成本（全股权出资时的要求回报）', 'r_U');
+        if (has(/r_B/)) add('r_B', '税前债权资本成本', 'r_B');
+      } else if (sectionId === 'c8') {
+        if (has(/\\beta_p/)) add('β_p', '资产组合贝塔系数（组合整体系统性风险）', '资产组合Beta');
+        if (has(/\\beta_i/)) add('β_i', '第 i 项资产的贝塔系数', 'β');
+        if (has(/\\beta_U/)) add('β_U', '无杠杆（资产）贝塔，仅反映纯业务经营风险', 'β_U');
+        if (has(/\\beta_S|\\beta_\\text\{可比\}|\\beta_\{\\text\{可比\}\}/)) add('β_S / β_可比', '有杠杆权益贝塔（含财务杠杆风险）', 'β_L');
+        if (has(/\\beta_B/)) add('β_B', '债务贝塔（债务无违约风险时取 0）', 'β_B');
+        if (has(/\\rho_\{im\}/)) add('ρ_im', '资产 i 与市场组合收益率的相关系数');
+        if (has(/\\sigma_i/)) add('σ_i', '资产 i 收益率的标准差（总波动率）');
+        if (has(/\\sigma_m/)) add('σ_m', '市场组合收益率的标准差');
+        if (has(/w_i/)) add('w_i', '资产 i 在投资组合中的市值权重（∑w_i = 1）');
+        if (has(/r_f/)) add('r_f', '无风险收益率', 'r_f');
+        if (has(/r_m/)) add('r_m', '市场组合期望收益率', 'r_m');
+        if (has(/r_\{i,t\}/)) {
+          add('r_{i,t}, r_{m,t}', '第 t 期标的股票与市场组合的历史样本收益率');
+          add('t', '历史样本期序号（t = 1, 2, …, T）');
+          add('T', '历史收益率样本总期数');
+        }
+        if (has(/(?<![A-Za-z])S(?![A-Za-z_])|S_\{\\text/)) add('S', '股权市场价值', '资本结构');
+        if (has(/(?<![A-Za-z])B(?![A-Za-z_])|B_\{\\text/)) add('B', '债权市场价值', '资本结构');
+        if (has(/1\s*-\s*t/)) add('t', '企业所得税税率');
+      } else if (sectionId === 'c10') {
+        if (has(/\bWACC\b/)) add('WACC', '加权平均资本成本', 'WACC');
+        if (has(/r_U/)) add('r_U', '无杠杆股权资本成本', 'r_U');
+        if (has(/r_B/)) add('r_B', '税前债权资本成本', 'r_B');
+        if (has(/V_L/)) add('V_L', '有杠杆项目总价值（V_L = B + S）', 'V_L');
+        if (has(/V_U/)) add('V_U', '无杠杆项目价值', 'V_U');
+        if (has(/\bOCF\b/)) add('OCF', '永续经营现金流（不扣利息）', 'OCF');
+        if (has(/(?<![A-Za-z])B(?![A-Za-z_])/)) add('B', '债权市场价值', '资本结构');
+        if (has(/(?<![A-Za-z])S(?![A-Za-z_])/)) add('S', '股权市场价值', '资本结构');
+        if (has(/(?<![A-Za-z])t(?![A-Za-z_])|tB/)) add('t', '企业所得税税率（tB 为利息税盾现值）', 'tB');
+        if (has(/指标\s*\}a/)) add('a', '选定的可比估值指标（如 EBITDA、净利润、净资产）', '相对估值法');
+      } else if (sectionId === 'c11') {
+        if (has(/DSCR_t/)) {
+          add('DSCR_t', '第 t 期偿债备付率（实务通常要求 ≥ 1.2~1.3）', 'DSCR');
+          add('OCF_t', '第 t 期可用于还本付息的经营现金流（无新增 Capex 口径）', 'OCF');
+          add('t', '借款偿还期内的第 t 年');
+        }
+      }
+      // 仅含 1 个多字母缩写且不含任何单字母变量时（如纯中文展开式 EBITDA = 营业收入 - ...），不冗余加按钮
+      if (items.length === 1 && items[0].sym.length > 2) return [];
+      return items;
+    }
+
+    function attachFormulaSymbolBars() {
+      article.querySelectorAll('.katex-display').forEach(disp => {
+        if (disp.closest('.formula-wrap')) return;
+        // 紧跟其后（含外层 <p> 紧邻）已有正文 <dl class="symbols"> 说明块时，不重复添加
+        const nextEl = disp.nextElementSibling || (disp.parentElement && disp.parentElement.nextElementSibling);
+        if (nextEl && nextEl.tagName.toLowerCase() === 'dl' && nextEl.classList.contains('symbols')) return;
+        const anno = disp.querySelector('annotation');
+        const tex = anno ? anno.textContent.trim() : '';
+        const sec = disp.closest('section');
+        const secId = sec ? sec.id : '';
+        const symItems = resolveFormulaSymbols(tex, secId);
+        if (!symItems.length) return;
+
+        const wrap = document.createElement('div');
+        wrap.className = 'formula-wrap';
+        disp.parentNode.insertBefore(wrap, disp);
+        wrap.appendChild(disp);
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'formula-sym-btn';
+        btn.textContent = '符号';
+        btn.title = '展开或收起本公式的符号说明';
+        btn.setAttribute('aria-expanded', 'false');
+
+        const panel = document.createElement('div');
+        panel.className = 'formula-sym-panel';
+        panel.hidden = true;
+
+        symItems.forEach(item => {
+          const row = document.createElement('div');
+          row.className = 'formula-sym-row';
+          const tag = document.createElement('span');
+          tag.className = 'formula-sym-tag';
+          tag.textContent = item.sym;
+          if (item.linkKey && GLOSSARY_DB[item.linkKey]) {
+            tag.classList.add('is-link');
+            tag.title = '点击查看考点详情：' + GLOSSARY_DB[item.linkKey].title;
+            tag.addEventListener('click', function(e) {
+              e.stopPropagation();
+              showTooltipFor(tag, { force: true, key: item.linkKey });
+            });
+          }
+          const desc = document.createElement('span');
+          desc.textContent = item.desc;
+          row.appendChild(tag);
+          row.appendChild(desc);
+          panel.appendChild(row);
+        });
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const opening = panel.hidden;
+          panel.hidden = !opening;
+          btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+          btn.textContent = opening ? '收起' : '符号';
+        });
+
+        wrap.appendChild(btn);
+        wrap.appendChild(panel);
+      });
+    }
+
+    function attachAndMark() {
+      attachKatexFormulas();
+      attachFormulaSymbolBars();
+      markFirstInSection();
+    }
+
+    attachAndMark();
+    setTimeout(attachAndMark, 300);
+    setTimeout(attachAndMark, 800);
 
     // 超宽行内公式包进横向滚动容器，避免撑破窄屏布局视口
     function guardWideMath() {
@@ -7372,8 +8186,9 @@ flowchart TB
       clearActiveTrigger();
     }
 
-    function renderCard(data, key) {
+    function renderCard(data, key, sectionIds) {
       const currentKey = key || Object.keys(GLOSSARY_DB).find(k => GLOSSARY_DB[k] === data) || '';
+      const activeSections = sectionIds || (activeTrigger ? sectionIdsOf(activeTrigger) : []);
       ttBadge.textContent = data.badge || '专业考点';
       ttSupp.hidden = !data.external;
       ttTitle.textContent = data.title || '';
@@ -7473,6 +8288,29 @@ flowchart TB
         ttExamBox.style.display = 'none';
       }
 
+      // 同符异义辨析：仅对跨章重名符号显示，优先突出当前章节语境
+      if (ttDisambigBox && ttDisambigBody) {
+        const hm = HOMONYM_NOTES[currentKey];
+        if (hm) {
+          ttDisambigBody.textContent = '';
+          if (hm.ctx && activeSections.length) {
+            const matchedSec = activeSections.find(sid => hm.ctx[sid]);
+            if (matchedSec) {
+              const ctxSpan = document.createElement('span');
+              ctxSpan.className = 'tt-ctx-now';
+              ctxSpan.textContent = hm.ctx[matchedSec];
+              ttDisambigBody.appendChild(ctxSpan);
+            }
+          }
+          const noteSpan = document.createElement('span');
+          noteSpan.textContent = hm.note;
+          ttDisambigBody.appendChild(noteSpan);
+          ttDisambigBox.style.display = 'flex';
+        } else {
+          ttDisambigBox.style.display = 'none';
+        }
+      }
+
       // 关联考点 chips：原地换卡（支持别名归一化与去重，自动融合公式符号中的关联概念）
       ttRelated.textContent = '';
       const autoSymbolKeys = data.symbols ? Object.keys(data.symbols).map(s => {
@@ -7533,14 +8371,25 @@ flowchart TB
       tooltip.style.top = top + 'px';
     }
 
-    function showTooltipFor(targetEl) {
-      if (!document.body.classList.contains('terms-active')) return;
+    // 术语提示模式：'first'（每节首次）| 'all'（始终显示）| 'off'（不显示）
+    let termMode = 'first';
+
+    function isTermTriggerActive(el) {
+      if (!el || !el.hasAttribute('data-term-key')) return false;
+      if (termMode === 'off') return false;
+      if (termMode === 'first') return el.getAttribute('data-term-first') === '1';
+      return true;
+    }
+
+    function showTooltipFor(targetEl, opts) {
+      const force = !!(opts && opts.force);
+      if (!force && !isTermTriggerActive(targetEl)) return;
       if (hideTimer) {
         clearTimeout(hideTimer);
         hideTimer = null;
       }
 
-      const key = targetEl.getAttribute('data-term-key') || targetEl.textContent.trim();
+      const key = (opts && opts.key) || targetEl.getAttribute('data-term-key') || targetEl.textContent.trim();
       let data = getTermData(key);
       const resolvedKey = resolveKey(key);
       if (!data && targetEl.hasAttribute('data-custom-def')) {
@@ -7552,7 +8401,7 @@ flowchart TB
       }
       if (!data) return;
 
-      renderCard(data, resolvedKey || key);
+      renderCard(data, resolvedKey || key, sectionIdsOf(targetEl));
       clearActiveTrigger();
       mouseInTooltip = false;
       activeTrigger = targetEl;
@@ -7602,7 +8451,7 @@ flowchart TB
           return;
         }
         const t = e.target.closest && e.target.closest(TERM_SELECTOR);
-        if (t && t.hasAttribute('data-term-key')) {
+        if (t && isTermTriggerActive(t)) {
           showTooltipFor(t);
           return;
         }
@@ -7631,7 +8480,7 @@ flowchart TB
     document.addEventListener('mouseover', function(e) {
       if (isTouch || awaitingMoveCheck) return;
       const target = e.target.closest(TERM_SELECTOR);
-      if (target && target.hasAttribute('data-term-key')) {
+      if (target && isTermTriggerActive(target)) {
         showTooltipFor(target);
       } else if (e.target.closest('#term-tooltip')) {
         mouseInTooltip = true;
@@ -7664,9 +8513,9 @@ flowchart TB
         scheduleHideTooltip();
         return;
       }
-      // 只响应当前激活触发词的离开，避免键盘开卡后被无关 mouseout 误关
+      // 只响应当前激活触发词的离开，避免无关 mouseout 误关
       if (fromTerm && fromTerm === activeTrigger) {
-        if (toTerm && toTerm.hasAttribute('data-term-key')) return;
+        if (toTerm && isTermTriggerActive(toTerm)) return;
         scheduleHideTooltip();
       }
     });
@@ -7677,7 +8526,7 @@ flowchart TB
 
     document.addEventListener('click', function(e) {
       const target = e.target.closest(TERM_SELECTOR);
-      if (target && target.hasAttribute('data-term-key')) {
+      if (target && isTermTriggerActive(target)) {
         if (e.target.tagName.toLowerCase() === 'a') return;
         showTooltipFor(target);
       } else if (!e.target.closest('#term-tooltip')) {
@@ -7689,33 +8538,49 @@ flowchart TB
       ttClose.addEventListener('click', hideTooltip);
     }
 
-    // F. 开关控制与样式隔离
+    // F. 三模式切换与样式隔离（每节首次 / 始终显示 / 不显示）
     const toggleBtn = document.getElementById('term-toggle-btn');
     const statusSpan = toggleBtn.querySelector('.status');
-    const savedState = localStorage.getItem('termTipsEnabled');
-    let isEnabled = (savedState === null || savedState === 'true');
+    const TERM_MODES = [
+      { id: 'first', label: '每节首次', title: '当前：每节首次出现显示术语提示（点击切为始终显示）' },
+      { id: 'all',   label: '始终显示', title: '当前：全文始终显示术语提示（点击切为不显示）' },
+      { id: 'off',   label: '不显示',   title: '当前：关闭术语提示（点击切为每节首次显示）' }
+    ];
+    let savedMode = null;
+    try {
+      savedMode = localStorage.getItem('termTipsMode');
+      if (!savedMode) {
+        const legacy = localStorage.getItem('termTipsEnabled');
+        if (legacy === 'false') savedMode = 'off';
+      }
+    } catch (e) {}
+    if (!TERM_MODES.some(m => m.id === savedMode)) savedMode = 'first';
 
-    function applyState(enabled) {
-      toggleBtn.setAttribute('aria-pressed', enabled ? 'true' : 'false');
-      if (enabled) {
-        document.body.classList.add('terms-active');
-        toggleBtn.classList.add('active');
-        statusSpan.textContent = '开';
-      } else {
-        document.body.classList.remove('terms-active');
-        toggleBtn.classList.remove('active');
-        statusSpan.textContent = '关';
+    function applyMode(mode, persist) {
+      termMode = mode;
+      const meta = TERM_MODES.find(m => m.id === mode) || TERM_MODES[0];
+      document.body.classList.remove('terms-mode-first', 'terms-mode-all', 'terms-mode-off');
+      document.body.classList.add('terms-mode-' + meta.id);
+      toggleBtn.classList.remove('mode-first', 'mode-all', 'mode-off');
+      toggleBtn.classList.add('mode-' + meta.id);
+      toggleBtn.setAttribute('title', meta.title);
+      toggleBtn.setAttribute('aria-label', meta.title);
+      statusSpan.textContent = meta.label;
+      if (meta.id === 'off' || (meta.id === 'first' && activeTrigger && activeTrigger.getAttribute('data-term-first') !== '1')) {
         hideTooltip();
       }
-      localStorage.setItem('termTipsEnabled', enabled);
+      if (persist) {
+        try { localStorage.setItem('termTipsMode', meta.id); } catch (e) {}
+      }
     }
 
-    applyState(isEnabled);
+    applyMode(savedMode, false);
 
     toggleBtn.addEventListener('click', function(e) {
       e.preventDefault();
-      isEnabled = !isEnabled;
-      applyState(isEnabled);
+      const idx = TERM_MODES.findIndex(m => m.id === termMode);
+      const next = TERM_MODES[(idx + 1) % TERM_MODES.length].id;
+      applyMode(next, true);
     });
 
     // 供速查面板调用
@@ -7847,7 +8712,7 @@ flowchart TB
       target.classList.add('term-flash');
       setTimeout(() => target.classList.remove('term-flash'), 1900);
       if (target.hasAttribute('data-term-key')) {
-        setTimeout(() => engine.showTooltipFor(target), reduceMotion ? 80 : 450);
+        setTimeout(() => engine.showTooltipFor(target, { force: true }), reduceMotion ? 80 : 450);
       }
     }
 
@@ -7891,7 +8756,10 @@ flowchart TB
       if (built) return;
       built = true;
       GROUPS.forEach(g => {
-        const keys = Object.keys(GLOSSARY_DB).filter(k => GLOSSARY_DB[k].group === g.key);
+        const keys = Object.keys(GLOSSARY_DB).filter(k => {
+          const d = GLOSSARY_DB[k];
+          return d.group === g.key && (d.tex || d.formula);
+        });
         if (!keys.length) return;
         const section = document.createElement('section');
         section.className = 'fs-group';
@@ -8228,15 +9096,15 @@ flowchart TB
 
     function rateCurrent(rate) {
       if (!cardKeys.length) return;
-      const key = cardKeys[currentIndex];
-      masteryMap[key] = rate;
+      const prevKey = cardKeys[currentIndex];
+      masteryMap[prevKey] = rate;
       saveMastery();
 
       if (filterSelect.value !== 'all') {
         buildCardList();
-        if (cardKeys.length > 0) {
-          if (currentIndex >= cardKeys.length) currentIndex = 0;
-          updateCard();
+        // 若该卡评分后仍留在当前筛选列表（例如「未掌握」下从生疏改为模糊），手动推进到下一张
+        if (cardKeys.length > 0 && cardKeys[currentIndex] === prevKey) {
+          nextCard();
         }
       } else {
         nextCard();
@@ -8259,7 +9127,11 @@ flowchart TB
       buildCardList();
     }
 
-    cardEl.addEventListener('click', toggleFlip);
+    cardEl.addEventListener('click', function() {
+      const sel = window.getSelection && window.getSelection().toString();
+      if (sel && sel.trim().length > 0) return;
+      toggleFlip();
+    });
     flipBtn.addEventListener('click', function(e) {
       e.stopPropagation();
       toggleFlip();
@@ -8295,7 +9167,9 @@ flowchart TB
       document.body.classList.add('fc-open');
       modal.setAttribute('aria-hidden', 'false');
       buildCardList();
-      closeBtn.focus();
+      // 触发样式重算使 visibility:visible 立即生效后再聚焦模态框，确保打开后直接按空格即可翻转
+      void modal.offsetWidth;
+      modal.focus({ preventScroll: true });
     }
 
     function close() {
@@ -8321,8 +9195,9 @@ flowchart TB
       // 修饰键守卫：防止 Meta+1/Ctrl+1 等浏览器快捷键被误劫持为评分
       if (e.ctrlKey || e.metaKey || e.altKey) return;
 
-      // 焦点在输入框、下拉框或原生按钮/链接时，放行原生行为（防止阻断关闭按钮等）
-      if (document.activeElement && document.activeElement.closest('button, select, input, a, [tabindex]')) {
+      // 仅当焦点位于模态框内部的原生控件时放行 Space/Enter，避免焦点停在外部触发按钮或模态框本身时阻断翻转
+      const active = document.activeElement;
+      if (active && modal.contains(active) && active !== modal && active.closest('button, select, input, a')) {
         if (e.key === ' ' || e.key === 'Enter') return;
       }
 
